@@ -47,7 +47,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
 
     private func configureSegmentedControl() {
         let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.green]
+        let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.postsGreen]
 
         postsSegmentedControl.setTitleTextAttributes(textAttributesForSelectedState, for: .selected)
         postsSegmentedControl.setTitleTextAttributes(textAttributesForNormalState, for: .normal)

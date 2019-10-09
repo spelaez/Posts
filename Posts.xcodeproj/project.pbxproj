@@ -19,6 +19,7 @@
 		FBD0E085234E7C7200D9F895 /* PostsListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E07F234E7C7200D9F895 /* PostsListModels.swift */; };
 		FBD0E086234E7C7200D9F895 /* PostsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E080234E7C7200D9F895 /* PostsListViewController.swift */; };
 		FBD0E087234E7C7200D9F895 /* PostsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E081234E7C7200D9F895 /* PostsListInteractor.swift */; };
+		FBD0E08D234E921B00D9F895 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E08C234E921B00D9F895 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		FBD0E07F234E7C7200D9F895 /* PostsListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListModels.swift; sourceTree = "<group>"; };
 		FBD0E080234E7C7200D9F895 /* PostsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListViewController.swift; sourceTree = "<group>"; };
 		FBD0E081234E7C7200D9F895 /* PostsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListInteractor.swift; sourceTree = "<group>"; };
+		FBD0E08C234E921B00D9F895 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		FBD0E088234E7C7900D9F895 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				FBD0E08B234E920700D9F895 /* Shared */,
 				FBD0E089234E7C8300D9F895 /* PostsList */,
 			);
 			path = Scenes;
@@ -128,6 +131,14 @@
 				FBD0E081234E7C7200D9F895 /* PostsListInteractor.swift */,
 			);
 			path = PostsList;
+			sourceTree = "<group>";
+		};
+		FBD0E08B234E920700D9F895 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				FBD0E08C234E921B00D9F895 /* Colors.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBD0E084234E7C7200D9F895 /* PostsListRouter.swift in Sources */,
+				FBD0E08D234E921B00D9F895 /* Colors.swift in Sources */,
 				FBD0E082234E7C7200D9F895 /* PostsListPresenter.swift in Sources */,
 				FBD0E085234E7C7200D9F895 /* PostsListModels.swift in Sources */,
 				FBD0E083234E7C7200D9F895 /* PostsListWorker.swift in Sources */,
