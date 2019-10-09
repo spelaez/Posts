@@ -97,6 +97,7 @@
 				FBD0E063234E7B5200D9F895 /* Assets.xcassets */,
 				FBD0E065234E7B5200D9F895 /* LaunchScreen.storyboard */,
 				FBD0E068234E7B5200D9F895 /* Info.plist */,
+				FBD0E08B234E920700D9F895 /* Shared */,
 				FBD0E088234E7C7900D9F895 /* Scenes */,
 			);
 			path = Posts;
@@ -114,7 +115,6 @@
 		FBD0E088234E7C7900D9F895 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				FBD0E08B234E920700D9F895 /* Shared */,
 				FBD0E089234E7C8300D9F895 /* PostsList */,
 			);
 			path = Scenes;
