@@ -15,48 +15,62 @@ import XCTest
 
 class PostsListPresenterTests: XCTestCase {
     // MARK: Subject under test
-    
     var sut: PostsListPresenter!
     
     // MARK: Test lifecycle
-    
     override func setUp() {
         super.setUp()
         setupPostsListPresenter()
     }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-    
+
     // MARK: Test setup
-    
     func setupPostsListPresenter() {
         sut = PostsListPresenter()
     }
     
     // MARK: Test doubles
-    
     class PostsListDisplayLogicSpy: PostsListDisplayLogic {
-        var displaySomethingCalled = false
-        
-        func displaySomething(viewModel: PostsList.Something.ViewModel) {
-            displaySomethingCalled = true
+        var displayPostsCalled = false
+
+        var viewModel: PostsList.FetchPosts.ViewModel!
+
+        func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
+            displayPostsCalled = true
+            self.viewModel = viewModel
+        }
+
+        func checkNumberOfUnreadPosts() -> Int {
+            var count = 0
+
+            for post in viewModel.posts {
+                count += post.isUnread ? 1 : 0
+            }
+
+            return count
         }
     }
     
     // MARK: Tests
-    
-    func testPresentSomething() {
+    func testPresentPostsShouldMarkUnreadPostsAndAskViewControllerToDisplayPosts() {
         // Given
-        let spy = PostsListDisplayLogicSpy()
-        sut.viewController = spy
-        let response = PostsList.Something.Response()
-        
+        let displayLogicSpy = PostsListDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        var posts: [PostsList.Post] = []
+        for i in 1...21 {
+            let post = PostsList.Post(userId: "\(i)", id: "", title: "", body: "", isFavorite: false, isUnread: false)
+
+            posts.append(post)
+        }
+
+        let response = PostsList.FetchPosts.Response(posts: posts)
+
         // When
-        sut.presentSomething(response: response)
-        
+        sut.presentPosts(response: response)
+
         // Then
-        XCTAssertTrue(spy.displaySomethingCalled, "presentSomething(response:) should ask the view controller to display the result")
+        XCTAssertEqual(displayLogicSpy.checkNumberOfUnreadPosts(), 20, "Unread posts should be 20")
+        XCTAssertFalse(displayLogicSpy.viewModel.posts.last?.isUnread ?? true, "post 21 should be read")
+        XCTAssertTrue(displayLogicSpy.displayPostsCalled, "presenter should ask viewController to display posts")
     }
 }
