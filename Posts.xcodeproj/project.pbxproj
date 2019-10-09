@@ -12,7 +12,6 @@
 		FBD0E062234E7B5100D9F895 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD0E060234E7B5100D9F895 /* Main.storyboard */; };
 		FBD0E064234E7B5200D9F895 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBD0E063234E7B5200D9F895 /* Assets.xcassets */; };
 		FBD0E067234E7B5200D9F895 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD0E065234E7B5200D9F895 /* LaunchScreen.storyboard */; };
-		FBD0E072234E7B5200D9F895 /* PostsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E071234E7B5200D9F895 /* PostsTests.swift */; };
 		FBD0E082234E7C7200D9F895 /* PostsListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E07C234E7C7200D9F895 /* PostsListPresenter.swift */; };
 		FBD0E083234E7C7200D9F895 /* PostsListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E07D234E7C7200D9F895 /* PostsListWorker.swift */; };
 		FBD0E084234E7C7200D9F895 /* PostsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E07E234E7C7200D9F895 /* PostsListRouter.swift */; };
@@ -21,6 +20,10 @@
 		FBD0E087234E7C7200D9F895 /* PostsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E081234E7C7200D9F895 /* PostsListInteractor.swift */; };
 		FBD0E08D234E921B00D9F895 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E08C234E921B00D9F895 /* Colors.swift */; };
 		FBD0E091234E971100D9F895 /* PostListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E090234E971100D9F895 /* PostListCell.swift */; };
+		FBD0E098234E9B8800D9F895 /* PostsListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E094234E9B8800D9F895 /* PostsListViewControllerTests.swift */; };
+		FBD0E099234E9B8800D9F895 /* PostsListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E095234E9B8800D9F895 /* PostsListInteractorTests.swift */; };
+		FBD0E09A234E9B8800D9F895 /* PostsListWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E096234E9B8800D9F895 /* PostsListWorkerTests.swift */; };
+		FBD0E09B234E9B8800D9F895 /* PostsListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E097234E9B8800D9F895 /* PostsListPresenterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +45,6 @@
 		FBD0E066234E7B5200D9F895 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBD0E068234E7B5200D9F895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBD0E06D234E7B5200D9F895 /* PostsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBD0E071234E7B5200D9F895 /* PostsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTests.swift; sourceTree = "<group>"; };
 		FBD0E073234E7B5200D9F895 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBD0E07C234E7C7200D9F895 /* PostsListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListPresenter.swift; sourceTree = "<group>"; };
 		FBD0E07D234E7C7200D9F895 /* PostsListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListWorker.swift; sourceTree = "<group>"; };
@@ -52,6 +54,10 @@
 		FBD0E081234E7C7200D9F895 /* PostsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListInteractor.swift; sourceTree = "<group>"; };
 		FBD0E08C234E921B00D9F895 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FBD0E090234E971100D9F895 /* PostListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListCell.swift; sourceTree = "<group>"; };
+		FBD0E094234E9B8800D9F895 /* PostsListViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListViewControllerTests.swift; sourceTree = "<group>"; };
+		FBD0E095234E9B8800D9F895 /* PostsListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListInteractorTests.swift; sourceTree = "<group>"; };
+		FBD0E096234E9B8800D9F895 /* PostsListWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListWorkerTests.swift; sourceTree = "<group>"; };
+		FBD0E097234E9B8800D9F895 /* PostsListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListPresenterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +114,7 @@
 		FBD0E070234E7B5200D9F895 /* PostsTests */ = {
 			isa = PBXGroup;
 			children = (
-				FBD0E071234E7B5200D9F895 /* PostsTests.swift */,
+				FBD0E092234E9B4300D9F895 /* Scenes */,
 				FBD0E073234E7B5200D9F895 /* Info.plist */,
 			);
 			path = PostsTests;
@@ -150,6 +156,25 @@
 				FBD0E090234E971100D9F895 /* PostListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		FBD0E092234E9B4300D9F895 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FBD0E093234E9B4800D9F895 /* PostsList */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		FBD0E093234E9B4800D9F895 /* PostsList */ = {
+			isa = PBXGroup;
+			children = (
+				FBD0E094234E9B8800D9F895 /* PostsListViewControllerTests.swift */,
+				FBD0E095234E9B8800D9F895 /* PostsListInteractorTests.swift */,
+				FBD0E096234E9B8800D9F895 /* PostsListWorkerTests.swift */,
+				FBD0E097234E9B8800D9F895 /* PostsListPresenterTests.swift */,
+			);
+			path = PostsList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,7 +295,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBD0E072234E7B5200D9F895 /* PostsTests.swift in Sources */,
+				FBD0E09B234E9B8800D9F895 /* PostsListPresenterTests.swift in Sources */,
+				FBD0E09A234E9B8800D9F895 /* PostsListWorkerTests.swift in Sources */,
+				FBD0E099234E9B8800D9F895 /* PostsListInteractorTests.swift in Sources */,
+				FBD0E098234E9B8800D9F895 /* PostsListViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

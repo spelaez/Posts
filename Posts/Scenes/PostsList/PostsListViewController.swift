@@ -46,14 +46,6 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         router.viewController = viewController
         router.dataStore = interactor
     }
-
-    private func configureSegmentedControl() {
-        let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.postsGreen]
-
-        postsSegmentedControl.setTitleTextAttributes(textAttributesForSelectedState, for: .selected)
-        postsSegmentedControl.setTitleTextAttributes(textAttributesForNormalState, for: .normal)
-    }
     
     // MARK: Routing
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,8 +64,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSegmentedControl()
-        postsTableView.dataSource = self
-        postsTableView.tableFooterView = UIView()
+        configureTableView()
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
@@ -90,6 +81,20 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
         posts = viewModel.posts
         postsTableView.reloadData()
+    }
+
+
+    private func configureSegmentedControl() {
+        let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.postsGreen]
+
+        postsSegmentedControl.setTitleTextAttributes(textAttributesForSelectedState, for: .selected)
+        postsSegmentedControl.setTitleTextAttributes(textAttributesForNormalState, for: .normal)
+    }
+
+    private func configureTableView() {
+        postsTableView.dataSource = self
+        postsTableView.tableFooterView = UIView()
     }
 
 }
