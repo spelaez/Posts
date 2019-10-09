@@ -65,6 +65,9 @@
                                         </segments>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="postsSegmentedControlDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="sqz-s6-BG0"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -85,6 +88,9 @@
                                 <state key="normal" title="Delete All">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="deleteAllPosts:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNc-xb-Mfj"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -105,8 +111,15 @@
                     <navigationItem key="navigationItem" title="Posts" id="0cY-OB-4gv">
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="4QD-AX-naY" userLabel="Reload Posts">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="reloadPosts:" destination="BYZ-38-t0r" id="G84-kY-RZS"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="postsSegmentedControl" destination="yWQ-id-Teo" id="hsL-sj-qAP"/>
+                        <outlet property="postsTableView" destination="x7d-H6-meE" id="jHK-c0-Jmr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

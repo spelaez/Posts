@@ -54,15 +54,27 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
             }
         }
     }
-    
+    @IBOutlet weak var postsTableView: UITableView!
+    @IBOutlet weak var postsSegmentedControl: UISegmentedControl!
+
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
+    @IBAction func reloadPosts(_ sender: Any) {
+    }
+
+    @IBAction func deleteAllPosts(_ sender: Any) {
+    }
+
+    @IBAction func postsSegmentedControlDidChange(_ sender: UISegmentedControl) {
+    }
+
     // MARK: Display posts
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
         //TODO display posts in list
     }
+
 }
