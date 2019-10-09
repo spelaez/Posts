@@ -14,7 +14,21 @@ import UIKit
 
 class PostsListWorker {
     func fetchPosts() -> [PostsList.Post] {
-        //TODO: finish implementation
-        return []
+        //TODO: finish implementation with network call
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "sample post",
+                                  body: "lorem ipsum",
+                                  isFavorite: false,
+                                  isUnread: false)
+
+        let post2 = PostsList.Post(userId: "1",
+                                   id: "2",
+                                   title: "a test post",
+                                   body: "a lorem posting ipsum",
+                                   isFavorite: false,
+                                   isUnread: false)
+
+        return [post, post2]
     }
 }
