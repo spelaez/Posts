@@ -44,6 +44,14 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         router.viewController = viewController
         router.dataStore = interactor
     }
+
+    private func configureSegmentedControl() {
+        let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.green]
+
+        postsSegmentedControl.setTitleTextAttributes(textAttributesForSelectedState, for: .selected)
+        postsSegmentedControl.setTitleTextAttributes(textAttributesForNormalState, for: .normal)
+    }
     
     // MARK: Routing
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -60,6 +68,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSegmentedControl()
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
