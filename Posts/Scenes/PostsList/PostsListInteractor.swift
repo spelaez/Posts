@@ -24,9 +24,12 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     var presenter: PostsListPresentationLogic?
     var worker: PostsListWorker?
 
+    init() {
+        worker = PostsListWorker()
+    }
+
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
-        worker = PostsListWorker()
         let response = PostsList.FetchPosts.Response(posts: worker?.fetchPosts() ?? [])
 
         presenter?.presentPosts(response: response)

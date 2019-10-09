@@ -15,48 +15,53 @@ import XCTest
 
 class PostsListInteractorTests: XCTestCase {
     // MARK: Subject under test
-    
     var sut: PostsListInteractor!
     
     // MARK: Test lifecycle
-    
     override func setUp() {
         super.setUp()
         setupPostsListInteractor()
     }
     
-    override func tearDown() {
-        super.tearDown()
-    }
-    
     // MARK: Test setup
-    
     func setupPostsListInteractor() {
         sut = PostsListInteractor()
     }
     
     // MARK: Test doubles
-    
     class PostsListPresentationLogicSpy: PostsListPresentationLogic {
-        var presentSomethingCalled = false
-        
-        func presentSomething(response: PostsList.Something.Response) {
-            presentSomethingCalled = true
+        var presentPostsCalled = false
+
+        func presentPosts(response: PostsList.FetchPosts.Response) {
+            presentPostsCalled = true
         }
+    }
+
+    class PostsListWorkerSpy: PostsListWorker {
+        var fetchPostsCalled = false
+
+        override func fetchPosts() -> [PostsList.Post] {
+            fetchPostsCalled = true
+            return []
+        }
+        
     }
     
     // MARK: Tests
-    
-    func testDoSomething() {
+    func testFetchShouldAskPostsListWorkerToFetchPostsAndPresenterToFormatThem() {
         // Given
-        let spy = PostsListPresentationLogicSpy()
-        sut.presenter = spy
-        let request = PostsList.Something.Request()
-        
+        let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
+        let postsListWorkerSpy = PostsListWorkerSpy()
+
+        sut.worker = postsListWorkerSpy
+        sut.presenter = postsListPresentationLogicSpy
+
         // When
-        sut.doSomething(request: request)
-        
+        let request = PostsList.FetchPosts.Request()
+        sut.fetch(request: request)
+
         // Then
-        XCTAssertTrue(spy.presentSomethingCalled, "doSomething(request:) should ask the presenter to format the result")
+        XCTAssertTrue(postsListWorkerSpy.fetchPostsCalled, "fetch() should ask worker to fetch posts")
+        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "fetch() should ask presenter to format posts")
     }
 }
