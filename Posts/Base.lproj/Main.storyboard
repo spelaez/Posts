@@ -18,6 +18,40 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x7d-H6-meE" userLabel="Posts Table View">
                                 <rect key="frame" x="0.0" y="94" width="414" height="602"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="86" id="ST8-X8-R3o" userLabel="Posts Table View Cell">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="86"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ST8-X8-R3o" id="y1J-wC-jb1">
+                                            <rect key="frame" x="0.0" y="0.0" width="382.66666666666669" height="86"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6iS-JM-kZL" userLabel="Accessory Image">
+                                                    <rect key="frame" x="28" y="34" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="linkColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="fRN-kI-8Km"/>
+                                                        <constraint firstAttribute="height" constant="20" id="jOQ-jd-Y9o"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secondary line text Loem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiA-Ai-nnj" userLabel="Post Label">
+                                                    <rect key="frame" x="56" y="8" width="314.33333333333331" height="61"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="oiA-Ai-nnj" firstAttribute="leading" secondItem="6iS-JM-kZL" secondAttribute="trailing" constant="8" id="FMu-Az-0iK"/>
+                                                <constraint firstItem="6iS-JM-kZL" firstAttribute="leading" secondItem="y1J-wC-jb1" secondAttribute="leadingMargin" constant="8" id="Iub-Lq-tby"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oiA-Ai-nnj" secondAttribute="bottom" constant="8" id="dJi-9Z-Cne"/>
+                                                <constraint firstItem="oiA-Ai-nnj" firstAttribute="top" secondItem="y1J-wC-jb1" secondAttribute="top" constant="8" id="nGf-zZ-wkm"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oiA-Ai-nnj" secondAttribute="trailing" constant="8" id="rNh-2y-Ulg"/>
+                                                <constraint firstItem="6iS-JM-kZL" firstAttribute="centerY" secondItem="y1J-wC-jb1" secondAttribute="centerY" id="tLk-Z9-ybn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TuR-N4-uws" userLabel="Segmented Control View">
                                 <rect key="frame" x="0.0" y="44" width="414" height="50"/>
@@ -76,7 +110,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="137.77173913043478"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="plg-We-8pL">
@@ -101,4 +135,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="circle.fill" catalog="system" width="64" height="62"/>
+    </resources>
 </document>
