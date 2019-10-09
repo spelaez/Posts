@@ -19,8 +19,8 @@ enum PostsList {
         let id: String
         let title: String
         let body: String
-        let isFavorite: Bool
-        let isUnread: Bool
+        var isFavorite: Bool
+        var isUnread: Bool
     }
     // MARK: Use cases
     enum FetchPosts {
@@ -32,7 +32,7 @@ enum PostsList {
         }
 
         struct ViewModel {
-            let posts: [Post]
+            var posts: [Post]
         }
     }
 }

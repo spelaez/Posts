@@ -13,15 +13,36 @@
 import UIKit
 
 protocol PostsListPresentationLogic {
+    /**
+     formats and asks viewController to display posts from a given response
+     - parameter response: Response object containing posts data
+     */
     func presentPosts(response: PostsList.FetchPosts.Response)
 }
 
 class PostsListPresenter: PostsListPresentationLogic {
     weak var viewController: PostsListDisplayLogic?
+    private var viewModel: PostsList.FetchPosts.ViewModel!
     
     // MARK: Present posts
     func presentPosts(response: PostsList.FetchPosts.Response) {
-        let viewModel = PostsList.FetchPosts.ViewModel(posts: response.posts)
+        viewModel = PostsList.FetchPosts.ViewModel(posts: response.posts)
+        markUnreadPosts()
+
         viewController?.displayPosts(viewModel: viewModel)
+    }
+
+    /**
+     marks the first 20 posts as unread
+     */
+    private func markUnreadPosts() {
+        var counter = 0
+        for i in 0..<viewModel.posts.count {
+            if counter < 20 {
+                viewModel.posts[i].isUnread = true
+            }
+
+            counter += 1
+        }
     }
 }
