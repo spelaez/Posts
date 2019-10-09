@@ -13,7 +13,7 @@
 import UIKit
 
 protocol PostsListBusinessLogic {
-    func doSomething(request: PostsList.Something.Request)
+    func fetch(request: PostsList.FetchPosts.Request)
 }
 
 protocol PostsListDataStore {
@@ -23,15 +23,12 @@ protocol PostsListDataStore {
 class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     var presenter: PostsListPresentationLogic?
     var worker: PostsListWorker?
-    //var name: String = ""
 
-    // MARK: Do something
-
-    func doSomething(request: PostsList.Something.Request) {
+    // MARK: Fetch
+    func fetch(request: PostsList.FetchPosts.Request) {
         worker = PostsListWorker()
-        worker?.doSomeWork()
+        let response = PostsList.FetchPosts.Response(posts: worker?.fetchPosts() ?? [])
 
-        let response = PostsList.Something.Response()
-        presenter?.presentSomething(response: response)
+        presenter?.presentPosts(response: response)
     }
 }

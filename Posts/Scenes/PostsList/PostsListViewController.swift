@@ -13,7 +13,7 @@
 import UIKit
 
 protocol PostsListDisplayLogic: class {
-    func displaySomething(viewModel: PostsList.Something.ViewModel)
+    func displayPosts(viewModel: PostsList.FetchPosts.ViewModel)
 }
 
 class PostsListViewController: UIViewController, PostsListDisplayLogic {
@@ -21,7 +21,6 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     var router: (NSObjectProtocol & PostsListRoutingLogic & PostsListDataPassing)?
     
     // MARK: Object lifecycle
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -33,7 +32,6 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
     
     // MARK: Setup
-    
     private func setup() {
         let viewController = self
         let interactor = PostsListInteractor()
@@ -48,7 +46,6 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
     
     // MARK: Routing
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let scene = segue.identifier {
             let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
@@ -59,22 +56,13 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
     
     // MARK: View lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
+        interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
-    
-    // MARK: Do something
-    
-    //@IBOutlet weak var nameTextField: UITextField!
-    
-    func doSomething() {
-        let request = PostsList.Something.Request()
-        interactor?.doSomething(request: request)
-    }
-    
-    func displaySomething(viewModel: PostsList.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+
+    // MARK: Display posts
+    func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
+        //TODO display posts in list
     }
 }

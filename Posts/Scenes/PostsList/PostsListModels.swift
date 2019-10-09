@@ -13,14 +13,26 @@
 import UIKit
 
 enum PostsList {
+
+    struct Post {
+        let userId: String
+        let id: String
+        let title: String
+        let body: String
+        let isFavorite: Bool
+        let isUnread: Bool
+    }
     // MARK: Use cases
-    
-    enum Something {
+    enum FetchPosts {
         struct Request {
         }
+
         struct Response {
+            let posts: [Post]
         }
+
         struct ViewModel {
+            let posts: [Post]
         }
     }
 }

@@ -13,6 +13,8 @@
 import UIKit
 
 class PostsListWorker {
-    func doSomeWork() {
+    func fetchPosts() -> [PostsList.Post] {
+        //TODO: finish implementation
+        return []
     }
 }

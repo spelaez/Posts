@@ -13,16 +13,15 @@
 import UIKit
 
 protocol PostsListPresentationLogic {
-    func presentSomething(response: PostsList.Something.Response)
+    func presentPosts(response: PostsList.FetchPosts.Response)
 }
 
 class PostsListPresenter: PostsListPresentationLogic {
     weak var viewController: PostsListDisplayLogic?
     
-    // MARK: Do something
-    
-    func presentSomething(response: PostsList.Something.Response) {
-        let viewModel = PostsList.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    // MARK: Present posts
+    func presentPosts(response: PostsList.FetchPosts.Response) {
+        let viewModel = PostsList.FetchPosts.ViewModel(posts: response.posts)
+        viewController?.displayPosts(viewModel: viewModel)
     }
 }
