@@ -17,9 +17,9 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x7d-H6-meE" userLabel="Posts Table View">
                                 <rect key="frame" x="0.0" y="94" width="414" height="602"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="86" id="ST8-X8-R3o" userLabel="Posts Table View Cell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="postCell" rowHeight="86" id="ST8-X8-R3o" userLabel="Posts Table View Cell" customClass="PostListCell" customModule="Posts" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ST8-X8-R3o" id="y1J-wC-jb1">
@@ -50,6 +50,10 @@
                                                 <constraint firstItem="6iS-JM-kZL" firstAttribute="centerY" secondItem="y1J-wC-jb1" secondAttribute="centerY" id="tLk-Z9-ybn"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="accessoryImage" destination="6iS-JM-kZL" id="Ltb-br-VJn"/>
+                                            <outlet property="titleLabel" destination="oiA-Ai-nnj" id="F6C-MO-GKe"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

@@ -73,6 +73,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         super.viewDidLoad()
         configureSegmentedControl()
         postsTableView.dataSource = self
+        postsTableView.tableFooterView = UIView()
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
@@ -100,9 +101,13 @@ extension PostsListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = posts[indexPath.row].title
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "postCell") as? PostListCell {
+            cell.post = posts[indexPath.row]
 
-        return cell
+            return cell
+        }
+
+        assert(false, "cell should be of PostListCell type")
+        return UITableViewCell()
     }
 }
