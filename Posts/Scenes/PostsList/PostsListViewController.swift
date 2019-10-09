@@ -19,6 +19,8 @@ protocol PostsListDisplayLogic: class {
 class PostsListViewController: UIViewController, PostsListDisplayLogic {
     var interactor: PostsListBusinessLogic?
     var router: (NSObjectProtocol & PostsListRoutingLogic & PostsListDataPassing)?
+
+    var posts: [PostsList.Post] = []
     
     // MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -62,6 +64,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
             }
         }
     }
+
     @IBOutlet weak var postsTableView: UITableView!
     @IBOutlet weak var postsSegmentedControl: UISegmentedControl!
 
@@ -69,6 +72,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSegmentedControl()
+        postsTableView.dataSource = self
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
@@ -83,7 +87,22 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
 
     // MARK: Display posts
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
-        //TODO display posts in list
+        posts = viewModel.posts
+        postsTableView.reloadData()
     }
 
+}
+
+extension PostsListViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        cell.textLabel?.text = posts[indexPath.row].title
+
+        return cell
+    }
 }
