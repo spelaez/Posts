@@ -96,7 +96,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     // MARK: Display posts
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
         posts = viewModel.posts
-        postsTableView.reloadSections(IndexSet(arrayLiteral: 0), with: .bottom)
+        postsTableView.reloadSections(IndexSet(arrayLiteral: 0), with: .fade)
     }
 
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
