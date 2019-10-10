@@ -184,4 +184,8 @@ extension PostsListViewController: UITableViewDelegate {
         return configuration
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        interactor?.markPostAsRead(id: posts[indexPath.row].id)
+    }
+
 }
