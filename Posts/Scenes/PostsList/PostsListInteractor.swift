@@ -44,9 +44,11 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
-        let response = PostsList.FetchPosts.Response(posts: worker?.fetchPosts() ?? [])
+        worker?.fetchPosts(completionHandler: { [weak self] posts in
+            let response = PostsList.FetchPosts.Response(posts: posts)
 
-        presenter?.presentPosts(response: response)
+            self?.presenter?.presentPosts(response: response)
+        })
     }
 
     // MARK: Delete
