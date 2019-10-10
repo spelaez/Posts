@@ -28,6 +28,8 @@ class PostListCell: UITableViewCell {
         } else if post.isFavorite {
             accessoryImage.tintColor = UIColor.postsYellow
             accessoryImage.image = UIImage(systemName: "star.fill")
+        } else {
+            accessoryImage.image = nil
         }
     }
 }
