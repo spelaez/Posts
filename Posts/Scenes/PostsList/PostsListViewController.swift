@@ -86,16 +86,8 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     @IBAction func deleteAllPosts(_ sender: Any) {
-        var allIndexPaths: [IndexPath] = []
-        for i in 0..<posts.count {
-            let indexPath = IndexPath(row: i, section: 0)
-            allIndexPaths.append(indexPath)
-        }
-
         let request = PostsList.DeletePosts.Request()
         interactor?.deleteAll(request: request)
-
-        postsTableView.deleteRows(at: allIndexPaths, with: .top)
     }
 
     @IBAction func postsSegmentedControlDidChange(_ sender: UISegmentedControl) {
@@ -108,7 +100,20 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
+        let oldPosts = posts
         posts = viewModel.posts
+
+        var indexPaths: [IndexPath] = []
+        if viewModel.index == -1 {
+            for i in 0..<oldPosts.count {
+                let indexPath = IndexPath(row: i, section: 0)
+                indexPaths.append(indexPath)
+            }
+        } else if !oldPosts.isEmpty {
+            indexPaths = [IndexPath(row: viewModel.index, section: 0)]
+        }
+
+        postsTableView.deleteRows(at: indexPaths, with: .fade)
     }
 
     // MARK: Private funcs
@@ -155,7 +160,7 @@ extension PostsListViewController: UITableViewDelegate {
             let request = PostsList.DeletePosts.Request(index: indexPath.row)
 
             self.interactor?.delete(request: request)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
         }
 
         action.image = UIImage(systemName: "trash.fill")

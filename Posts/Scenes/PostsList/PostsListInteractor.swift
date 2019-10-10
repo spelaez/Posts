@@ -52,7 +52,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
         let posts = worker?.deletePost(at: request.index) ?? []
-        let response = PostsList.DeletePosts.Response(posts: posts)
+        let response = PostsList.DeletePosts.Response(index: request.index, posts: posts)
 
         presenter?.presentPosts(response: response)
     }

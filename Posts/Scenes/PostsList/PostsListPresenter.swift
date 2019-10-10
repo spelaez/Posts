@@ -37,7 +37,7 @@ class PostsListPresenter: PostsListPresentationLogic {
         posts = PostsList.DeletePosts.ViewModel(posts: response.posts).posts
         markUnreadPosts()
 
-        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(posts: posts))
+        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: posts))
     }
 
     /**

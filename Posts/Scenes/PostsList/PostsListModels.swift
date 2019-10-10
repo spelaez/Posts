@@ -43,10 +43,12 @@ enum PostsList {
         }
 
         struct Response {
+            var index: Int = -1
             let posts: [Post]
         }
 
         struct ViewModel {
+            var index: Int = -1
             var posts: [Post]
         }
     }
