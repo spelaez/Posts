@@ -47,9 +47,20 @@ class PostsListInteractorTests: XCTestCase {
         var deleteAllPostsCalled = false
         var postsFilteredByCalled = false
 
+        var mockPosts: [Post] {
+            var posts = [Post]()
+
+            for i in 1...21 {
+                let post = Post(userId: i, id: i, title: "", body: "")
+                posts.append(post)
+            }
+
+            return posts
+        }
+
         override func fetchPosts(completionHandler: @escaping (([Post]) -> ())) {
             fetchPostsCalled = true
-            completionHandler([])
+            completionHandler(mockPosts)
         }
 
         override func deletePost(id: Int, on posts: inout [Post]) {
@@ -118,5 +129,22 @@ class PostsListInteractorTests: XCTestCase {
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "filter() should ask presenter to format response")
         XCTAssertEqual(sut.posts.count, 1, "filter() should filter 1 post")
         XCTAssertTrue(sut.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
+    }
+
+    func testInteractorShouldMarkFirstTwentyPostAsUnread() {
+        // Given
+        let workerSpy = PostsListWorkerSpy()
+        sut.worker = workerSpy
+
+        // When
+        sut.fetch(request: PostsList.FetchPosts.Request())
+
+        // Then
+        for i in 0..<20 {
+            XCTAssertTrue(sut.posts[i].isUnread, "Post \(i) should be mark as unread")
+        }
+        for i in 20..<sut.posts.count {
+            XCTAssertFalse(sut.posts[i].isUnread, "Post \(i) should be read")
+        }
     }
 }
