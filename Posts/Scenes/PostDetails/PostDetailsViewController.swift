@@ -14,6 +14,8 @@ import UIKit
 
 protocol PostDetailsDisplayLogic: class {
     func displayPost(viewModel: PostDetails.GetPost.ViewModel)
+    func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel)
+    func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel)
 }
 
 class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
@@ -58,13 +60,10 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureBackButton()
 
         let request = PostDetails.GetPost.Request()
-
         interactor?.getPost(request: request)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
     }
 
     // MARK: Outlets
@@ -78,22 +77,49 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
 
     // MARK: Display post
     func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
-        self.bodyTextView.text = viewModel.displayedPost.body
+        updateUI(displayedPost: viewModel.displayedPost, user: viewModel.user)
+    }
 
-        self.usernameLabel.text = viewModel.user.name
-        self.emailLabel.text = viewModel.user.email
-        self.phoneLabel.text = viewModel.user.phone
-        self.websiteLabel.text = viewModel.user.website
+    func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel) {
+        updateUI(displayedPost: viewModel.displayedPost, user: viewModel.user)
+    }
 
-        if viewModel.displayedPost.isFavorite {
+    // MARK: Update Posts List
+    func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel) {
+        router?.routeToPostsList()
+    }
+
+    @objc func updatePostList(sender: UIBarButtonItem) {
+        let request = PostDetails.UpdatePostsList.Request()
+
+        interactor?.updatePostsList(request: request)
+    }
+
+    // MARK: Toggle Favorite
+    @IBAction func toggleFavorite(_ sender: Any) {
+        let request = PostDetails.ToggleFavorite.Request()
+
+        interactor?.toggleFavorite(request: request)
+    }
+
+    private func configureBackButton() {
+        self.navigationItem.hidesBackButton = true
+        let customBackButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(updatePostList(sender:)))
+        self.navigationItem.leftBarButtonItem = customBackButton
+    }
+
+    private func updateUI(displayedPost: PostDetails.GetPost.ViewModel.DisplayedPost, user: User) {
+        self.bodyTextView.text = displayedPost.body
+
+        self.usernameLabel.text = user.name
+        self.emailLabel.text = user.email
+        self.phoneLabel.text = user.phone
+        self.websiteLabel.text = user.website
+
+        if displayedPost.isFavorite {
             self.favoriteButton.image = UIImage(systemName: "star.fill")
         } else {
             self.favoriteButton.image = UIImage(systemName: "star")
         }
     }
-
-    @IBAction func toggleFavorite(_ sender: Any) {
-        interactor?.toggleFavorite()
-    }
-    
 }
