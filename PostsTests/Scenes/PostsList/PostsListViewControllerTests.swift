@@ -208,6 +208,21 @@ class PostsListViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
     }
 
+    func testShouldDisplayPostsOnReloadPosts() {
+        // Given
+        let postsListBusinessLogicSpy = PostsListBusinessLogicSpy()
+
+        sut.interactor = postsListBusinessLogicSpy
+
+        // When
+        loadView()
+        postsListBusinessLogicSpy.fetchCalled = false
+        sut.reloadPosts(self)
+
+        // Then
+        XCTAssertTrue(postsListBusinessLogicSpy.fetchCalled, "Fetch should be called when the view is loaded")
+    }
+
     func testShouldNotDisplayPostsAfterDeleteAll() {
         // Given
         let post = PostsList.Post(userId: "1",
