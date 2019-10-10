@@ -280,10 +280,29 @@ class PostsListViewControllerTests: XCTestCase {
         loadView()
         sut.posts = [post]
         sut.postsTableView.reloadData()
+
         let cell = sut.tableView(sut.postsTableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PostListCell
 
         XCTAssertEqual(cell?.accessoryImage.tintColor, UIColor.postsYellow, "the tint color of cell's image should be postsBlue")
         XCTAssertEqual(cell?.accessoryImage.image, UIImage(systemName: "star.fill"), "the cell's image should be circle.fill")
         XCTAssertEqual(cell?.titleLabel.text, post.title, "the cell's title doesn't match post's title")
+    }
+
+    func testCellWithPostReadAndNoFavoriteShouldNotHaveImage() {
+        // Given
+        let post = Post(userId: 1,
+                        id: 1,
+                        title: "",
+                        body: "",
+                        isFavorite: false,
+                        isUnread: false)
+        // When
+        loadView()
+        sut.posts = [post]
+        sut.postsTableView.reloadData()
+
+        let cell = sut.tableView(sut.postsTableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PostListCell
+
+        XCTAssertNil(cell?.accessoryImage.image, "a read post should not have image")
     }
 }
