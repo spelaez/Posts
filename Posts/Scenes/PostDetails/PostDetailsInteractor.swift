@@ -13,7 +13,7 @@
 import UIKit
 
 protocol PostDetailsBusinessLogic {
-    func doSomething(request: PostDetails.Something.Request)
+    func getPost(request: PostDetails.GetPost.Request)
 }
 
 protocol PostDetailsDataStore {
@@ -25,13 +25,10 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var worker: PostDetailsWorker?
     var post: Post!
 
-    // MARK: Do something
+    // MARK: Get Post
+    func getPost(request: PostDetails.GetPost.Request) {
+        let response = PostDetails.GetPost.Response(post: post)
 
-    func doSomething(request: PostDetails.Something.Request) {
-        worker = PostDetailsWorker()
-        worker?.doSomeWork()
-
-        let response = PostDetails.Something.Response()
-        presenter?.presentSomething(response: response)
+        presenter?.presentPost(response: response)
     }
 }

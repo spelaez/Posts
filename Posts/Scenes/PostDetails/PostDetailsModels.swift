@@ -13,14 +13,22 @@
 import UIKit
 
 enum PostDetails {
-    // MARK: Use cases
     
-    enum Something {
+    // MARK: Use cases
+    enum GetPost {
         struct Request {
         }
+
         struct Response {
+            var post: Post
         }
+
         struct ViewModel {
+            struct DisplayedPost {
+                var body: String
+            }
+
+            var displayedPost: DisplayedPost
         }
     }
 }

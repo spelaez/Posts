@@ -13,15 +13,14 @@
 import UIKit
 
 protocol PostDetailsDisplayLogic: class {
-    func displaySomething(viewModel: PostDetails.Something.ViewModel)
+    func displayPost(viewModel: PostDetails.GetPost.ViewModel)
 }
 
 class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     var interactor: PostDetailsBusinessLogic?
     var router: (NSObjectProtocol & PostDetailsRoutingLogic & PostDetailsDataPassing)?
-    
+
     // MARK: Object lifecycle
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
@@ -33,7 +32,6 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     }
     
     // MARK: Setup
-    
     private func setup() {
         let viewController = self
         let interactor = PostDetailsInteractor()
@@ -46,9 +44,8 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
         router.viewController = viewController
         router.dataStore = interactor
     }
-    
+
     // MARK: Routing
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let scene = segue.identifier {
             let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
@@ -57,16 +54,19 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
             }
         }
     }
-    
+
     // MARK: View lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
     }
-    
-    // MARK: Do something
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        let request = PostDetails.GetPost.Request()
+
+        interactor?.getPost(request: request)
+    }
+
+    // MARK: Outlets
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -74,12 +74,8 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
 
-    func doSomething() {
-        let request = PostDetails.Something.Request()
-        interactor?.doSomething(request: request)
-    }
-    
-    func displaySomething(viewModel: PostDetails.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+    // MARK: Display post
+    func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
+        self.bodyTextView.text = viewModel.displayedPost.body
     }
 }
