@@ -18,6 +18,11 @@ protocol PostsListDisplayLogic: class {
      - parameter viewModel: a ViewModel object containing an array of posts to display
      */
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel)
+
+    /**
+     display posts on a table view after a deletion
+     - parameter viewModel: a Viewmodel object containing an array of posts to display
+     */
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel)
 }
 
