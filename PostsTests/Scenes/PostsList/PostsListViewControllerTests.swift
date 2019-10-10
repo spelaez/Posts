@@ -121,11 +121,11 @@ class PostsListViewControllerTests: XCTestCase {
     func testShouldDisplayPosts() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: false,
-                                  isUnread: true)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
 
         let viewModel = PostsList.FetchPosts.ViewModel(posts: [post])
         
@@ -149,11 +149,11 @@ class PostsListViewControllerTests: XCTestCase {
     func testShouldCallDelete() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: false,
-                                  isUnread: true)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
 
         sut.posts = [post]
 
@@ -184,14 +184,34 @@ class PostsListViewControllerTests: XCTestCase {
         XCTAssertTrue(businessLogicSpy.deleteAllCalled, "viewController should ask interactor to delete the post")
     }
 
+    func testShouldCallMarkAsReadOnInteractor() {
+        // Given
+        let post = Post(userId: 1,
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
+
+        // When
+        loadView()
+        sut.posts = [post]
+        sut.postsTableView.reloadData()
+        sut.tableView(sut.postsTableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+
+        // Then
+        XCTAssertTrue(businessLogicSpy.markAsReadCalled, "Controller should ask interactor to mark a post as read when tapped ")
+
+    }
+
     func testShouldDisplayPostsAfterDelete() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: false,
-                                  isUnread: true)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
 
         let viewModel = PostsList.DeletePosts.ViewModel(id: 1, posts: [post])
 
@@ -218,11 +238,11 @@ class PostsListViewControllerTests: XCTestCase {
     func testShouldNotDisplayPostsAfterDeleteAll() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: false,
-                                  isUnread: true)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
 
         let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
 
@@ -250,11 +270,11 @@ class PostsListViewControllerTests: XCTestCase {
     func testCellWithUnreadPostShouldHaveBlueDotAndPostTitle() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: false,
-                                  isUnread: true)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
 
         // When
         loadView()
@@ -270,11 +290,11 @@ class PostsListViewControllerTests: XCTestCase {
     func testCellWithFavoritePostShouldHaveBlueDotAndPostTitle() {
         // Given
         let post = Post(userId: 1,
-                                  id: 1,
-                                  title: "post title",
-                                  body: "post body",
-                                  isFavorite: true,
-                                  isUnread: false)
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: true,
+                        isUnread: false)
 
         // When
         loadView()
