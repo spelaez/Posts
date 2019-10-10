@@ -24,6 +24,8 @@ protocol PostsListDisplayLogic: class {
      - parameter viewModel: a Viewmodel object containing an array of posts to display
      */
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel)
+
+    func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel)
 }
 
 class PostsListViewController: UIViewController, PostsListDisplayLogic {
@@ -75,6 +77,9 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         super.viewDidLoad()
         configureSegmentedControl()
         configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
@@ -127,6 +132,11 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         }
 
         postsTableView.deleteRows(at: indexPaths, with: .fade)
+    }
+
+    func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel) {
+        posts = viewModel.posts
+        postsTableView.reloadSections(IndexSet(arrayLiteral: 0), with: .fade)
     }
 
     // MARK: Private funcs
@@ -183,9 +193,4 @@ extension PostsListViewController: UITableViewDelegate {
 
         return configuration
     }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        interactor?.markPostAsRead(id: posts[indexPath.row].id)
-    }
-
 }
