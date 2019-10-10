@@ -52,37 +52,50 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
         worker?.fetchPosts(completionHandler: { [weak self] posts in
-            let response = PostsList.FetchPosts.Response(posts: posts)
-
             self?.posts = posts
+            self?.markUnreadPosts()
+
+            let response = PostsList.FetchPosts.Response(posts: self?.posts ?? [])
             self?.presenter?.presentPosts(response: response)
         })
     }
 
     // MARK: Filter
     func filter(request: PostsList.FilterPosts.Request) {
-        let posts = worker?.postsFilteredBy(request.filter)
-        self.posts = posts ?? []
+        posts = worker?.filter(posts: posts, by: request.filter) ?? []
 
-        let response = PostsList.FetchPosts.Response(posts: posts ?? [])
+        let response = PostsList.FetchPosts.Response(posts: posts)
         presenter?.presentPosts(response: response)
     }
 
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
         if let id = request.id {
-            let posts = worker?.deletePost(id: id) ?? []
-            self.posts = posts
-
+            worker?.deletePost(id: id, on: &posts)
+            posts = worker?.filter(posts: posts) ?? []
+            
             let response = PostsList.DeletePosts.Response(id: id, posts: posts)
             presenter?.presentPosts(response: response)
         }
     }
 
     func deleteAll(request: PostsList.DeletePosts.Request) {
-        worker?.deleteAllPosts()
         self.posts = []
 
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
+    }
+
+    /**
+     marks the first 20 posts as unread
+     */
+    private func markUnreadPosts() {
+        var counter = 0
+        for i in 0..<posts.count {
+            if counter < 20 {
+                posts[i].isUnread = true
+            }
+
+            counter += 1
+        }
     }
 }

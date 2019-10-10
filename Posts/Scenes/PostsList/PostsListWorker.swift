@@ -15,7 +15,6 @@ import Alamofire
 
 class PostsListWorker {
     private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
-    var posts: [Post] = []
     private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     /**
@@ -28,9 +27,10 @@ class PostsListWorker {
                     let decoder = JSONDecoder()
 
                     do {
-                        self.posts = try decoder.decode([Post].self, from: data)
-                        self.markUnreadPosts()
-                        completionHandler(self.postsFilteredBy(self.currentFilter))
+                        var posts = try decoder.decode([Post].self, from: data)
+                        posts = self.filter(posts: posts, by: self.currentFilter)
+                        
+                        completionHandler(posts)
                     } catch {
                         print("error trying to decode response")
                         print(error.localizedDescription)
@@ -39,10 +39,10 @@ class PostsListWorker {
             }
         }
 
-    func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [Post] {
-        currentFilter = filter
+    func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter? = nil) -> [Post] {
+        currentFilter = filter ?? currentFilter
 
-        switch filter {
+        switch currentFilter {
         case .all:
             return posts
         case .favorites:
@@ -55,32 +55,9 @@ class PostsListWorker {
      - parameter id: id for the post to be deleted as Int
      - returns: An array of posts without the deleted post
      */
-    func deletePost(id: Int) -> [Post] {
+    func deletePost(id: Int, on posts: inout [Post]) {
         if let index = posts.firstIndex(where: { $0.id == id }) {
             posts.remove(at: index)
-        }
-
-        return postsFilteredBy(currentFilter)
-    }
-
-    /**
-     deletes all posts
-     */
-    func deleteAllPosts() {
-        posts = []
-    }
-
-    /**
-     marks the first 20 posts as unread
-     */
-    private func markUnreadPosts() {
-        var counter = 0
-        for i in 0..<posts.count {
-            if counter < 20 {
-                posts[i].isUnread = true
-            }
-
-            counter += 1
         }
     }
 }
