@@ -52,21 +52,15 @@ class PostsListInteractorTests: XCTestCase {
             completionHandler([])
         }
 
-        override func deletePost(id: Int) -> [Post] {
+        override func deletePost(id: Int, on posts: inout [Post]) {
             deletePostCalled = true
-            return []
+            posts = []
         }
 
-        override func deleteAllPosts() {
-            deleteAllPostsCalled = true
-        }
-
-        override func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [Post] {
+        override func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter? = nil) -> [Post] {
             postsFilteredByCalled = true
-            posts = super.postsFilteredBy(filter)
-            return posts
+            return super.filter(posts: posts, by: filter)
         }
-        
     }
     
     // MARK: Tests
@@ -104,30 +98,13 @@ class PostsListInteractorTests: XCTestCase {
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "delete() should ask presenter to format response")
     }
 
-    func testDeleteShouldAskPostsListWorkerToDeleteAllPostsAndPresenterToFormatResponse() {
-        //Given
-        let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
-        let postsListWorkerSpy = PostsListWorkerSpy()
-
-        sut.worker = postsListWorkerSpy
-        sut.presenter = postsListPresentationLogicSpy
-
-        // When
-        let request = PostsList.DeletePosts.Request()
-        sut.deleteAll(request: request)
-
-        // Then
-        XCTAssertTrue(postsListWorkerSpy.deleteAllPostsCalled, "delete() should ask worker to delete posts")
-        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "delete() should ask presenter to format response")
-    }
-
     func testFilterShouldAskPostsListWorkerToFilterPostsAndPresenterToFormatResponse() {
         //Given
         let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
         let postsListWorkerSpy = PostsListWorkerSpy()
 
         sut.worker = postsListWorkerSpy
-        sut.worker?.posts = [Post(userId: 1, id: 1, title: "", body: "", isFavorite: true, isUnread: false),
+        sut.posts = [Post(userId: 1, id: 1, title: "", body: "", isFavorite: true, isUnread: false),
                              Post(userId: 1, id: 2, title: "", body: "", isFavorite: false, isUnread: false)]
 
         sut.presenter = postsListPresentationLogicSpy
@@ -139,7 +116,7 @@ class PostsListInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(postsListWorkerSpy.postsFilteredByCalled, "filter() should ask worker to filter posts")
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "filter() should ask presenter to format response")
-        XCTAssertEqual(postsListWorkerSpy.posts.count, 1, "filter() should filter 1 post")
-        XCTAssertTrue(postsListWorkerSpy.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
+        XCTAssertEqual(sut.posts.count, 1, "filter() should filter 1 post")
+        XCTAssertTrue(sut.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
     }
 }
