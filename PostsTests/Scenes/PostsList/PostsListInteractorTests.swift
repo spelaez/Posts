@@ -46,9 +46,9 @@ class PostsListInteractorTests: XCTestCase {
         var deletePostCalled = false
         var deleteAllPostsCalled = false
 
-        override func fetchPosts() -> [PostsList.Post] {
+        override func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())) {
             fetchPostsCalled = true
-            return []
+            completionHandler([])
         }
 
         override func deletePost(at index: Int) -> [PostsList.Post] {

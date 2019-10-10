@@ -17,6 +17,7 @@ class PostsListViewControllerTests: XCTestCase {
 
     // MARK: Subject under test
     var sut: PostsListViewController!
+    var businessLogicSpy: PostsListBusinessLogicSpy!
     var window: UIWindow!
     
     // MARK: Test lifecycle
@@ -36,6 +37,8 @@ class PostsListViewControllerTests: XCTestCase {
         let bundle = Bundle.main
         let storyboard = UIStoryboard(name: "Main", bundle: bundle)
         sut = (storyboard.instantiateViewController(withIdentifier: "PostsListViewController") as! PostsListViewController)
+        businessLogicSpy = PostsListBusinessLogicSpy()
+        sut.interactor = businessLogicSpy
     }
     
     func loadView() {
@@ -75,16 +78,11 @@ class PostsListViewControllerTests: XCTestCase {
     
     // MARK: Tests
     func testShouldFetchWhenViewIsLoaded() {
-        // Given
-        let postsListBusinessLogicSpy = PostsListBusinessLogicSpy()
-
-        sut.interactor = postsListBusinessLogicSpy
-
         // When
         loadView()
 
         // Then
-        XCTAssertTrue(postsListBusinessLogicSpy.fetchCalled, "Fetch should be called when the view is loaded")
+        XCTAssertTrue(businessLogicSpy.fetchCalled, "Fetch should be called when the view is loaded")
     }
     
     func testShouldConfigureSegmentedControllWhenViewIsLoaded() {
@@ -117,8 +115,8 @@ class PostsListViewControllerTests: XCTestCase {
     
     func testShouldDisplayPosts() {
         // Given
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: false,
@@ -145,16 +143,13 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testShouldCallDelete() {
         // Given
-        let businessLogicSpy = PostsListBusinessLogicSpy()
-
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: false,
                                   isUnread: true)
 
-        sut.interactor = businessLogicSpy
         sut.posts = [post]
 
         // When
@@ -176,10 +171,6 @@ class PostsListViewControllerTests: XCTestCase {
     }
 
     func testShouldCallDeleteAllOnInteractor() {
-        // Given
-        let businessLogicSpy = PostsListBusinessLogicSpy()
-        sut.interactor = businessLogicSpy
-
         // When
         loadView()
         sut.deleteAllPosts(self)
@@ -190,8 +181,8 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testShouldDisplayPostsAfterDelete() {
         // Given
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: false,
@@ -200,8 +191,9 @@ class PostsListViewControllerTests: XCTestCase {
         let viewModel = PostsList.DeletePosts.ViewModel(index: 0, posts: [post])
 
         // When
-        loadView()
         sut.posts = [post, post]
+        loadView()
+
         sut.displayPosts(viewModel: viewModel)
 
         // Then
@@ -209,24 +201,19 @@ class PostsListViewControllerTests: XCTestCase {
     }
 
     func testShouldDisplayPostsOnReloadPosts() {
-        // Given
-        let postsListBusinessLogicSpy = PostsListBusinessLogicSpy()
-
-        sut.interactor = postsListBusinessLogicSpy
-
         // When
         loadView()
-        postsListBusinessLogicSpy.fetchCalled = false
+        businessLogicSpy.fetchCalled = false
         sut.reloadPosts(self)
 
         // Then
-        XCTAssertTrue(postsListBusinessLogicSpy.fetchCalled, "Fetch should be called when the view is loaded")
+        XCTAssertTrue(businessLogicSpy.fetchCalled, "Fetch should be called when the view is loaded")
     }
 
     func testShouldNotDisplayPostsAfterDeleteAll() {
         // Given
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: false,
@@ -235,8 +222,8 @@ class PostsListViewControllerTests: XCTestCase {
         let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
 
         // When
-        loadView()
         sut.posts = [post, post]
+        loadView()
         sut.displayPosts(viewModel: viewModel)
 
         // Then
@@ -246,8 +233,8 @@ class PostsListViewControllerTests: XCTestCase {
     // MARK: Cell Tests
     func testCellWithUnreadPostShouldHaveBlueDotAndPostTitle() {
         // Given
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: false,
@@ -266,8 +253,8 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testCellWithFavoritePostShouldHaveBlueDotAndPostTitle() {
         // Given
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
+        let post = PostsList.Post(userId: 1,
+                                  id: 1,
                                   title: "post title",
                                   body: "post body",
                                   isFavorite: true,

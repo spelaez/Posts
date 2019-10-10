@@ -64,7 +64,7 @@ class PostsListPresenterTests: XCTestCase {
 
         var posts: [PostsList.Post] = []
         for i in 1...21 {
-            let post = PostsList.Post(userId: "\(i)", id: "", title: "", body: "", isFavorite: false, isUnread: false)
+            let post = PostsList.Post(userId: i, id: i, title: "", body: "", isFavorite: false, isUnread: false)
 
             posts.append(post)
         }
