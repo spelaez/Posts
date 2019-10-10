@@ -14,7 +14,8 @@ import UIKit
 
 protocol PostDetailsBusinessLogic {
     func getPost(request: PostDetails.GetPost.Request)
-    func toggleFavorite()
+    func toggleFavorite(request: PostDetails.ToggleFavorite.Request)
+    func updatePostsList(request: PostDetails.UpdatePostsList.Request)
 }
 
 protocol PostDetailsDataStore {
@@ -25,7 +26,11 @@ protocol PostDetailsDataStore {
 class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var presenter: PostDetailsPresentationLogic?
     var worker: PostDetailsWorker?
-    var post: Post!
+    var post: Post! {
+        didSet {
+            post.isUnread = false
+        }
+    }
     var user: User!
 
     init() {
@@ -42,11 +47,18 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         })
     }
 
-    // MARK: Toggle favorite
-    func toggleFavorite() {
-        post.isFavorite = !post.isFavorite
-        let response = PostDetails.GetPost.Response(post: post, user: user)
+    // MARK: Update Posts List
+    func updatePostsList(request: PostDetails.UpdatePostsList.Request) {
+        let response = PostDetails.UpdatePostsList.Response()
 
-        self.presenter?.presentPost(response: response)
+        presenter?.presentUpdatePostsList(response: response)
+    }
+
+    // MARK: Toggle favorite
+    func toggleFavorite(request: PostDetails.ToggleFavorite.Request) {
+        post.isFavorite = !post.isFavorite
+        let response = PostDetails.ToggleFavorite.Response(post: post, user: user)
+
+        self.presenter?.presentToggleFavorite(response: response)
     }
 }
