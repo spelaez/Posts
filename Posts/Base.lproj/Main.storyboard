@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x7d-H6-meE" userLabel="Posts Table View">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x7d-H6-meE" userLabel="Posts Table View">
                                 <rect key="frame" x="0.0" y="94" width="414" height="602"/>
                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -34,7 +34,7 @@
                                                         <constraint firstAttribute="height" constant="12" id="jOQ-jd-Y9o"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secondary line text Loem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiA-Ai-nnj" userLabel="Post Label">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" text="Secondary line text Loem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa quam." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oiA-Ai-nnj" userLabel="Post Label">
                                                     <rect key="frame" x="48" y="8" width="314.33333333333331" height="61"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.62745098039215685" green="0.62745098039215685" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -44,7 +44,7 @@
                                             <constraints>
                                                 <constraint firstItem="oiA-Ai-nnj" firstAttribute="leading" secondItem="6iS-JM-kZL" secondAttribute="trailing" constant="8" id="FMu-Az-0iK"/>
                                                 <constraint firstItem="6iS-JM-kZL" firstAttribute="leading" secondItem="y1J-wC-jb1" secondAttribute="leadingMargin" constant="8" id="Iub-Lq-tby"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oiA-Ai-nnj" secondAttribute="bottom" constant="8" id="dJi-9Z-Cne"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oiA-Ai-nnj" secondAttribute="bottom" priority="999" constant="8" id="dJi-9Z-Cne"/>
                                                 <constraint firstItem="oiA-Ai-nnj" firstAttribute="top" secondItem="y1J-wC-jb1" secondAttribute="top" constant="8" id="nGf-zZ-wkm"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oiA-Ai-nnj" secondAttribute="trailing" constant="8" id="rNh-2y-Ulg"/>
                                                 <constraint firstItem="6iS-JM-kZL" firstAttribute="centerY" secondItem="y1J-wC-jb1" secondAttribute="centerY" id="tLk-Z9-ybn"/>
