@@ -52,9 +52,9 @@ class PostsListPresenterTests: XCTestCase {
         let displayLogicSpy = PostsListDisplayLogicSpy()
         sut.viewController = displayLogicSpy
 
-        var posts: [PostsList.Post] = []
+        var posts: [Post] = []
         for i in 1...21 {
-            let post = PostsList.Post(userId: i, id: i, title: "", body: "", isFavorite: false, isUnread: false)
+            let post = Post(userId: i, id: i, title: "", body: "", isFavorite: false, isUnread: false)
 
             posts.append(post)
         }

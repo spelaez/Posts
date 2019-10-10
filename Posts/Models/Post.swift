@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Post: Decodable {
+struct Post {
     let userId: Int
     let id: Int
     let title: String
@@ -16,6 +16,17 @@ struct Post: Decodable {
     var isFavorite: Bool = false
     var isUnread: Bool = false
 
+    init(userId: Int, id: Int, title: String, body: String, isFavorite: Bool = false, isUnread: Bool = false) {
+        self.userId = userId
+        self.id = id
+        self.title = title
+        self.body = body
+        self.isFavorite = isFavorite
+        self.isUnread = isUnread
+    }
+}
+
+extension Post: Decodable {
     enum CodingKeys: String, CodingKey {
         case userId, id, title, body, isFavorite, isUnread
     }

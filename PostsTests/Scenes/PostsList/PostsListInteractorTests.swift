@@ -47,12 +47,12 @@ class PostsListInteractorTests: XCTestCase {
         var deleteAllPostsCalled = false
         var postsFilteredByCalled = false
 
-        override func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())) {
+        override func fetchPosts(completionHandler: @escaping (([Post]) -> ())) {
             fetchPostsCalled = true
             completionHandler([])
         }
 
-        override func deletePost(id: Int) -> [PostsList.Post] {
+        override func deletePost(id: Int) -> [Post] {
             deletePostCalled = true
             return []
         }
@@ -61,7 +61,7 @@ class PostsListInteractorTests: XCTestCase {
             deleteAllPostsCalled = true
         }
 
-        override func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [PostsList.Post] {
+        override func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [Post] {
             postsFilteredByCalled = true
             posts = super.postsFilteredBy(filter)
             return posts
@@ -127,9 +127,9 @@ class PostsListInteractorTests: XCTestCase {
         let postsListWorkerSpy = PostsListWorkerSpy()
 
         sut.worker = postsListWorkerSpy
-        sut.worker?.posts = [PostsList.Post(userId: 1, id: 1, title: "", body: "", isFavorite: true, isUnread: false),
-                             PostsList.Post(userId: 1, id: 2, title: "", body: "", isFavorite: false, isUnread: false)]
-        
+        sut.worker?.posts = [Post(userId: 1, id: 1, title: "", body: "", isFavorite: true, isUnread: false),
+                             Post(userId: 1, id: 2, title: "", body: "", isFavorite: false, isUnread: false)]
+
         sut.presenter = postsListPresentationLogicSpy
 
         // When

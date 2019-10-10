@@ -75,10 +75,6 @@ class PostsListViewControllerTests: XCTestCase {
             filter = request.filter
         }
     }
-
-    class PostsListRouterSpy: PostsListRoutingLogic {
-        //TODO: complete when routing is done
-    }
     
     // MARK: Tests
     func testShouldFetchWhenViewIsLoaded() {
@@ -119,7 +115,7 @@ class PostsListViewControllerTests: XCTestCase {
     
     func testShouldDisplayPosts() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
@@ -147,7 +143,7 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testShouldCallDelete() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
@@ -185,7 +181,7 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testShouldDisplayPostsAfterDelete() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
@@ -216,7 +212,7 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testShouldNotDisplayPostsAfterDeleteAll() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
@@ -248,7 +244,7 @@ class PostsListViewControllerTests: XCTestCase {
     // MARK: Cell Tests
     func testCellWithUnreadPostShouldHaveBlueDotAndPostTitle() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
@@ -268,7 +264,7 @@ class PostsListViewControllerTests: XCTestCase {
 
     func testCellWithFavoritePostShouldHaveBlueDotAndPostTitle() {
         // Given
-        let post = PostsList.Post(userId: 1,
+        let post = Post(userId: 1,
                                   id: 1,
                                   title: "post title",
                                   body: "post body",
