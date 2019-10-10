@@ -13,7 +13,21 @@
 import UIKit
 
 protocol PostsListBusinessLogic {
+    /**
+     fetch posts given a request and asks presenter to format them
+     */
     func fetch(request: PostsList.FetchPosts.Request)
+
+    /**
+     delete all posts and ask presenter to show an empty list
+     */
+    func deleteAll(request: PostsList.FetchPosts.Request)
+
+    /**
+     deletes a post at the specified index given a request and asks presenter to format the new list
+     - parameter request: a Request object containing the index of the post to be deleted
+     */
+    func delete(request: PostsList.FetchPosts.Request)
 }
 
 protocol PostsListDataStore {
@@ -33,5 +47,19 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         let response = PostsList.FetchPosts.Response(posts: worker?.fetchPosts() ?? [])
 
         presenter?.presentPosts(response: response)
+    }
+
+    // MARK: Delete
+    func delete(request: PostsList.FetchPosts.Request) {
+        let posts = worker?.deletePost(at: request.index) ?? []
+        let response = PostsList.FetchPosts.Response(posts: posts)
+
+        presenter?.presentPosts(response: response)
+    }
+
+    func deleteAll(request: PostsList.FetchPosts.Request) {
+        worker?.deleteAllPosts()
+
+        presenter?.presentPosts(response: PostsList.FetchPosts.Response(posts: []))
     }
 }
