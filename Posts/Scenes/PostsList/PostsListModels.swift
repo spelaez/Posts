@@ -25,6 +25,7 @@ enum PostsList {
     // MARK: Use cases
     enum FetchPosts {
         struct Request {
+            let index: Int = -1
         }
 
         struct Response {
