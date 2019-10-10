@@ -51,7 +51,7 @@ class PostsListInteractorTests: XCTestCase {
             completionHandler([])
         }
 
-        override func deletePost(at index: Int) -> [PostsList.Post] {
+        override func deletePost(id: Int) -> [PostsList.Post] {
             deletePostCalled = true
             return []
         }
@@ -80,7 +80,7 @@ class PostsListInteractorTests: XCTestCase {
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "fetch() should ask presenter to format posts")
     }
 
-    func testDeleteShouldAskPostListWorkerToDeletePostAndPreseterToFormatResponse() {
+    func testDeleteShouldAskPostListWorkerToDeletePostAndPresenterToFormatResponse() {
         //Given
         let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
         let postsListWorkerSpy = PostsListWorkerSpy()
@@ -89,7 +89,7 @@ class PostsListInteractorTests: XCTestCase {
         sut.presenter = postsListPresentationLogicSpy
 
         // When
-        let request = PostsList.DeletePosts.Request(index: 0)
+        let request = PostsList.DeletePosts.Request(id: 0)
         sut.delete(request: request)
 
         // Then

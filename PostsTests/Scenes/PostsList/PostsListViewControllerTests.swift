@@ -52,6 +52,7 @@ class PostsListViewControllerTests: XCTestCase {
         var fetchCalled = false
         var deleteCalled = false
         var deleteAllCalled = false
+        var filterCalled = false
 
         // MARK: Argument expectations
         var request: PostsList.FetchPosts.Request!
@@ -69,6 +70,10 @@ class PostsListViewControllerTests: XCTestCase {
 
         func deleteAll(request: PostsList.DeletePosts.Request) {
             deleteAllCalled = true
+        }
+
+        func filter(request: PostsList.FilterPosts.Request) {
+            filterCalled = true
         }
     }
 
@@ -188,7 +193,7 @@ class PostsListViewControllerTests: XCTestCase {
                                   isFavorite: false,
                                   isUnread: true)
 
-        let viewModel = PostsList.DeletePosts.ViewModel(index: 0, posts: [post])
+        let viewModel = PostsList.DeletePosts.ViewModel(id: 1, posts: [post])
 
         // When
         sut.posts = [post, post]
