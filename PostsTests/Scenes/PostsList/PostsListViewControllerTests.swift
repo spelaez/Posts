@@ -53,6 +53,7 @@ class PostsListViewControllerTests: XCTestCase {
         var deleteCalled = false
         var deleteAllCalled = false
         var filterCalled = false
+        var markAsReadCalled = false
 
         // MARK: Argument expectations
         var filter: PostsList.FilterPosts.Filter = .all
@@ -73,6 +74,10 @@ class PostsListViewControllerTests: XCTestCase {
         func filter(request: PostsList.FilterPosts.Request) {
             filterCalled = true
             filter = request.filter
+        }
+
+        func markPostAsRead(id: Int) {
+            markAsReadCalled = true
         }
     }
     

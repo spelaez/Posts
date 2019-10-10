@@ -51,12 +51,17 @@ class PostDetailsPresenterTests: XCTestCase {
 
         // When
         let post = Post(userId: 1, id: 1, title: "", body: "post body")
-        let response = PostDetails.GetPost.Response(post: post)
+        let user = User(name: "Jhon Doe", email: "jd@mail.com", phone: "123", website: "jd.com")
+        let response = PostDetails.GetPost.Response(post: post, user: user)
 
         sut.presentPost(response: response)
 
         // Then
         XCTAssertTrue(displayLogicSpy.displayPostCalled, "presenter should call display post on viewController")
         XCTAssertEqual(displayLogicSpy.getPostViewModel.displayedPost.body, post.body, "presenter should send the same post body to viewController in response")
+        XCTAssertEqual(displayLogicSpy.getPostViewModel.user.name, user.name)
+        XCTAssertEqual(displayLogicSpy.getPostViewModel.user.email, user.email)
+        XCTAssertEqual(displayLogicSpy.getPostViewModel.user.phone, user.phone)
+        XCTAssertEqual(displayLogicSpy.getPostViewModel.user.website, user.website)
     }
 }

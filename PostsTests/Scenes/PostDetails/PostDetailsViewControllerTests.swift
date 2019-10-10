@@ -69,7 +69,9 @@ class PostDetailsViewControllerTests: XCTestCase {
         // Given
         let body = "post body"
         let displayable = PostDetails.GetPost.ViewModel.DisplayedPost(body: body)
-        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayable)
+        let user = User(name: "Jhon Doe", email: "jd@mail.com", phone: "123", website: "jd.com")
+
+        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayable, user: user)
 
         let spy = PostDetailsBusinessLogicSpy()
         sut.interactor = spy
@@ -80,5 +82,9 @@ class PostDetailsViewControllerTests: XCTestCase {
         
         // Then
         XCTAssertEqual(sut.bodyTextView.text, body, "displayPost(viewModel:) should update the body text view")
+        XCTAssertEqual(sut.usernameLabel.text, user.name, "displayPost(viewModel:) should update the username label")
+        XCTAssertEqual(sut.emailLabel.text, user.email, "displayPost(viewModel:) should update the email label")
+        XCTAssertEqual(sut.phoneLabel.text, user.phone, "displayPost(viewModel:) should update the phone label")
+        XCTAssertEqual(sut.websiteLabel.text, user.website, "displayPost(viewModel:) should update the website label")
     }
 }
