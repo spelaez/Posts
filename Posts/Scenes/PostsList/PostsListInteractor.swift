@@ -44,12 +44,15 @@ protocol PostsListBusinessLogic {
 
 protocol PostsListDataStore {
     var posts: [Post] { get }
+    func updatePost(post: Post)
 }
 
 class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     var presenter: PostsListPresentationLogic?
     var worker: PostsListWorker?
     var posts: [Post] = []
+    var favoritePosts: [Post] = []
+    private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     init() {
         worker = PostsListWorker()
@@ -57,49 +60,83 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
-        worker?.fetchPosts(completionHandler: { [weak self] posts in
-            self?.posts = posts
-            self?.markUnreadPosts()
+        if posts.count > 0 {
+            let response = PostsList.FetchPosts.Response(posts: posts)
+            self.presenter?.presentPosts(response: response)
+        } else {
+            worker?.fetchPosts(completionHandler: { [weak self] posts in
+                self?.posts = posts
+                self?.markUnreadPosts()
 
-            let response = PostsList.FetchPosts.Response(posts: self?.posts ?? [])
-            self?.presenter?.presentPosts(response: response)
-        })
+                let response = PostsList.FetchPosts.Response(posts: self?.posts ?? [])
+                self?.presenter?.presentPosts(response: response)
+            })
+        }
     }
 
     // MARK: Filter
     func filter(request: PostsList.FilterPosts.Request) {
-        let filteredPosts = worker?.filter(posts: posts, by: request.filter) ?? []
+        currentFilter = request.filter
+        var response: PostsList.FilterPosts.Response
 
-        let response = PostsList.FetchPosts.Response(posts: filteredPosts)
-        presenter?.presentPosts(response: response)
+        if currentFilter == .favorites {
+            let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
+            response = PostsList.FilterPosts.Response(posts: filteredPosts)
+        } else {
+            response = PostsList.FilterPosts.Response(posts: posts)
+        }
+
+        presenter?.presentFilteredPosts(response: response)
     }
 
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
+        var response: PostsList.DeletePosts.Response
+
         if let id = request.id {
             worker?.deletePost(id: id, on: &posts)
-            let filteredPosts = worker?.filter(posts: posts) ?? []
-            
-            let response = PostsList.DeletePosts.Response(id: id, posts: filteredPosts)
+
+            if currentFilter == .favorites {
+                let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
+                response = PostsList.DeletePosts.Response(id: id, posts: filteredPosts)
+            } else {
+                response = PostsList.DeletePosts.Response(id: id, posts: posts)
+            }
+
             presenter?.presentPosts(response: response)
         }
     }
 
-    //MARK: Mark post read
+    // MARK: Mark post read
     func markPostAsRead(id: Int) {
+        var response: PostsList.FetchPosts.Response
+
         if let index = posts.firstIndex(where: { $0.id == id }) {
             posts[index].isUnread = false
         }
 
-        let filteredPosts = worker?.filter(posts: posts) ?? []
+        if currentFilter == .favorites {
+            let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
+            response = PostsList.FetchPosts.Response(posts: filteredPosts)
+        } else {
+            response = PostsList.FetchPosts.Response(posts: posts)
+        }
 
-        presenter?.presentPosts(response: PostsList.FetchPosts.Response(posts: filteredPosts))
+        presenter?.presentPosts(response: response)
     }
 
+    // MARK: Delete all posts
     func deleteAll(request: PostsList.DeletePosts.Request) {
         self.posts = []
 
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
+    }
+
+    // MARK: Update Post
+    func updatePost(post: Post) {
+        if let indexOfPost = posts.firstIndex(where: { $0.id == post.id }) {
+            posts[indexOfPost] = post
+        }
     }
 
     /**
