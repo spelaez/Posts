@@ -227,4 +227,45 @@ class PostsListViewControllerTests: XCTestCase {
         // Then
         XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
     }
+
+    // MARK: Cell Tests
+    func testCellWithUnreadPostShouldHaveBlueDotAndPostTitle() {
+        // Given
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "post title",
+                                  body: "post body",
+                                  isFavorite: false,
+                                  isUnread: true)
+
+        // When
+        loadView()
+        sut.posts = [post]
+        sut.postsTableView.reloadData()
+        let cell = sut.tableView(sut.postsTableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PostListCell
+
+        XCTAssertEqual(cell?.accessoryImage.tintColor, UIColor.postsBlue, "the tint color of cell's image should be postsBlue")
+        XCTAssertEqual(cell?.accessoryImage.image, UIImage(systemName: "circle.fill"), "the cell's image should be circle.fill")
+        XCTAssertEqual(cell?.titleLabel.text, post.title, "the cell's title doesn't match post's title")
+    }
+
+    func testCellWithFavoritePostShouldHaveBlueDotAndPostTitle() {
+        // Given
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "post title",
+                                  body: "post body",
+                                  isFavorite: true,
+                                  isUnread: false)
+
+        // When
+        loadView()
+        sut.posts = [post]
+        sut.postsTableView.reloadData()
+        let cell = sut.tableView(sut.postsTableView, cellForRowAt: IndexPath(row: 0, section: 0)) as? PostListCell
+
+        XCTAssertEqual(cell?.accessoryImage.tintColor, UIColor.postsYellow, "the tint color of cell's image should be postsBlue")
+        XCTAssertEqual(cell?.accessoryImage.image, UIImage(systemName: "star.fill"), "the cell's image should be circle.fill")
+        XCTAssertEqual(cell?.titleLabel.text, post.title, "the cell's title doesn't match post's title")
+    }
 }

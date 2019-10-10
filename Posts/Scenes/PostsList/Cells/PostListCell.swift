@@ -17,6 +17,7 @@ class PostListCell: UITableViewCell {
 
         didSet {
             titleLabel.text = post.title
+            setAccessoryImage()
         }
     }
 
