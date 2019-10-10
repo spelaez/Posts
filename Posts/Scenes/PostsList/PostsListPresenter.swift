@@ -19,6 +19,7 @@ protocol PostsListPresentationLogic {
      */
     func presentPosts(response: PostsList.FetchPosts.Response)
     func presentPosts(response: PostsList.DeletePosts.Response)
+    func presentFilteredPosts(response: PostsList.FilterPosts.Response)
 }
 
 class PostsListPresenter: PostsListPresentationLogic {
@@ -27,15 +28,15 @@ class PostsListPresenter: PostsListPresentationLogic {
     
     // MARK: Present posts
     func presentPosts(response: PostsList.FetchPosts.Response) {
-        posts = PostsList.FetchPosts.ViewModel(posts: response.posts).posts
-
-        viewController?.displayPosts(viewModel: PostsList.FetchPosts.ViewModel(posts: posts))
+        viewController?.displayPosts(viewModel: PostsList.FetchPosts.ViewModel(posts: response.posts))
     }
 
     func presentPosts(response: PostsList.DeletePosts.Response) {
-        posts = PostsList.DeletePosts.ViewModel(posts: response.posts).posts
+        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(id: response.id, posts: response.posts))
+    }
 
-        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(id: response.id, posts: posts))
+    func presentFilteredPosts(response: PostsList.FilterPosts.Response) {
+        viewController?.displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel(posts: response.posts))
     }
 
 }
