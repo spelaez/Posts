@@ -58,12 +58,13 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     // MARK: View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
         let request = PostDetails.GetPost.Request()
 
         interactor?.getPost(request: request)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
     }
 
     // MARK: Outlets
@@ -73,6 +74,7 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
 
     // MARK: Display post
     func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
@@ -82,5 +84,16 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
         self.emailLabel.text = viewModel.user.email
         self.phoneLabel.text = viewModel.user.phone
         self.websiteLabel.text = viewModel.user.website
+
+        if viewModel.displayedPost.isFavorite {
+            self.favoriteButton.image = UIImage(systemName: "star.fill")
+        } else {
+            self.favoriteButton.image = UIImage(systemName: "star")
+        }
     }
+
+    @IBAction func toggleFavorite(_ sender: Any) {
+        interactor?.toggleFavorite()
+    }
+    
 }

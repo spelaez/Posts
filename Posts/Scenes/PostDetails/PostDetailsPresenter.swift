@@ -22,7 +22,7 @@ class PostDetailsPresenter: PostDetailsPresentationLogic {
     // MARK: PresentPost
     func presentPost(response: PostDetails.GetPost.Response) {
         let body = response.post.body
-        let displayedPost = PostDetails.GetPost.ViewModel.DisplayedPost(body: body)
+        let displayedPost = PostDetails.GetPost.ViewModel.DisplayedPost(body: body, isFavorite: response.post.isFavorite)
 
         let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayedPost, user: response.user)
         viewController?.displayPost(viewModel: viewModel)

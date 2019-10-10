@@ -14,16 +14,19 @@ import UIKit
 
 protocol PostDetailsBusinessLogic {
     func getPost(request: PostDetails.GetPost.Request)
+    func toggleFavorite()
 }
 
 protocol PostDetailsDataStore {
     var post: Post! { get set }
+    var user: User! { get set }
 }
 
 class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var presenter: PostDetailsPresentationLogic?
     var worker: PostDetailsWorker?
     var post: Post!
+    var user: User!
 
     init() {
         worker = PostDetailsWorker()
@@ -32,9 +35,18 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     // MARK: Get Post
     func getPost(request: PostDetails.GetPost.Request) {
         worker?.fetchUser(id: post.userId, completionHandler: { user in
+            self.user = user
             let response = PostDetails.GetPost.Response(post: self.post, user: user)
 
             self.presenter?.presentPost(response: response)
         })
+    }
+
+    // MARK: Toggle favorite
+    func toggleFavorite() {
+        post.isFavorite = !post.isFavorite
+        let response = PostDetails.GetPost.Response(post: post, user: user)
+
+        self.presenter?.presentPost(response: response)
     }
 }

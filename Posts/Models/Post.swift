@@ -38,7 +38,7 @@ extension Post: Decodable {
         id = try container.decode(Int.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
         body = try container.decode(String.self, forKey: .body)
-        isFavorite = [true, false].randomElement() ?? false
+        isFavorite = false
         isUnread = false
     }
 }

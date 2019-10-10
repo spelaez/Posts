@@ -27,6 +27,7 @@ enum PostDetails {
         struct ViewModel {
             struct DisplayedPost {
                 var body: String
+                var isFavorite: Bool
             }
 
             var displayedPost: DisplayedPost
