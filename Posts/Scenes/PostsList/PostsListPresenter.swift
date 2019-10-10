@@ -35,7 +35,7 @@ class PostsListPresenter: PostsListPresentationLogic {
     func presentPosts(response: PostsList.DeletePosts.Response) {
         posts = PostsList.DeletePosts.ViewModel(posts: response.posts).posts
 
-        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: posts))
+        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(id: response.id, posts: posts))
     }
 
 }

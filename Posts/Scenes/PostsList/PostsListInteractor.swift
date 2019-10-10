@@ -19,6 +19,12 @@ protocol PostsListBusinessLogic {
     func fetch(request: PostsList.FetchPosts.Request)
 
     /**
+     filter posts and ask presenter to format them
+     - parameter request: Request object containint the type of filter to apply (all, favorites)
+     */
+    func filter(request: PostsList.FilterPosts.Request)
+
+    /**
      delete all posts and ask presenter to show an empty list
      */
     func deleteAll(request: PostsList.DeletePosts.Request)
@@ -51,12 +57,21 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         })
     }
 
+    // MARK: Filter
+    func filter(request: PostsList.FilterPosts.Request) {
+        let posts = worker?.postsFilteredBy(request.filter)
+
+        let response = PostsList.FetchPosts.Response(posts: posts ?? [])
+        presenter?.presentPosts(response: response)
+    }
+
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
-        let posts = worker?.deletePost(at: request.index) ?? []
-        let response = PostsList.DeletePosts.Response(index: request.index, posts: posts)
-
-        presenter?.presentPosts(response: response)
+        if let id = request.id {
+            let posts = worker?.deletePost(id: id) ?? []
+            let response = PostsList.DeletePosts.Response(id: id, posts: posts)
+            presenter?.presentPosts(response: response)
+        }
     }
 
     func deleteAll(request: PostsList.DeletePosts.Request) {

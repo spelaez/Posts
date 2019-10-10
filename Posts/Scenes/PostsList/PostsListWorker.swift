@@ -16,6 +16,7 @@ import Alamofire
 class PostsListWorker {
     private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
     private var posts: [PostsList.Post] = []
+    private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     /**
      fetch posts from network or cache when available
@@ -23,30 +24,43 @@ class PostsListWorker {
      */
     func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())){
         Alamofire.request(postsUrl).responseJSON { dataResponse in
-            if let data = dataResponse.data {
-                let decoder = JSONDecoder()
+                if let data = dataResponse.data {
+                    let decoder = JSONDecoder()
 
-                do {
-                    self.posts = try decoder.decode([PostsList.Post].self, from: data)
-                    self.markUnreadPosts()
-                    completionHandler(self.posts)
-                } catch {
-                    print("error trying to decode response")
-                    print(error.localizedDescription)
+                    do {
+                        self.posts = try decoder.decode([PostsList.Post].self, from: data)
+                        self.markUnreadPosts()
+                        completionHandler(self.postsFilteredBy(self.currentFilter))
+                    } catch {
+                        print("error trying to decode response")
+                        print(error.localizedDescription)
+                    }
                 }
             }
+        }
+
+    func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [PostsList.Post] {
+        currentFilter = filter
+
+        switch filter {
+        case .all:
+            return posts
+        case .favorites:
+            return posts.filter { $0.isFavorite }
         }
     }
 
     /**
      delete a single post
-     - parameter index: Index for the post to be deleted as Int
+     - parameter id: id for the post to be deleted as Int
      - returns: An array of posts without the deleted post
      */
-    func deletePost(at index: Int) -> [PostsList.Post] {
-        posts.remove(at: index)
+    func deletePost(id: Int) -> [PostsList.Post] {
+        if let index = posts.firstIndex(where: { $0.id == id }) {
+            posts.remove(at: index)
+        }
 
-        return posts
+        return postsFilteredBy(currentFilter)
     }
 
     /**

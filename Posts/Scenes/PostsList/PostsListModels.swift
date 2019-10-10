@@ -26,7 +26,6 @@ enum PostsList {
     // MARK: Use cases
     enum FetchPosts {
         struct Request {
-            var index: Int = -1
         }
 
         struct Response {
@@ -40,17 +39,36 @@ enum PostsList {
 
     enum DeletePosts {
         struct Request {
-            var index: Int = -1
+            var id: Int?
         }
 
         struct Response {
-            var index: Int = -1
+            var id: Int?
             let posts: [Post]
         }
 
         struct ViewModel {
-            var index: Int = -1
+            var id: Int?
             var posts: [Post]
+        }
+    }
+
+    enum FilterPosts {
+        enum Filter {
+            case all
+            case favorites
+        }
+
+        struct Request {
+            var filter: Filter
+        }
+
+        struct Response {
+            let posts: [Post]
+        }
+
+        struct ViewModel {
+            let posts: [Post]
         }
     }
 }
@@ -68,7 +86,7 @@ extension PostsList.Post: Codable {
         id = try container.decode(Int.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
         body = try container.decode(String.self, forKey: .body)
-        isFavorite = false
+        isFavorite = [true, false].randomElement() ?? false
         isUnread = false
     }
 }

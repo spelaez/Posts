@@ -91,6 +91,15 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     @IBAction func postsSegmentedControlDidChange(_ sender: UISegmentedControl) {
+        var request: PostsList.FilterPosts.Request
+
+        if sender.selectedSegmentIndex == 0 {
+            request = PostsList.FilterPosts.Request(filter: .all)
+        } else {
+            request = PostsList.FilterPosts.Request(filter: .favorites)
+        }
+
+        interactor?.filter(request: request)
     }
 
     // MARK: Display posts
@@ -104,13 +113,17 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         posts = viewModel.posts
 
         var indexPaths: [IndexPath] = []
-        if viewModel.index == -1 {
+        if let id = viewModel.id {
+            if let postIndex = oldPosts.firstIndex(where: { $0.id == id }) {
+                indexPaths = [IndexPath(row: postIndex, section: 0)]
+            } else {
+                return
+            }
+        } else {
             for i in 0..<oldPosts.count {
                 let indexPath = IndexPath(row: i, section: 0)
                 indexPaths.append(indexPath)
             }
-        } else if !oldPosts.isEmpty {
-            indexPaths = [IndexPath(row: viewModel.index, section: 0)]
         }
 
         postsTableView.deleteRows(at: indexPaths, with: .fade)
@@ -157,7 +170,7 @@ extension PostsListViewController: UITableViewDataSource {
 extension PostsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: nil) { (action, view, completionHandler) in
-            let request = PostsList.DeletePosts.Request(index: indexPath.row)
+            let request = PostsList.DeletePosts.Request(id: self.posts[indexPath.row].id)
 
             self.interactor?.delete(request: request)
             completionHandler(true)
