@@ -13,7 +13,7 @@ class PostListCell: UITableViewCell {
     @IBOutlet weak var accessoryImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
 
-    var post: PostsList.Post! {
+    var post: Post! {
 
         didSet {
             titleLabel.text = post.title
