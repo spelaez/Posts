@@ -73,6 +73,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         interactor?.fetch(request: PostsList.FetchPosts.Request())
     }
 
+    // MARK: IBActions
     @IBAction func reloadPosts(_ sender: Any) {
         let request = PostsList.FetchPosts.Request()
 
@@ -80,9 +81,16 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     @IBAction func deleteAllPosts(_ sender: Any) {
-        let request = PostsList.DeletePosts.Request()
+        var allIndexPaths: [IndexPath] = []
+        for i in 0..<posts.count {
+            let indexPath = IndexPath(row: i, section: 0)
+            allIndexPaths.append(indexPath)
+        }
 
+        let request = PostsList.DeletePosts.Request()
         interactor?.deleteAll(request: request)
+
+        postsTableView.deleteRows(at: allIndexPaths, with: .top)
     }
 
     @IBAction func postsSegmentedControlDidChange(_ sender: UISegmentedControl) {
@@ -91,13 +99,14 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     // MARK: Display posts
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
         posts = viewModel.posts
-        postsTableView.reloadData()
+        postsTableView.reloadSections(IndexSet(arrayLiteral: 0), with: .bottom)
     }
 
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
         posts = viewModel.posts
     }
 
+    // MARK: Private funcs
     private func configureSegmentedControl() {
         let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
         let textAttributesForSelectedState = [NSAttributedString.Key.foregroundColor: UIColor.postsGreen]
@@ -115,6 +124,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
 
 }
 
+// MARK: UITableViewDataSource
 extension PostsListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -133,30 +143,22 @@ extension PostsListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: UITableViewDelegate
 extension PostsListViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let action = UIContextualAction(style: .destructive, title: nil) { (action, view, completionHandler) in
-//            let request = PostsList.FetchPosts.Request(index: indexPath.row)
-//
-//            self.interactor?.delete(request: request)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//
-//        action.image = UIImage(systemName: "trash")
-//        action.backgroundColor = UIColor.postsRed
-//
-//        let configuration = UISwipeActionsConfiguration(actions: [action])
-//
-//        return configuration
-//    }
-
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: nil) { (action, view, completionHandler) in
             let request = PostsList.DeletePosts.Request(index: indexPath.row)
 
-            interactor?.delete(request: request)
+            self.interactor?.delete(request: request)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+
+        action.image = UIImage(systemName: "trash.fill")
+        action.backgroundColor = UIColor.postsRed
+
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+
+        return configuration
     }
+
 }
