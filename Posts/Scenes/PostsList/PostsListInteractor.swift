@@ -21,13 +21,13 @@ protocol PostsListBusinessLogic {
     /**
      delete all posts and ask presenter to show an empty list
      */
-    func deleteAll(request: PostsList.FetchPosts.Request)
+    func deleteAll(request: PostsList.DeletePosts.Request)
 
     /**
      deletes a post at the specified index given a request and asks presenter to format the new list
      - parameter request: a Request object containing the index of the post to be deleted
      */
-    func delete(request: PostsList.FetchPosts.Request)
+    func delete(request: PostsList.DeletePosts.Request)
 }
 
 protocol PostsListDataStore {
@@ -50,16 +50,16 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     }
 
     // MARK: Delete
-    func delete(request: PostsList.FetchPosts.Request) {
+    func delete(request: PostsList.DeletePosts.Request) {
         let posts = worker?.deletePost(at: request.index) ?? []
-        let response = PostsList.FetchPosts.Response(posts: posts)
+        let response = PostsList.DeletePosts.Response(posts: posts)
 
         presenter?.presentPosts(response: response)
     }
 
-    func deleteAll(request: PostsList.FetchPosts.Request) {
+    func deleteAll(request: PostsList.DeletePosts.Request) {
         worker?.deleteAllPosts()
 
-        presenter?.presentPosts(response: PostsList.FetchPosts.Response(posts: []))
+        presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
     }
 }

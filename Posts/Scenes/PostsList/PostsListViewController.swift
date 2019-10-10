@@ -18,6 +18,7 @@ protocol PostsListDisplayLogic: class {
      - parameter viewModel: a ViewModel object containing an array of posts to display
      */
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel)
+    func displayPosts(viewModel: PostsList.DeletePosts.ViewModel)
 }
 
 class PostsListViewController: UIViewController, PostsListDisplayLogic {
@@ -79,7 +80,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     @IBAction func deleteAllPosts(_ sender: Any) {
-        let request = PostsList.FetchPosts.Request()
+        let request = PostsList.DeletePosts.Request()
 
         interactor?.deleteAll(request: request)
     }
@@ -93,6 +94,9 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         postsTableView.reloadData()
     }
 
+    func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
+        posts = viewModel.posts
+    }
 
     private func configureSegmentedControl() {
         let textAttributesForNormalState = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -104,6 +108,8 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
 
     private func configureTableView() {
         postsTableView.dataSource = self
+        postsTableView.delegate = self
+
         postsTableView.tableFooterView = UIView()
     }
 
@@ -124,5 +130,33 @@ extension PostsListViewController: UITableViewDataSource {
 
         assert(false, "cell should be of PostListCell type")
         return UITableViewCell()
+    }
+}
+
+extension PostsListViewController: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let action = UIContextualAction(style: .destructive, title: nil) { (action, view, completionHandler) in
+//            let request = PostsList.FetchPosts.Request(index: indexPath.row)
+//
+//            self.interactor?.delete(request: request)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//
+//        action.image = UIImage(systemName: "trash")
+//        action.backgroundColor = UIColor.postsRed
+//
+//        let configuration = UISwipeActionsConfiguration(actions: [action])
+//
+//        return configuration
+//    }
+
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let request = PostsList.DeletePosts.Request(index: indexPath.row)
+
+            interactor?.delete(request: request)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }

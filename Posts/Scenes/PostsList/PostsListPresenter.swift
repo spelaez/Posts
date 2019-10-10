@@ -18,18 +18,26 @@ protocol PostsListPresentationLogic {
      - parameter response: Response object containing posts data
      */
     func presentPosts(response: PostsList.FetchPosts.Response)
+    func presentPosts(response: PostsList.DeletePosts.Response)
 }
 
 class PostsListPresenter: PostsListPresentationLogic {
     weak var viewController: PostsListDisplayLogic?
-    private var viewModel: PostsList.FetchPosts.ViewModel!
+    private var posts: [PostsList.Post]!
     
     // MARK: Present posts
     func presentPosts(response: PostsList.FetchPosts.Response) {
-        viewModel = PostsList.FetchPosts.ViewModel(posts: response.posts)
+        posts = PostsList.FetchPosts.ViewModel(posts: response.posts).posts
         markUnreadPosts()
 
-        viewController?.displayPosts(viewModel: viewModel)
+        viewController?.displayPosts(viewModel: PostsList.FetchPosts.ViewModel(posts: posts))
+    }
+
+    func presentPosts(response: PostsList.DeletePosts.Response) {
+        posts = PostsList.DeletePosts.ViewModel(posts: response.posts).posts
+        markUnreadPosts()
+
+        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(posts: posts))
     }
 
     /**
@@ -37,9 +45,9 @@ class PostsListPresenter: PostsListPresentationLogic {
      */
     private func markUnreadPosts() {
         var counter = 0
-        for i in 0..<viewModel.posts.count {
+        for i in 0..<posts.count {
             if counter < 20 {
-                viewModel.posts[i].isUnread = true
+                posts[i].isUnread = true
             }
 
             counter += 1

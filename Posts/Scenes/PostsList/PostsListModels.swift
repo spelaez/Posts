@@ -25,7 +25,21 @@ enum PostsList {
     // MARK: Use cases
     enum FetchPosts {
         struct Request {
-            let index: Int = -1
+            var index: Int = -1
+        }
+
+        struct Response {
+            let posts: [Post]
+        }
+
+        struct ViewModel {
+            var posts: [Post]
+        }
+    }
+
+    enum DeletePosts {
+        struct Request {
+            var index: Int = -1
         }
 
         struct Response {
