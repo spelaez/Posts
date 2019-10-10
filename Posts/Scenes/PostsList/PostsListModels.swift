@@ -15,13 +15,14 @@ import UIKit
 enum PostsList {
 
     struct Post {
-        let userId: String
-        let id: String
+        let userId: Int
+        let id: Int
         let title: String
         let body: String
-        var isFavorite: Bool
-        var isUnread: Bool
+        var isFavorite: Bool = false
+        var isUnread: Bool = false
     }
+
     // MARK: Use cases
     enum FetchPosts {
         struct Request {
@@ -51,5 +52,23 @@ enum PostsList {
             var index: Int = -1
             var posts: [Post]
         }
+    }
+}
+
+extension PostsList.Post: Codable {
+
+    enum CodingKeys: String, CodingKey {
+        case userId, id, title, body, isFavorite, isUnread
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        userId = try container.decode(Int.self, forKey: .userId)
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        body = try container.decode(String.self, forKey: .body)
+        isFavorite = false
+        isUnread = false
     }
 }
