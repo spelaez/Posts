@@ -34,4 +34,30 @@ enum PostDetails {
             var user: User
         }
     }
+
+    enum UpdatePostsList {
+        struct Request {
+        }
+
+        struct Response {
+        }
+
+        struct ViewModel {
+        }
+    }
+
+    enum ToggleFavorite {
+        struct Request {
+        }
+
+        struct Response {
+            var post: Post
+            var user: User
+        }
+
+        struct ViewModel {
+            var displayedPost: GetPost.ViewModel.DisplayedPost
+            var user: User
+        }
+    }
 }
