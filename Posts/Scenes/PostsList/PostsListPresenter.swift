@@ -35,7 +35,6 @@ class PostsListPresenter: PostsListPresentationLogic {
 
     func presentPosts(response: PostsList.DeletePosts.Response) {
         posts = PostsList.DeletePosts.ViewModel(posts: response.posts).posts
-        markUnreadPosts()
 
         viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: posts))
     }
