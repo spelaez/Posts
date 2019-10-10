@@ -3,12 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6D63B580CDE0AF9DB93F96BA /* Pods_PostsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9A07B30E41FB35A9F1B21D1 /* Pods_PostsTests.framework */; };
 		9540004C65A51A4A33E87BE2 /* Pods_Posts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB7ACE8467F31D0A2C53ECF8 /* Pods_Posts.framework */; };
+		FB1D367F234F97A5007E53F0 /* PostDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D3679234F97A5007E53F0 /* PostDetailsPresenter.swift */; };
+		FB1D3680234F97A5007E53F0 /* PostDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D367A234F97A5007E53F0 /* PostDetailsWorker.swift */; };
+		FB1D3681234F97A5007E53F0 /* PostDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D367B234F97A5007E53F0 /* PostDetailsRouter.swift */; };
+		FB1D3682234F97A5007E53F0 /* PostDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D367C234F97A5007E53F0 /* PostDetailsModels.swift */; };
+		FB1D3683234F97A5007E53F0 /* PostDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D367D234F97A5007E53F0 /* PostDetailsViewController.swift */; };
+		FB1D3684234F97A5007E53F0 /* PostDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D367E234F97A5007E53F0 /* PostDetailsInteractor.swift */; };
 		FB822545234EE11B00A59D70 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FB822544234EE11B00A59D70 /* Podfile */; };
 		FBD0E05B234E7B5100D9F895 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E05A234E7B5100D9F895 /* AppDelegate.swift */; };
 		FBD0E05D234E7B5100D9F895 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E05C234E7B5100D9F895 /* SceneDelegate.swift */; };
@@ -46,6 +52,12 @@
 		9BDD18EDB8927D17ECEE1B86 /* Pods-PostsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PostsTests.release.xcconfig"; path = "Target Support Files/Pods-PostsTests/Pods-PostsTests.release.xcconfig"; sourceTree = "<group>"; };
 		B9A07B30E41FB35A9F1B21D1 /* Pods_PostsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PostsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB7ACE8467F31D0A2C53ECF8 /* Pods_Posts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Posts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB1D3679234F97A5007E53F0 /* PostDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsPresenter.swift; sourceTree = "<group>"; };
+		FB1D367A234F97A5007E53F0 /* PostDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsWorker.swift; sourceTree = "<group>"; };
+		FB1D367B234F97A5007E53F0 /* PostDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsRouter.swift; sourceTree = "<group>"; };
+		FB1D367C234F97A5007E53F0 /* PostDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsModels.swift; sourceTree = "<group>"; };
+		FB1D367D234F97A5007E53F0 /* PostDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsViewController.swift; sourceTree = "<group>"; };
+		FB1D367E234F97A5007E53F0 /* PostDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsInteractor.swift; sourceTree = "<group>"; };
 		FB822544234EE11B00A59D70 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		FBD0E057234E7B5100D9F895 /* Posts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Posts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD0E05A234E7B5100D9F895 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +110,6 @@
 				440C4932506704B81114DB9E /* Pods-PostsTests.debug.xcconfig */,
 				9BDD18EDB8927D17ECEE1B86 /* Pods-PostsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -109,6 +120,19 @@
 				B9A07B30E41FB35A9F1B21D1 /* Pods_PostsTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB1D3678234F9786007E53F0 /* PostDetails */ = {
+			isa = PBXGroup;
+			children = (
+				FB1D3679234F97A5007E53F0 /* PostDetailsPresenter.swift */,
+				FB1D367A234F97A5007E53F0 /* PostDetailsWorker.swift */,
+				FB1D367B234F97A5007E53F0 /* PostDetailsRouter.swift */,
+				FB1D367C234F97A5007E53F0 /* PostDetailsModels.swift */,
+				FB1D367D234F97A5007E53F0 /* PostDetailsViewController.swift */,
+				FB1D367E234F97A5007E53F0 /* PostDetailsInteractor.swift */,
+			);
+			path = PostDetails;
 			sourceTree = "<group>";
 		};
 		FBD0E04E234E7B5100D9F895 = {
@@ -159,6 +183,7 @@
 		FBD0E088234E7C7900D9F895 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				FB1D3678234F9786007E53F0 /* PostDetails */,
 				FBD0E089234E7C8300D9F895 /* PostsList */,
 			);
 			path = Scenes;
@@ -386,10 +411,16 @@
 				FBD0E08D234E921B00D9F895 /* Colors.swift in Sources */,
 				FBD0E082234E7C7200D9F895 /* PostsListPresenter.swift in Sources */,
 				FBD0E091234E971100D9F895 /* PostListCell.swift in Sources */,
+				FB1D3681234F97A5007E53F0 /* PostDetailsRouter.swift in Sources */,
 				FBD0E085234E7C7200D9F895 /* PostsListModels.swift in Sources */,
 				FBD0E083234E7C7200D9F895 /* PostsListWorker.swift in Sources */,
+				FB1D367F234F97A5007E53F0 /* PostDetailsPresenter.swift in Sources */,
 				FBD0E086234E7C7200D9F895 /* PostsListViewController.swift in Sources */,
+				FB1D3683234F97A5007E53F0 /* PostDetailsViewController.swift in Sources */,
+				FB1D3680234F97A5007E53F0 /* PostDetailsWorker.swift in Sources */,
+				FB1D3682234F97A5007E53F0 /* PostDetailsModels.swift in Sources */,
 				FBD0E05B234E7B5100D9F895 /* AppDelegate.swift in Sources */,
+				FB1D3684234F97A5007E53F0 /* PostDetailsInteractor.swift in Sources */,
 				FBD0E05D234E7B5100D9F895 /* SceneDelegate.swift in Sources */,
 				FBD0E087234E7C7200D9F895 /* PostsListInteractor.swift in Sources */,
 			);
