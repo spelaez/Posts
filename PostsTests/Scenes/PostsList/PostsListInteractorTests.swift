@@ -35,14 +35,29 @@ class PostsListInteractorTests: XCTestCase {
         func presentPosts(response: PostsList.FetchPosts.Response) {
             presentPostsCalled = true
         }
+
+        func presentPosts(response: PostsList.DeletePosts.Response) {
+            presentPostsCalled = true
+        }
     }
 
     class PostsListWorkerSpy: PostsListWorker {
         var fetchPostsCalled = false
+        var deletePostCalled = false
+        var deleteAllPostsCalled = false
 
         override func fetchPosts() -> [PostsList.Post] {
             fetchPostsCalled = true
             return []
+        }
+
+        override func deletePost(at index: Int) -> [PostsList.Post] {
+            deletePostCalled = true
+            return []
+        }
+
+        override func deleteAllPosts() {
+            deleteAllPostsCalled = true
         }
         
     }
@@ -63,5 +78,39 @@ class PostsListInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(postsListWorkerSpy.fetchPostsCalled, "fetch() should ask worker to fetch posts")
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "fetch() should ask presenter to format posts")
+    }
+
+    func testDeleteShouldAskPostListWorkerToDeletePostAndPreseterToFormatResponse() {
+        //Given
+        let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
+        let postsListWorkerSpy = PostsListWorkerSpy()
+
+        sut.worker = postsListWorkerSpy
+        sut.presenter = postsListPresentationLogicSpy
+
+        // When
+        let request = PostsList.DeletePosts.Request(index: 0)
+        sut.delete(request: request)
+
+        // Then
+        XCTAssertTrue(postsListWorkerSpy.deletePostCalled, "delete() should ask worker to delete posts")
+        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "delete() should ask presenter to format response")
+    }
+
+    func testDeleteShouldAskPostsListWorkerToDeleteAllPostsAndPresenterToFormatResponse() {
+        //Given
+        let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
+        let postsListWorkerSpy = PostsListWorkerSpy()
+
+        sut.worker = postsListWorkerSpy
+        sut.presenter = postsListPresentationLogicSpy
+
+        // When
+        let request = PostsList.DeletePosts.Request()
+        sut.deleteAll(request: request)
+
+        // Then
+        XCTAssertTrue(postsListWorkerSpy.deleteAllPostsCalled, "delete() should ask worker to delete posts")
+        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "delete() should ask presenter to format response")
     }
 }
