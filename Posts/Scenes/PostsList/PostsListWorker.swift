@@ -13,6 +13,12 @@
 import UIKit
 
 class PostsListWorker {
+    private var posts: [PostsList.Post] = []
+
+    /**
+     fetch posts from network or cache when available
+     - returns: An array of posts
+     */
     func fetchPosts() -> [PostsList.Post] {
         //TODO: finish implementation with network call
         let post = PostsList.Post(userId: "1",
@@ -29,6 +35,26 @@ class PostsListWorker {
                                    isFavorite: false,
                                    isUnread: false)
 
-        return [post, post2]
+        posts = [post, post2]
+
+        return posts
+    }
+
+    /**
+     delete a single post
+     - parameter index: Index for the post to be deleted as Int
+     - returns: An array of posts without the deleted post
+     */
+    func deletePost(at index: Int) -> [PostsList.Post] {
+        posts.remove(at: index)
+
+        return posts
+    }
+
+    /**
+     deletes all posts
+     */
+    func deleteAllPosts() {
+        posts = []
     }
 }
