@@ -32,17 +32,23 @@ class PostsListPresenterTests: XCTestCase {
     class PostsListDisplayLogicSpy: PostsListDisplayLogic {
         var displayPostsCalled = false
 
-        var viewModel: PostsList.FetchPosts.ViewModel!
+        var viewModelFetch: PostsList.FetchPosts.ViewModel!
+        var viewModelDelete: PostsList.DeletePosts.ViewModel!
 
         func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
             displayPostsCalled = true
-            self.viewModel = viewModel
+            self.viewModelFetch = viewModel
+        }
+
+        func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
+            displayPostsCalled = true
+            self.viewModelDelete = viewModel
         }
 
         func checkNumberOfUnreadPosts() -> Int {
             var count = 0
 
-            for post in viewModel.posts {
+            for post in viewModelFetch.posts {
                 count += post.isUnread ? 1 : 0
             }
 
@@ -70,7 +76,21 @@ class PostsListPresenterTests: XCTestCase {
 
         // Then
         XCTAssertEqual(displayLogicSpy.checkNumberOfUnreadPosts(), 20, "Unread posts should be 20")
-        XCTAssertFalse(displayLogicSpy.viewModel.posts.last?.isUnread ?? true, "post 21 should be read")
+        XCTAssertFalse(displayLogicSpy.viewModelFetch.posts.last?.isUnread ?? true, "post 21 should be read")
         XCTAssertTrue(displayLogicSpy.displayPostsCalled, "presenter should ask viewController to display posts")
+    }
+
+    func testPresenterShouldAskViewControllerToDisplayPostsAfterDelete() {
+        //Given
+        let displayLogicSpy = PostsListDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        let response = PostsList.DeletePosts.Response(posts: [])
+
+        //When
+        sut.presentPosts(response: response)
+
+        //Then
+        XCTAssertTrue(displayLogicSpy.displayPostsCalled, "presenter should ask view controller to display posts")
     }
 }
