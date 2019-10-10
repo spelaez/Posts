@@ -77,5 +77,10 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     // MARK: Display post
     func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
         self.bodyTextView.text = viewModel.displayedPost.body
+
+        self.usernameLabel.text = viewModel.user.name
+        self.emailLabel.text = viewModel.user.email
+        self.phoneLabel.text = viewModel.user.phone
+        self.websiteLabel.text = viewModel.user.website
     }
 }

@@ -24,7 +24,7 @@ class PostDetailsPresenter: PostDetailsPresentationLogic {
         let body = response.post.body
         let displayedPost = PostDetails.GetPost.ViewModel.DisplayedPost(body: body)
 
-        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayedPost)
+        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayedPost, user: response.user)
         viewController?.displayPost(viewModel: viewModel)
     }
 }

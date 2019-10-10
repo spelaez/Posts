@@ -11,8 +11,24 @@
 //
 
 import UIKit
+import Alamofire
 
 class PostDetailsWorker {
-    func doSomeWork() {
+    private let userUrl = "https://jsonplaceholder.typicode.com/users/"
+
+    func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
+        Alamofire.request("\(userUrl)\(id)").responseJSON { (dataResponse) in
+            if let data = dataResponse.data {
+                let decoder = JSONDecoder()
+
+                do {
+                    let user = try decoder.decode(User.self, from: data)
+                    completionHandler(user)
+                } catch {
+                    print("error decoding user")
+                    print(error)
+                }
+            }
+        }
     }
 }

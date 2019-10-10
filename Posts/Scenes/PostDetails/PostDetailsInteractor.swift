@@ -25,10 +25,16 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var worker: PostDetailsWorker?
     var post: Post!
 
+    init() {
+        worker = PostDetailsWorker()
+    }
+
     // MARK: Get Post
     func getPost(request: PostDetails.GetPost.Request) {
-        let response = PostDetails.GetPost.Response(post: post)
+        worker?.fetchUser(id: post.userId, completionHandler: { user in
+            let response = PostDetails.GetPost.Response(post: self.post, user: user)
 
-        presenter?.presentPost(response: response)
+            self.presenter?.presentPost(response: response)
+        })
     }
 }

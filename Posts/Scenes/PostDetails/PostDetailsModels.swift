@@ -21,6 +21,7 @@ enum PostDetails {
 
         struct Response {
             var post: Post
+            var user: User
         }
 
         struct ViewModel {
@@ -29,6 +30,7 @@ enum PostDetails {
             }
 
             var displayedPost: DisplayedPost
+            var user: User
         }
     }
 }
