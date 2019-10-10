@@ -45,6 +45,7 @@ class PostsListInteractorTests: XCTestCase {
         var fetchPostsCalled = false
         var deletePostCalled = false
         var deleteAllPostsCalled = false
+        var postsFilteredByCalled = false
 
         override func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())) {
             fetchPostsCalled = true
@@ -58,6 +59,12 @@ class PostsListInteractorTests: XCTestCase {
 
         override func deleteAllPosts() {
             deleteAllPostsCalled = true
+        }
+
+        override func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [PostsList.Post] {
+            postsFilteredByCalled = true
+            posts = super.postsFilteredBy(filter)
+            return posts
         }
         
     }
@@ -112,5 +119,27 @@ class PostsListInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(postsListWorkerSpy.deleteAllPostsCalled, "delete() should ask worker to delete posts")
         XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "delete() should ask presenter to format response")
+    }
+
+    func testFilterShouldAskPostsListWorkerToFilterPostsAndPresenterToFormatResponse() {
+        //Given
+        let postsListPresentationLogicSpy = PostsListPresentationLogicSpy()
+        let postsListWorkerSpy = PostsListWorkerSpy()
+
+        sut.worker = postsListWorkerSpy
+        sut.worker?.posts = [PostsList.Post(userId: 1, id: 1, title: "", body: "", isFavorite: true, isUnread: false),
+                             PostsList.Post(userId: 1, id: 2, title: "", body: "", isFavorite: false, isUnread: false)]
+        
+        sut.presenter = postsListPresentationLogicSpy
+
+        // When
+        let request = PostsList.FilterPosts.Request(filter: .favorites)
+        sut.filter(request: request)
+
+        // Then
+        XCTAssertTrue(postsListWorkerSpy.postsFilteredByCalled, "filter() should ask worker to filter posts")
+        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "filter() should ask presenter to format response")
+        XCTAssertEqual(postsListWorkerSpy.posts.count, 1, "filter() should filter 1 post")
+        XCTAssertTrue(postsListWorkerSpy.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
     }
 }

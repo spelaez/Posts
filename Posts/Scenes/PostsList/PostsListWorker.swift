@@ -15,7 +15,7 @@ import Alamofire
 
 class PostsListWorker {
     private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
-    private var posts: [PostsList.Post] = []
+    var posts: [PostsList.Post] = []
     private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     /**

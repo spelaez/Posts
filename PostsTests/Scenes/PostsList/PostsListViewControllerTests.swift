@@ -55,9 +55,7 @@ class PostsListViewControllerTests: XCTestCase {
         var filterCalled = false
 
         // MARK: Argument expectations
-        var request: PostsList.FetchPosts.Request!
-        var response: PostsList.FetchPosts.Response!
-        var viewModel: PostsList.FetchPosts.ViewModel!
+        var filter: PostsList.FilterPosts.Filter = .all
 
         // MARK: Spied methods
         func fetch(request: PostsList.FetchPosts.Request) {
@@ -74,6 +72,7 @@ class PostsListViewControllerTests: XCTestCase {
 
         func filter(request: PostsList.FilterPosts.Request) {
             filterCalled = true
+            filter = request.filter
         }
     }
 
@@ -233,6 +232,17 @@ class PostsListViewControllerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
+    }
+
+    func testShouldAskInteractorToFilterFavoritePosts() {
+        //When
+        loadView()
+        sut.postsSegmentedControl.selectedSegmentIndex = 1
+        sut.postsSegmentedControlDidChange(sut.postsSegmentedControl)
+
+        //Then
+        XCTAssertTrue(businessLogicSpy.filterCalled, "viewcontroller should ask interactor to filter posts")
+        XCTAssertEqual(businessLogicSpy.filter, PostsList.FilterPosts.Filter.favorites, "filter should be favorites")
     }
 
     // MARK: Cell Tests
