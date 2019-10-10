@@ -44,20 +44,10 @@ class PostsListPresenterTests: XCTestCase {
             displayPostsCalled = true
             self.viewModelDelete = viewModel
         }
-
-        func checkNumberOfUnreadPosts() -> Int {
-            var count = 0
-
-            for post in viewModelFetch.posts {
-                count += post.isUnread ? 1 : 0
-            }
-
-            return count
-        }
     }
     
     // MARK: Tests
-    func testPresentPostsShouldMarkUnreadPostsAndAskViewControllerToDisplayPosts() {
+    func testPresentPostsShouldAskViewControllerToDisplayPosts() {
         // Given
         let displayLogicSpy = PostsListDisplayLogicSpy()
         sut.viewController = displayLogicSpy
@@ -75,8 +65,6 @@ class PostsListPresenterTests: XCTestCase {
         sut.presentPosts(response: response)
 
         // Then
-        XCTAssertEqual(displayLogicSpy.checkNumberOfUnreadPosts(), 20, "Unread posts should be 20")
-        XCTAssertFalse(displayLogicSpy.viewModelFetch.posts.last?.isUnread ?? true, "post 21 should be read")
         XCTAssertTrue(displayLogicSpy.displayPostsCalled, "presenter should ask viewController to display posts")
     }
 
