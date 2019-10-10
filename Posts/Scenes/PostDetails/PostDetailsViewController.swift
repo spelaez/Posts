@@ -67,8 +67,13 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     
     // MARK: Do something
     
-    //@IBOutlet weak var nameTextField: UITextField!
-    
+    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var phoneLabel: UILabel!
+    @IBOutlet weak var websiteLabel: UILabel!
+    @IBOutlet weak var commentsTableView: UITableView!
+
     func doSomething() {
         let request = PostDetails.Something.Request()
         interactor?.doSomething(request: request)

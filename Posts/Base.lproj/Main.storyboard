@@ -275,6 +275,14 @@
                         <viewLayoutGuide key="safeArea" id="D2W-V8-dBL"/>
                     </view>
                     <navigationItem key="navigationItem" id="EPD-na-Oom"/>
+                    <connections>
+                        <outlet property="bodyTextView" destination="MNc-em-1Yv" id="E0r-5b-bQD"/>
+                        <outlet property="commentsTableView" destination="HVo-X5-FPW" id="b51-68-UmT"/>
+                        <outlet property="emailLabel" destination="wxu-I6-gnt" id="IPB-5l-ZZF"/>
+                        <outlet property="phoneLabel" destination="EES-qW-443" id="R1c-rr-uaa"/>
+                        <outlet property="usernameLabel" destination="3st-xb-06n" id="b9D-LM-uBv"/>
+                        <outlet property="websiteLabel" destination="c7k-jW-SNj" id="q9e-Oa-aP2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="42O-yD-Jwf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
