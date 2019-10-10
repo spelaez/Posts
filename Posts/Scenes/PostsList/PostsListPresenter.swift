@@ -28,7 +28,6 @@ class PostsListPresenter: PostsListPresentationLogic {
     // MARK: Present posts
     func presentPosts(response: PostsList.FetchPosts.Response) {
         posts = PostsList.FetchPosts.ViewModel(posts: response.posts).posts
-        markUnreadPosts()
 
         viewController?.displayPosts(viewModel: PostsList.FetchPosts.ViewModel(posts: posts))
     }
@@ -39,17 +38,4 @@ class PostsListPresenter: PostsListPresentationLogic {
         viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: posts))
     }
 
-    /**
-     marks the first 20 posts as unread
-     */
-    private func markUnreadPosts() {
-        var counter = 0
-        for i in 0..<posts.count {
-            if counter < 20 {
-                posts[i].isUnread = true
-            }
-
-            counter += 1
-        }
-    }
 }

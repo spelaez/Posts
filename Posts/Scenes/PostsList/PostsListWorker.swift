@@ -28,6 +28,7 @@ class PostsListWorker {
 
                 do {
                     self.posts = try decoder.decode([PostsList.Post].self, from: data)
+                    self.markUnreadPosts()
                     completionHandler(self.posts)
                 } catch {
                     print("error trying to decode response")
@@ -53,5 +54,19 @@ class PostsListWorker {
      */
     func deleteAllPosts() {
         posts = []
+    }
+
+    /**
+     marks the first 20 posts as unread
+     */
+    private func markUnreadPosts() {
+        var counter = 0
+        for i in 0..<posts.count {
+            if counter < 20 {
+                posts[i].isUnread = true
+            }
+
+            counter += 1
+        }
     }
 }
