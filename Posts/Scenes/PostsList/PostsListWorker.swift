@@ -11,33 +11,30 @@
 //
 
 import UIKit
+import Alamofire
 
 class PostsListWorker {
+    private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
     private var posts: [PostsList.Post] = []
 
     /**
      fetch posts from network or cache when available
      - returns: An array of posts
      */
-    func fetchPosts() -> [PostsList.Post] {
-        //TODO: finish implementation with network call
-        let post = PostsList.Post(userId: "1",
-                                  id: "1",
-                                  title: "sample post",
-                                  body: "lorem ipsum",
-                                  isFavorite: false,
-                                  isUnread: false)
+    func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())){
+        Alamofire.request(postsUrl).responseJSON { dataResponse in
+            if let data = dataResponse.data {
+                let decoder = JSONDecoder()
 
-        let post2 = PostsList.Post(userId: "1",
-                                   id: "2",
-                                   title: "a test post",
-                                   body: "a lorem posting ipsum",
-                                   isFavorite: false,
-                                   isUnread: false)
-
-        posts = [post, post2]
-
-        return posts
+                do {
+                    self.posts = try decoder.decode([PostsList.Post].self, from: data)
+                    completionHandler(self.posts)
+                } catch {
+                    print("error trying to decode response")
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 
     /**
