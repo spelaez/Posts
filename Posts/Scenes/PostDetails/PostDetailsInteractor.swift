@@ -17,13 +17,13 @@ protocol PostDetailsBusinessLogic {
 }
 
 protocol PostDetailsDataStore {
-    //var name: String { get set }
+    var post: Post! { get set }
 }
 
 class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var presenter: PostDetailsPresentationLogic?
     var worker: PostDetailsWorker?
-    //var name: String = ""
+    var post: Post!
 
     // MARK: Do something
 

@@ -14,15 +14,7 @@ import UIKit
 
 enum PostsList {
 
-    struct Post {
-        let userId: Int
-        let id: Int
-        let title: String
-        let body: String
-        var isFavorite: Bool = false
-        var isUnread: Bool = false
-    }
-
+ 
     // MARK: Use cases
     enum FetchPosts {
         struct Request {
@@ -70,23 +62,5 @@ enum PostsList {
         struct ViewModel {
             let posts: [Post]
         }
-    }
-}
-
-extension PostsList.Post: Codable {
-
-    enum CodingKeys: String, CodingKey {
-        case userId, id, title, body, isFavorite, isUnread
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        userId = try container.decode(Int.self, forKey: .userId)
-        id = try container.decode(Int.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
-        body = try container.decode(String.self, forKey: .body)
-        isFavorite = [true, false].randomElement() ?? false
-        isUnread = false
     }
 }

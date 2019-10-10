@@ -15,20 +15,20 @@ import Alamofire
 
 class PostsListWorker {
     private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
-    var posts: [PostsList.Post] = []
+    var posts: [Post] = []
     private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     /**
      fetch posts from network or cache when available
      - returns: An array of posts
      */
-    func fetchPosts(completionHandler: @escaping (([PostsList.Post]) -> ())){
+    func fetchPosts(completionHandler: @escaping (([Post]) -> ())){
         Alamofire.request(postsUrl).responseJSON { dataResponse in
                 if let data = dataResponse.data {
                     let decoder = JSONDecoder()
 
                     do {
-                        self.posts = try decoder.decode([PostsList.Post].self, from: data)
+                        self.posts = try decoder.decode([Post].self, from: data)
                         self.markUnreadPosts()
                         completionHandler(self.postsFilteredBy(self.currentFilter))
                     } catch {
@@ -39,7 +39,7 @@ class PostsListWorker {
             }
         }
 
-    func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [PostsList.Post] {
+    func postsFilteredBy(_ filter: PostsList.FilterPosts.Filter) -> [Post] {
         currentFilter = filter
 
         switch filter {
@@ -55,7 +55,7 @@ class PostsListWorker {
      - parameter id: id for the post to be deleted as Int
      - returns: An array of posts without the deleted post
      */
-    func deletePost(id: Int) -> [PostsList.Post] {
+    func deletePost(id: Int) -> [Post] {
         if let index = posts.firstIndex(where: { $0.id == id }) {
             posts.remove(at: index)
         }

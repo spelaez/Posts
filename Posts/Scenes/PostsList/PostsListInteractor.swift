@@ -37,12 +37,13 @@ protocol PostsListBusinessLogic {
 }
 
 protocol PostsListDataStore {
-    //var name: String { get set }
+    var posts: [Post] { get }
 }
 
 class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     var presenter: PostsListPresentationLogic?
     var worker: PostsListWorker?
+    var posts: [Post] = []
 
     init() {
         worker = PostsListWorker()
@@ -53,6 +54,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         worker?.fetchPosts(completionHandler: { [weak self] posts in
             let response = PostsList.FetchPosts.Response(posts: posts)
 
+            self?.posts = posts
             self?.presenter?.presentPosts(response: response)
         })
     }
@@ -60,6 +62,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Filter
     func filter(request: PostsList.FilterPosts.Request) {
         let posts = worker?.postsFilteredBy(request.filter)
+        self.posts = posts ?? []
 
         let response = PostsList.FetchPosts.Response(posts: posts ?? [])
         presenter?.presentPosts(response: response)
@@ -69,6 +72,8 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     func delete(request: PostsList.DeletePosts.Request) {
         if let id = request.id {
             let posts = worker?.deletePost(id: id) ?? []
+            self.posts = posts
+
             let response = PostsList.DeletePosts.Response(id: id, posts: posts)
             presenter?.presentPosts(response: response)
         }
@@ -76,6 +81,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     func deleteAll(request: PostsList.DeletePosts.Request) {
         worker?.deleteAllPosts()
+        self.posts = []
 
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
     }

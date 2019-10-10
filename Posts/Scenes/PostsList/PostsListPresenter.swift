@@ -23,7 +23,7 @@ protocol PostsListPresentationLogic {
 
 class PostsListPresenter: PostsListPresentationLogic {
     weak var viewController: PostsListDisplayLogic?
-    private var posts: [PostsList.Post]!
+    private var posts: [Post]!
     
     // MARK: Present posts
     func presentPosts(response: PostsList.FetchPosts.Response) {

@@ -30,7 +30,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     var interactor: PostsListBusinessLogic?
     var router: (NSObjectProtocol & PostsListRoutingLogic & PostsListDataPassing)?
 
-    var posts: [PostsList.Post] = []
+    var posts: [Post] = []
     
     // MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

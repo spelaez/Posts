@@ -53,7 +53,7 @@
                                         <connections>
                                             <outlet property="accessoryImage" destination="6iS-JM-kZL" id="Ltb-br-VJn"/>
                                             <outlet property="titleLabel" destination="oiA-Ai-nnj" id="F6C-MO-GKe"/>
-                                            <segue destination="FOU-bd-ysI" kind="show" id="zIC-C2-3PA"/>
+                                            <segue destination="FOU-bd-ysI" kind="show" identifier="PostDetails" id="zIC-C2-3PA"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -130,10 +130,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.77173913043478"/>
         </scene>
-        <!--View Controller-->
+        <!--Post Details View Controller-->
         <scene sceneID="gMq-rZ-71d">
             <objects>
-                <viewController id="FOU-bd-ysI" sceneMemberID="viewController">
+                <viewController id="FOU-bd-ysI" customClass="PostDetailsViewController" customModule="Posts" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0tk-Ef-kpD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
