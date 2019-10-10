@@ -47,6 +47,8 @@ class PostsListViewControllerTests: XCTestCase {
     class PostsListBusinessLogicSpy: PostsListBusinessLogic {
         // MARK: method call expectations
         var fetchCalled = false
+        var deleteCalled = false
+        var deleteAllCalled = false
 
         // MARK: Argument expectations
         var request: PostsList.FetchPosts.Request!
@@ -56,6 +58,14 @@ class PostsListViewControllerTests: XCTestCase {
         // MARK: Spied methods
         func fetch(request: PostsList.FetchPosts.Request) {
             fetchCalled = true
+        }
+
+        func delete(request: PostsList.DeletePosts.Request) {
+            deleteCalled = true
+        }
+
+        func deleteAll(request: PostsList.DeletePosts.Request) {
+            deleteAllCalled = true
         }
     }
 
@@ -101,6 +111,7 @@ class PostsListViewControllerTests: XCTestCase {
 
         // Then
         XCTAssertNotNil(sut.postsTableView.dataSource, "Posts table view dataSource should be set")
+        XCTAssertNotNil(sut.postsTableView.delegate, "Posts table view delegate should be set")
         XCTAssertNotNil(sut.postsTableView.tableFooterView, "Posts table view tableFooterView should be set")
     }
     
@@ -130,5 +141,90 @@ class PostsListViewControllerTests: XCTestCase {
         XCTAssertEqual(sutPost.body, post.body, "posts have different bodies")
         XCTAssertEqual(sutPost.isFavorite, sutPost.isFavorite, "posts have different favorite value")
         XCTAssertEqual(sutPost.isUnread, sutPost.isUnread, "posts have different read status")
+    }
+
+    func testShouldCallDelete() {
+        // Given
+        let businessLogicSpy = PostsListBusinessLogicSpy()
+
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "post title",
+                                  body: "post body",
+                                  isFavorite: false,
+                                  isUnread: true)
+
+        sut.interactor = businessLogicSpy
+        sut.posts = [post]
+
+        // When
+        loadView()
+
+        let swipeActions = sut.tableView(sut.postsTableView, trailingSwipeActionsConfigurationForRowAt: IndexPath(row: 0, section: 0))
+
+        guard let deleteAction = swipeActions?.actions.first else {
+            XCTFail("couldn't get an action from cell's trailing swipe actions")
+            return
+        }
+
+        // Then
+        deleteAction.handler(deleteAction, UIView()) { deleteCalled in
+            XCTAssertTrue(deleteCalled, "deleteAction handler should be called")
+        }
+
+        XCTAssertTrue(businessLogicSpy.deleteCalled, "viewController should ask interactor to delete the post")
+    }
+
+    func testShouldCallDeleteAllOnInteractor() {
+        // Given
+        let businessLogicSpy = PostsListBusinessLogicSpy()
+        sut.interactor = businessLogicSpy
+
+        // When
+        loadView()
+        sut.deleteAllPosts(self)
+
+        // Then
+        XCTAssertTrue(businessLogicSpy.deleteAllCalled, "viewController should ask interactor to delete the post")
+    }
+
+    func testShouldDisplayPostsAfterDelete() {
+        // Given
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "post title",
+                                  body: "post body",
+                                  isFavorite: false,
+                                  isUnread: true)
+
+        let viewModel = PostsList.DeletePosts.ViewModel(index: 0, posts: [post])
+
+        // When
+        loadView()
+        sut.posts = [post, post]
+        sut.displayPosts(viewModel: viewModel)
+
+        // Then
+        XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
+    }
+
+    func testShouldNotDisplayPostsAfterDeleteAll() {
+        // Given
+        let post = PostsList.Post(userId: "1",
+                                  id: "1",
+                                  title: "post title",
+                                  body: "post body",
+                                  isFavorite: false,
+                                  isUnread: true)
+
+        let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
+
+        // When
+        loadView()
+        sut.posts = [post, post]
+        sut.displayPosts(viewModel: viewModel)
+
+        // Then
+        XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
     }
 }
