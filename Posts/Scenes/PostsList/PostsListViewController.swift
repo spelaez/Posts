@@ -13,6 +13,10 @@
 import UIKit
 
 protocol PostsListDisplayLogic: class {
+    /**
+     display posts on a table view
+     - parameter viewModel: a ViewModel object containing an array of posts to display
+     */
     func displayPosts(viewModel: PostsList.FetchPosts.ViewModel)
 }
 
@@ -69,9 +73,15 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
     }
 
     @IBAction func reloadPosts(_ sender: Any) {
+        let request = PostsList.FetchPosts.Request()
+
+        interactor?.fetch(request: request)
     }
 
     @IBAction func deleteAllPosts(_ sender: Any) {
+        let request = PostsList.FetchPosts.Request()
+
+        interactor?.deleteAll(request: request)
     }
 
     @IBAction func postsSegmentedControlDidChange(_ sender: UISegmentedControl) {
