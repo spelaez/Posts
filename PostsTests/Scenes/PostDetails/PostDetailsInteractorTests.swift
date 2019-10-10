@@ -40,12 +40,29 @@ class PostDetailsInteractorTests: XCTestCase {
             presentPostCalled = true
         }
     }
+
+    class PostDetailsWorkerSpy: PostDetailsWorker {
+        var fetchUserCalled = false
+
+        override func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
+            fetchUserCalled = true
+
+            let user = User(name: "", email: "", phone: "", website: "")
+            completionHandler(user)
+        }
+    }
     
     // MARK: Tests
-    func interactorShouldAskPresenterToPresentPost() {
+    func testInteractorShouldAskPresenterToPresentPost() {
         // Given
         let presentationLogicSpy = PostDetailsPresentationLogicSpy()
         sut.presenter = presentationLogicSpy
+
+        let workerSpy = PostDetailsWorkerSpy()
+        sut.worker = workerSpy
+
+        let post = Post(userId: 1, id: 1, title: "", body: "")
+        sut.post = post
 
         let request = PostDetails.GetPost.Request()
 
@@ -54,5 +71,6 @@ class PostDetailsInteractorTests: XCTestCase {
 
         // Then
         XCTAssertTrue(presentationLogicSpy.presentPostCalled, "getPost() should call present post on presenter")
+        XCTAssertTrue(workerSpy.fetchUserCalled, "getPost() should call worker to fetch user info")
     }
 }
