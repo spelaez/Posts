@@ -21,6 +21,7 @@
 		FB1D368F234FB5B5007E53F0 /* PostDetailsWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D368B234FB5B5007E53F0 /* PostDetailsWorkerTests.swift */; };
 		FB1D3690234FB5B5007E53F0 /* PostDetailsPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D368C234FB5B5007E53F0 /* PostDetailsPresenterTests.swift */; };
 		FB822545234EE11B00A59D70 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FB822544234EE11B00A59D70 /* Podfile */; };
+		FBBAF9AC234FC40700D39CAD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBAF9AB234FC40700D39CAD /* User.swift */; };
 		FBD0E05B234E7B5100D9F895 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E05A234E7B5100D9F895 /* AppDelegate.swift */; };
 		FBD0E05D234E7B5100D9F895 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD0E05C234E7B5100D9F895 /* SceneDelegate.swift */; };
 		FBD0E062234E7B5100D9F895 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD0E060234E7B5100D9F895 /* Main.storyboard */; };
@@ -69,6 +70,7 @@
 		FB1D368B234FB5B5007E53F0 /* PostDetailsWorkerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsWorkerTests.swift; sourceTree = "<group>"; };
 		FB1D368C234FB5B5007E53F0 /* PostDetailsPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsPresenterTests.swift; sourceTree = "<group>"; };
 		FB822544234EE11B00A59D70 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		FBBAF9AB234FC40700D39CAD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FBD0E057234E7B5100D9F895 /* Posts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Posts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD0E05A234E7B5100D9F895 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD0E05C234E7B5100D9F895 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				FB1D3686234F9AEB007E53F0 /* Post.swift */,
+				FBBAF9AB234FC40700D39CAD /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				FB1D3687234F9AEB007E53F0 /* Post.swift in Sources */,
 				FB1D3681234F97A5007E53F0 /* PostDetailsRouter.swift in Sources */,
 				FBD0E085234E7C7200D9F895 /* PostsListModels.swift in Sources */,
+				FBBAF9AC234FC40700D39CAD /* User.swift in Sources */,
 				FBD0E083234E7C7200D9F895 /* PostsListWorker.swift in Sources */,
 				FB1D367F234F97A5007E53F0 /* PostDetailsPresenter.swift in Sources */,
 				FBD0E086234E7C7200D9F895 /* PostsListViewController.swift in Sources */,
