@@ -68,9 +68,9 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Filter
     func filter(request: PostsList.FilterPosts.Request) {
-        posts = worker?.filter(posts: posts, by: request.filter) ?? []
+        let filteredPosts = worker?.filter(posts: posts, by: request.filter) ?? []
 
-        let response = PostsList.FetchPosts.Response(posts: posts)
+        let response = PostsList.FetchPosts.Response(posts: filteredPosts)
         presenter?.presentPosts(response: response)
     }
 
@@ -78,9 +78,9 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     func delete(request: PostsList.DeletePosts.Request) {
         if let id = request.id {
             worker?.deletePost(id: id, on: &posts)
-            posts = worker?.filter(posts: posts) ?? []
+            let filteredPosts = worker?.filter(posts: posts) ?? []
             
-            let response = PostsList.DeletePosts.Response(id: id, posts: posts)
+            let response = PostsList.DeletePosts.Response(id: id, posts: filteredPosts)
             presenter?.presentPosts(response: response)
         }
     }
@@ -91,7 +91,9 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
             posts[index].isUnread = false
         }
 
-        presenter?.presentPosts(response: PostsList.FetchPosts.Response(posts: posts))
+        let filteredPosts = worker?.filter(posts: posts) ?? []
+
+        presenter?.presentPosts(response: PostsList.FetchPosts.Response(posts: filteredPosts))
     }
 
     func deleteAll(request: PostsList.DeletePosts.Request) {
