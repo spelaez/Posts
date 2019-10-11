@@ -29,9 +29,9 @@ enum PostsList {
         }
     }
 
-    enum DeletePosts {
+    enum DeletePost {
         struct Request {
-            var post: Post?
+            var post: Post
         }
 
         struct Response {
@@ -40,6 +40,17 @@ enum PostsList {
 
         struct ViewModel {
             var posts: [Post]
+        }
+    }
+
+    enum DeleteAllPosts {
+        struct Request {
+        }
+
+        struct Response {
+        }
+
+        struct ViewModel {
         }
     }
 

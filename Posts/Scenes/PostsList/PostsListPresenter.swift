@@ -14,7 +14,8 @@ import UIKit
 
 protocol PostsListPresentationLogic {
     func presentPosts(response: PostsList.FetchPosts.Response)
-    func presentPosts(response: PostsList.DeletePosts.Response)
+    func presentPosts(response: PostsList.DeletePost.Response)
+    func presentPosts(response: PostsList.DeleteAllPosts.Response)
     func presentFilteredPosts(response: PostsList.FilterPosts.Response)
 }
 
@@ -27,8 +28,12 @@ class PostsListPresenter: PostsListPresentationLogic {
         viewController?.displayPosts(viewModel: PostsList.FetchPosts.ViewModel(posts: response.posts))
     }
 
-    func presentPosts(response: PostsList.DeletePosts.Response) {
-        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(posts: response.posts))
+    func presentPosts(response: PostsList.DeletePost.Response) {
+        viewController?.displayPosts(viewModel: PostsList.DeletePost.ViewModel(posts: response.posts))
+    }
+
+    func presentPosts(response: PostsList.DeleteAllPosts.Response) {
+        viewController?.displayPosts(viewModel: PostsList.DeleteAllPosts.ViewModel())
     }
 
     // MARK: Presnet filtered posts
