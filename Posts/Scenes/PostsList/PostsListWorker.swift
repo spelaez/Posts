@@ -106,11 +106,10 @@ class PostsListWorker {
     /**
      deletes all given posts from realm
      */
-    func deleteAllPosts(posts: [Post]) {
+    func deleteAllPosts() {
         do {
-
             try realm?.write {
-                realm?.delete(posts)
+                realm?.deleteAll()
             }
         } catch {
             print(error)

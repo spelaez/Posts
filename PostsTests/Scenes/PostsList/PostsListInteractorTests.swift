@@ -82,7 +82,7 @@ class PostsListInteractorTests: XCTestCase {
             return nil
         }
 
-        override func deleteAllPosts(posts: [Post]) {
+        override func deleteAllPosts() {
             deleteAllPostsCalled = true
         }
 

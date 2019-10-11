@@ -86,7 +86,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Delete all posts
     func deleteAll(request: PostsList.DeletePosts.Request) {
-        worker?.deleteAllPosts(posts: posts)
+        worker?.deleteAllPosts()
         self.posts = []
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
     }
