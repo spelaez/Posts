@@ -16,6 +16,7 @@ protocol PostDetailsPresentationLogic {
     func presentPost(response: PostDetails.GetPost.Response)
     func presentToggleFavorite(response: PostDetails.ToggleFavorite.Response)
     func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response)
+    func presentComments(response: PostDetails.GetComments.Response)
 }
 
 class PostDetailsPresenter: PostDetailsPresentationLogic {
@@ -42,5 +43,18 @@ class PostDetailsPresenter: PostDetailsPresentationLogic {
 
         let viewModel = PostDetails.ToggleFavorite.ViewModel(displayedPost: displayedPost, user: response.user)
         viewController?.displayToggleFavorite(viewModel: viewModel)
+    }
+
+    func presentComments(response: PostDetails.GetComments.Response) {
+        var displayedComments = [PostDetails.GetComments.ViewModel.DisplayedComment]()
+
+        for comment in response.comments {
+            let displayedComment = PostDetails.GetComments.ViewModel.DisplayedComment(body: comment.body)
+
+            displayedComments.append(displayedComment)
+        }
+
+        let viewModel = PostDetails.GetComments.ViewModel(displayedComments: displayedComments)
+        viewController?.displayComments(viewModel: viewModel)
     }
 }

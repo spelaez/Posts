@@ -60,4 +60,21 @@ enum PostDetails {
             var user: User
         }
     }
+
+    enum GetComments {
+        struct Request {
+        }
+
+        struct Response {
+            var comments: [Comment]
+        }
+
+        struct ViewModel {
+            struct DisplayedComment {
+                var body: String
+            }
+
+            var displayedComments: [DisplayedComment]
+        }
+    }
 }

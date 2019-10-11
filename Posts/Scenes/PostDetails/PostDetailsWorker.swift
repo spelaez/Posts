@@ -34,7 +34,7 @@ class PostDetailsWorker {
     }
 
     func fetchComments(postId: Int, completionHandler: @escaping (([Comment]) -> ())) {
-        let url = String(format: commentsUrl, postId)
+        let url = String(format: commentsUrl, "\(postId)")
 
         Alamofire.request(url).responseJSON { (dataResponse) in
             if let data = dataResponse.data {

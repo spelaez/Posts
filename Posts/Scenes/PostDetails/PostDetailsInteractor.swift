@@ -16,11 +16,13 @@ protocol PostDetailsBusinessLogic {
     func getPost(request: PostDetails.GetPost.Request)
     func toggleFavorite(request: PostDetails.ToggleFavorite.Request)
     func updatePostsList(request: PostDetails.UpdatePostsList.Request)
+    func getComments(request: PostDetails.GetComments.Request)
 }
 
 protocol PostDetailsDataStore {
     var post: Post! { get set }
     var user: User! { get set }
+    var comments: [Comment]! { get }
 }
 
 class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
@@ -32,6 +34,7 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         }
     }
     var user: User!
+    var comments: [Comment]! = []
 
     init() {
         worker = PostDetailsWorker()
@@ -60,5 +63,15 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         let response = PostDetails.ToggleFavorite.Response(post: post, user: user)
 
         self.presenter?.presentToggleFavorite(response: response)
+    }
+
+    // MARK: Get Comments
+    func getComments(request: PostDetails.GetComments.Request) {
+        worker?.fetchComments(postId: post.id, completionHandler: { (comments) in
+            self.comments = comments
+            let response = PostDetails.GetComments.Response(comments: comments)
+
+            self.presenter?.presentComments(response: response)
+        })
     }
 }

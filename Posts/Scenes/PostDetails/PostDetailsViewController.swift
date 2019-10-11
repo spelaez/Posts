@@ -16,11 +16,13 @@ protocol PostDetailsDisplayLogic: class {
     func displayPost(viewModel: PostDetails.GetPost.ViewModel)
     func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel)
     func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel)
+    func displayComments(viewModel: PostDetails.GetComments.ViewModel)
 }
 
 class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     var interactor: PostDetailsBusinessLogic?
     var router: (NSObjectProtocol & PostDetailsRoutingLogic & PostDetailsDataPassing)?
+    var comments: [PostDetails.GetComments.ViewModel.DisplayedComment] = []
 
     // MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -61,9 +63,13 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackButton()
+        configureTableView()
 
         let request = PostDetails.GetPost.Request()
         interactor?.getPost(request: request)
+
+        let commentsRequest = PostDetails.GetComments.Request()
+        interactor?.getComments(request: commentsRequest)
     }
 
     // MARK: Outlets
@@ -74,7 +80,8 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
-
+    @IBOutlet weak var commentsHeaderView: UIView!
+    
     // MARK: Display post
     func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
         updateUI(displayedPost: viewModel.displayedPost, user: viewModel.user)
@@ -87,6 +94,12 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     // MARK: Update Posts List
     func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel) {
         router?.routeToPostsList()
+    }
+
+    // MARK: Display comments
+    func displayComments(viewModel: PostDetails.GetComments.ViewModel) {
+        comments = viewModel.displayedComments
+        commentsTableView.reloadData()
     }
 
     @objc func updatePostList(sender: UIBarButtonItem) {
@@ -103,9 +116,14 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     }
 
     private func configureBackButton() {
-        self.navigationItem.hidesBackButton = true
+        navigationItem.hidesBackButton = true
         let customBackButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(updatePostList(sender:)))
-        self.navigationItem.leftBarButtonItem = customBackButton
+        navigationItem.leftBarButtonItem = customBackButton
+    }
+
+    private func configureTableView() {
+        commentsTableView.dataSource = self
+
     }
 
     private func updateUI(displayedPost: PostDetails.GetPost.ViewModel.DisplayedPost, user: User) {
@@ -122,4 +140,20 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
             self.favoriteButton.image = UIImage(systemName: "star")
         }
     }
+}
+
+extension PostDetailsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return comments.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath)
+        cell.textLabel?.text = comments[indexPath.row].body
+
+        return cell
+    }
+}
+
+extension PostDetailsViewController: UITableViewDelegate {
 }
