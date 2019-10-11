@@ -35,6 +35,7 @@ class PostsListInteractorTests: XCTestCase {
 
         var fetchResponse: PostsList.FetchPosts.Response!
         var deleteResponse: PostsList.DeletePosts.Response!
+        var filterResponse: PostsList.FilterPosts.Response!
 
         func presentPosts(response: PostsList.FetchPosts.Response) {
             presentPostsCalled = true
@@ -48,6 +49,7 @@ class PostsListInteractorTests: XCTestCase {
 
         func presentFilteredPosts(response: PostsList.FilterPosts.Response) {
             presentFilteredPostsCalled = true
+            self.filterResponse = response
         }
     }
 
@@ -136,8 +138,8 @@ class PostsListInteractorTests: XCTestCase {
 
         // Then
         XCTAssertTrue(postsListWorkerSpy.postsFilteredByCalled, "filter() should ask worker to filter posts")
-        XCTAssertTrue(postsListPresentationLogicSpy.presentPostsCalled, "filter() should ask presenter to format response")
-        XCTAssertEqual(postsListPresentationLogicSpy.fetchResponse.posts.count, 1, "filter() should filter 1 post")
+        XCTAssertTrue(postsListPresentationLogicSpy.presentFilteredPostsCalled, "filter() should ask presenter to format response")
+        XCTAssertEqual(postsListPresentationLogicSpy.filterResponse.posts.count, 1, "filter() should filter 1 post")
         XCTAssertTrue(sut.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
     }
 
