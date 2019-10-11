@@ -9,52 +9,55 @@
 //  you can apply clean architecture to your iOS and Mac projects,
 //  see http://clean-swift.com
 //
-
 import UIKit
 
+typealias DisplayedPost = PostDetails.GetPost.ViewModel.DisplayedPost
+typealias DisplayedComment = PostDetails.GetComments.ViewModel.DisplayedComment
+
 protocol PostDetailsPresentationLogic {
+    func presentComments(response: PostDetails.GetComments.Response)
     func presentPost(response: PostDetails.GetPost.Response)
     func presentToggleFavorite(response: PostDetails.ToggleFavorite.Response)
     func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response)
-    func presentComments(response: PostDetails.GetComments.Response)
 }
 
 class PostDetailsPresenter: PostDetailsPresentationLogic {
     weak var viewController: PostDetailsDisplayLogic?
-    
-    // MARK: PresentPost
-    func presentPost(response: PostDetails.GetPost.Response) {
-        let body = response.post.body
-        let displayedPost = PostDetails.GetPost.ViewModel.DisplayedPost(body: body, isFavorite: response.post.isFavorite)
 
-        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayedPost, user: response.user)
-        viewController?.displayPost(viewModel: viewModel)
-    }
-
-    func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response) {
-        let viewModel = PostDetails.UpdatePostsList.ViewModel()
-
-        viewController?.displayUpdatePostsList(viewModel: viewModel)
-    }
-
-    func presentToggleFavorite(response: PostDetails.ToggleFavorite.Response) {
-        let body = response.post.body
-        let displayedPost = PostDetails.GetPost.ViewModel.DisplayedPost(body: body, isFavorite: response.post.isFavorite)
-
-        let viewModel = PostDetails.ToggleFavorite.ViewModel(displayedPost: displayedPost, user: response.user)
-        viewController?.displayToggleFavorite(viewModel: viewModel)
-    }
-
+    // MARK: Present Comments
     func presentComments(response: PostDetails.GetComments.Response) {
-        var displayedComments = [PostDetails.GetComments.ViewModel.DisplayedComment]()
+        var displayedComments = [DisplayedComment]()
 
         for comment in response.comments {
-            let displayedComment = PostDetails.GetComments.ViewModel.DisplayedComment(body: comment.body)
+            let displayedComment = DisplayedComment(body: comment.body)
 
             displayedComments.append(displayedComment)
         }
 
         let viewModel = PostDetails.GetComments.ViewModel(displayedComments: displayedComments)
         viewController?.displayComments(viewModel: viewModel)
+    }
+
+    // MARK: Present Post
+    func presentPost(response: PostDetails.GetPost.Response) {
+        let displayedPost = DisplayedPost(body: response.post.body, isFavorite: response.post.isFavorite)
+
+        let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayedPost, user: response.user)
+        viewController?.displayPost(viewModel: viewModel)
+    }
+
+    // MARK: Present Toggle Favorite
+    func presentToggleFavorite(response: PostDetails.ToggleFavorite.Response) {
+        let displayedPost = DisplayedPost(body: response.post.body, isFavorite: response.post.isFavorite)
+
+        let viewModel = PostDetails.ToggleFavorite.ViewModel(displayedPost: displayedPost, user: response.user)
+        viewController?.displayToggleFavorite(viewModel: viewModel)
+    }
+
+    // MARK: Present Update Posts List
+    func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response) {
+        let viewModel = PostDetails.UpdatePostsList.ViewModel()
+
+        viewController?.displayUpdatePostsList(viewModel: viewModel)
     }
 }

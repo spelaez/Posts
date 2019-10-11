@@ -28,5 +28,4 @@ extension UIColor {
     static var postsGray: UIColor {
         return UIColor(red: 160/255, green: 160/255, blue: 160/255, alpha: 1.0)
     }
-
 }
