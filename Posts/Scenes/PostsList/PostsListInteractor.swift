@@ -60,8 +60,16 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
+        var response: PostsList.FetchPosts.Response
+
         if posts.count > 0 {
-            let response = PostsList.FetchPosts.Response(posts: posts)
+            if currentFilter == .favorites {
+                let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
+                response = PostsList.FetchPosts.Response(posts: filteredPosts)
+            } else {
+                response = PostsList.FetchPosts.Response(posts: posts)
+            }
+
             self.presenter?.presentPosts(response: response)
         } else {
             worker?.fetchPosts(completionHandler: { [weak self] posts in

@@ -53,7 +53,6 @@ class PostsListViewControllerTests: XCTestCase {
         var deleteCalled = false
         var deleteAllCalled = false
         var filterCalled = false
-        var markAsReadCalled = false
 
         // MARK: Argument expectations
         var filter: PostsList.FilterPosts.Filter = .all
@@ -74,10 +73,6 @@ class PostsListViewControllerTests: XCTestCase {
         func filter(request: PostsList.FilterPosts.Request) {
             filterCalled = true
             filter = request.filter
-        }
-
-        func markPostAsRead(id: Int) {
-            markAsReadCalled = true
         }
     }
     
@@ -182,26 +177,6 @@ class PostsListViewControllerTests: XCTestCase {
 
         // Then
         XCTAssertTrue(businessLogicSpy.deleteAllCalled, "viewController should ask interactor to delete the post")
-    }
-
-    func testShouldCallMarkAsReadOnInteractor() {
-        // Given
-        let post = Post(userId: 1,
-                        id: 1,
-                        title: "post title",
-                        body: "post body",
-                        isFavorite: false,
-                        isUnread: true)
-
-        // When
-        loadView()
-        sut.posts = [post]
-        sut.postsTableView.reloadData()
-        sut.tableView(sut.postsTableView, didSelectRowAt: IndexPath(row: 0, section: 0))
-
-        // Then
-        XCTAssertTrue(businessLogicSpy.markAsReadCalled, "Controller should ask interactor to mark a post as read when tapped ")
-
     }
 
     func testShouldDisplayPostsAfterDelete() {
