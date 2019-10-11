@@ -129,12 +129,6 @@ class PostsListWorker {
     }
 
     func markUnreadPost(post: Post) {
-        do {
-            try realm?.write {
-                post.isUnread = true
-            }
-        } catch {
-            print("coudldn't mark post as unread")
-        }
+        post.isUnread = true
     }
 }

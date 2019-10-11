@@ -59,7 +59,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
             self.posts = posts
 
-            let response = PostsList.FetchPosts.Response(posts: self.getPostsForResponse())
+            let response = PostsList.FetchPosts.Response(posts: self.getPosts())
             self.presenter?.presentPosts(response: response)
         })
     }
@@ -68,7 +68,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     func filter(request: PostsList.FilterPosts.Request) {
         currentFilter = request.filter
 
-        let response = PostsList.FilterPosts.Response(posts: getPostsForResponse())
+        let response = PostsList.FilterPosts.Response(posts: getPosts())
         presenter?.presentFilteredPosts(response: response)
     }
 
@@ -76,9 +76,10 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     func delete(request: PostsList.DeletePosts.Request) {
 
         if let id = request.id {
-            let index = worker?.deletePost(id: id, on: &posts)
+            var postsToDelete = getPosts()
+            let index = worker?.deletePost(id: id, on: &postsToDelete)
 
-            let response = PostsList.DeletePosts.Response(index: index, posts: getPostsForResponse())
+            let response = PostsList.DeletePosts.Response(index: index, posts: postsToDelete)
             presenter?.presentPosts(response: response)
         }
     }
@@ -101,10 +102,11 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Helpers
 
-    private func getPostsForResponse() -> [Post] {
+    private func getPosts() -> [Post] {
         var postsForResponse = posts
         if currentFilter == .favorites {
             postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
+            self.favoritePosts = postsForResponse
         }
 
         return postsForResponse
