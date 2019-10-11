@@ -13,6 +13,9 @@ class PostListCell: UITableViewCell {
     @IBOutlet weak var accessoryImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
 
+    private static let circleFillImageName = "circle.fill"
+    private static let starFillImageName = "star.fill"
+
     var post: Post! {
 
         didSet {
@@ -24,10 +27,10 @@ class PostListCell: UITableViewCell {
     func setAccessoryImage() {
         if post.isUnread {
             accessoryImage.tintColor = UIColor.postsBlue
-            accessoryImage.image = UIImage(systemName: "circle.fill")
+            accessoryImage.image = UIImage(systemName: PostListCell.circleFillImageName)
         } else if post.isFavorite {
             accessoryImage.tintColor = UIColor.postsYellow
-            accessoryImage.image = UIImage(systemName: "star.fill")
+            accessoryImage.image = UIImage(systemName: PostListCell.starFillImageName)
         } else {
             accessoryImage.image = nil
         }
