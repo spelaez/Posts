@@ -47,6 +47,7 @@ class PostDetailsViewControllerTests: XCTestCase {
         var getPostCalled = false
         var toggleFavoriteCalled = false
         var updatePostsListCalled = false
+        var getCommentsCalled = false
 
         func getPost(request: PostDetails.GetPost.Request) {
             getPostCalled = true
@@ -58,6 +59,10 @@ class PostDetailsViewControllerTests: XCTestCase {
 
         func updatePostsList(request: PostDetails.UpdatePostsList.Request) {
             updatePostsListCalled = true
+        }
+
+        func getComments(request: PostDetails.GetComments.Request) {
+            getCommentsCalled = true
         }
     }
 

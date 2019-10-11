@@ -37,6 +37,7 @@ class PostDetailsInteractorTests: XCTestCase {
         var presentPostCalled = false
         var presentToggleFavoriteCalled = false
         var presentUpdatePostsListCalled = false
+        var presentCommentsCalled = false
 
         func presentPost(response: PostDetails.GetPost.Response) {
             presentPostCalled = true
@@ -48,6 +49,10 @@ class PostDetailsInteractorTests: XCTestCase {
 
         func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response) {
             presentUpdatePostsListCalled = true
+        }
+
+        func presentComments(response: PostDetails.GetComments.Response) {
+            presentCommentsCalled = true
         }
     }
 

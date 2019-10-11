@@ -75,14 +75,15 @@ class PostsListInteractorTests: XCTestCase {
             completionHandler(mockPosts)
         }
 
-        override func deletePost(id: Int, on posts: inout [Post]) {
+        override func deletePost(id: Int, on posts: inout [Post]) -> Int? {
             deletePostCalled = true
             posts = []
+            return nil
         }
 
         override func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter) -> [Post] {
             postsFilteredByCalled = true
-            return super.filter(posts: posts, by: filter)
+            return posts.filter { $0.isFavorite }
         }
     }
     

@@ -190,7 +190,7 @@ class PostsListViewControllerTests: XCTestCase {
                         isFavorite: false,
                         isUnread: true)
 
-        let viewModel = PostsList.DeletePosts.ViewModel(id: 1, posts: [post])
+        let viewModel = PostsList.DeletePosts.ViewModel(index: 0, posts: [post])
 
         // When
         sut.posts = [post, post]
