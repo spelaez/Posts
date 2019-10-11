@@ -122,7 +122,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         let oldPosts = posts
         posts = viewModel.posts
 
-        if (oldPosts.count - posts.count) > 1 {
+        if (oldPosts.count - posts.count) > 1 || posts.isEmpty {
             animateReloadData()
         }
     }
@@ -156,7 +156,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         transition.duration = 0.5
         transition.subtype = CATransitionSubtype.fromTop
         self.postsTableView.layer.add(transition, forKey: "UITableViewReloadDataAnimationKey")
-        
+
         self.postsTableView.reloadData()
     }
 

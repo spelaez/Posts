@@ -44,7 +44,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     var presenter: PostsListPresentationLogic?
     var worker: PostsListWorker?
     var posts: [Post] = []
-    var favoritePosts: [Post] = []
     private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     init() {
@@ -92,8 +91,9 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Helpers
     private func getPosts() -> [Post] {
         var postsForResponse = worker?.fetchPostsFromCache() ?? []
+        self.posts = postsForResponse
+
         postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
-        self.favoritePosts = postsForResponse
 
         return postsForResponse
     }
