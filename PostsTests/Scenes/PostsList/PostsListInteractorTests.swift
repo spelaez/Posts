@@ -58,7 +58,6 @@ class PostsListInteractorTests: XCTestCase {
         var deletePostCalled = false
         var deleteAllPostsCalled = false
         var postsFilteredByCalled = false
-        var updatePostCalled = false
 
         var mockPosts: [Post] {
             var posts = [Post]()
@@ -89,10 +88,6 @@ class PostsListInteractorTests: XCTestCase {
         override func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter) -> [Post] {
             postsFilteredByCalled = true
             return posts.filter { $0.isFavorite }
-        }
-
-        override func updatePost(post: Post) {
-            updatePostCalled = true
         }
     }
     
@@ -162,17 +157,5 @@ class PostsListInteractorTests: XCTestCase {
 
         // Then
         XCTAssertTrue(workerSpy.deleteAllPostsCalled, "interactor should call deleteAllPosts on worker")
-    }
-
-    func testInteractorShouldAskWorkerToUpdatePost() {
-        // Given
-        let workerSpy = PostsListWorkerSpy()
-        sut.worker = workerSpy
-
-        // When
-        sut.updatePost(post: Post(userId: 1, id: 1, title: "", body: ""))
-
-        // Then
-        XCTAssertTrue(workerSpy.updatePostCalled, "interactor should call updatePost on worker")
     }
 }
