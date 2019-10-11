@@ -13,10 +13,10 @@
 import UIKit
 
 protocol PostDetailsBusinessLogic {
+    func getComments(request: PostDetails.GetComments.Request)
     func getPost(request: PostDetails.GetPost.Request)
     func toggleFavorite(request: PostDetails.ToggleFavorite.Request)
     func updatePostsList(request: PostDetails.UpdatePostsList.Request)
-    func getComments(request: PostDetails.GetComments.Request)
 }
 
 protocol PostDetailsDataStore {
@@ -40,6 +40,16 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         worker = PostDetailsWorker()
     }
 
+    // MARK: Get Comments
+    func getComments(request: PostDetails.GetComments.Request) {
+        worker?.fetchComments(postId: post.id, completionHandler: { (comments) in
+            self.comments = comments
+            let response = PostDetails.GetComments.Response(comments: comments)
+
+            self.presenter?.presentComments(response: response)
+        })
+    }
+
     // MARK: Get Post
     func getPost(request: PostDetails.GetPost.Request) {
         worker?.fetchUser(id: post.userId, completionHandler: { user in
@@ -50,13 +60,6 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         })
     }
 
-    // MARK: Update Posts List
-    func updatePostsList(request: PostDetails.UpdatePostsList.Request) {
-        let response = PostDetails.UpdatePostsList.Response()
-
-        presenter?.presentUpdatePostsList(response: response)
-    }
-
     // MARK: Toggle favorite
     func toggleFavorite(request: PostDetails.ToggleFavorite.Request) {
         worker?.toggleFavoritePost(post: post)
@@ -65,13 +68,10 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
         self.presenter?.presentToggleFavorite(response: response)
     }
 
-    // MARK: Get Comments
-    func getComments(request: PostDetails.GetComments.Request) {
-        worker?.fetchComments(postId: post.id, completionHandler: { (comments) in
-            self.comments = comments
-            let response = PostDetails.GetComments.Response(comments: comments)
+    // MARK: Update Posts List
+    func updatePostsList(request: PostDetails.UpdatePostsList.Request) {
+        let response = PostDetails.UpdatePostsList.Response()
 
-            self.presenter?.presentComments(response: response)
-        })
+        presenter?.presentUpdatePostsList(response: response)
     }
 }
