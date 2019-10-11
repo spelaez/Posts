@@ -8,10 +8,8 @@
 
 import Foundation
 
-struct Comment {
+struct Comment: Decodable {
     var id: Int
     var postId: Int
     var body: String
 }
-
-extension Comment: Decodable {}

@@ -5,11 +5,11 @@
 //  Created by Santiago Pelaez Rua on 10/10/19.
 //  Copyright © 2019 Santiago Pelaez Rua. All rights reserved.
 //
-
 import Foundation
 import RealmSwift
 
 @objcMembers class Post: Object, Decodable {
+    
     // MARK: Persisted properties
     dynamic var userId = 0
     dynamic var id = 0

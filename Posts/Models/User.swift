@@ -8,11 +8,9 @@
 
 import Foundation
 
-struct User {
+struct User: Decodable {
     var name: String
     var email: String
     var phone: String
     var website: String
 }
-
-extension User: Codable {}
