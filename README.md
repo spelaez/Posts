@@ -1,5 +1,7 @@
 # Posts
-Zemoga Mobile Test
+
+This is a small iPhone App that fetches some JSONs from service and cache some of the data.
+You can see a list of Posts, with a list comments in the detail and the user that created it. You can also mark a post as favorite and keep track of the posts you have not read yet as well as delete and recover deleted posts.
 
 ## Getting started
 
