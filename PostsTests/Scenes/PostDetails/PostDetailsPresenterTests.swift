@@ -38,6 +38,7 @@ class PostDetailsPresenterTests: XCTestCase {
 
         // MARK: argument expectations
         var getPostViewModel: PostDetails.GetPost.ViewModel!
+        var getCommentsViewModel: PostDetails.GetComments.ViewModel!
 
         func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
             displayPostCalled = true
@@ -54,6 +55,7 @@ class PostDetailsPresenterTests: XCTestCase {
 
         func displayComments(viewModel: PostDetails.GetComments.ViewModel) {
             displayCommentsCalled = true
+            getCommentsViewModel = viewModel
         }
     }
     
@@ -61,7 +63,6 @@ class PostDetailsPresenterTests: XCTestCase {
     func testPresenterShouldAskViewControllerToDisplayPost() {
         // Given
         let displayLogicSpy = PostDetailsDisplayLogicSpy()
-
         sut.viewController = displayLogicSpy
 
         // When
@@ -78,5 +79,21 @@ class PostDetailsPresenterTests: XCTestCase {
         XCTAssertEqual(displayLogicSpy.getPostViewModel.user.email, user.email)
         XCTAssertEqual(displayLogicSpy.getPostViewModel.user.phone, user.phone)
         XCTAssertEqual(displayLogicSpy.getPostViewModel.user.website, user.website)
+    }
+
+    func testPresenterShouldAskViewControllerToDisplayComments() {
+        // Given
+        let displayLogicSpy = PostDetailsDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        // When
+        let comment = Comment(id: 1, postId: 1, body: "")
+        let response = PostDetails.GetComments.Response(comments: [comment])
+
+        sut.presentComments(response: response)
+
+        // Then
+        XCTAssertTrue(displayLogicSpy.displayCommentsCalled, "presenter should call display comments on viewController")
+        XCTAssertEqual(displayLogicSpy.getCommentsViewModel.displayedComments.first?.body, comment.body, "presenter should send the same comment to viewController in response")
     }
 }

@@ -58,12 +58,20 @@ class PostDetailsInteractorTests: XCTestCase {
 
     class PostDetailsWorkerSpy: PostDetailsWorker {
         var fetchUserCalled = false
+        var fetchCommentsCalled = false
 
         override func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
             fetchUserCalled = true
 
             let user = User(name: "", email: "", phone: "", website: "")
             completionHandler(user)
+        }
+
+        override func fetchComments(postId: Int, completionHandler: @escaping (([Comment]) -> ())) {
+            fetchCommentsCalled = true
+
+            let comment = Comment(id: 1, postId: 1, body: "")
+            completionHandler([comment])
         }
     }
     
@@ -87,5 +95,26 @@ class PostDetailsInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(presentationLogicSpy.presentPostCalled, "getPost() should call present post on presenter")
         XCTAssertTrue(workerSpy.fetchUserCalled, "getPost() should call worker to fetch user info")
+    }
+
+    func testInteractorShouldAskWorkerToFetchCommentsAndPresenterToFormatThem() {
+        // Given
+        let presentationLogicSpy = PostDetailsPresentationLogicSpy()
+        sut.presenter = presentationLogicSpy
+
+        let workerSpy = PostDetailsWorkerSpy()
+        sut.worker = workerSpy
+
+        let post = Post(userId: 1, id: 1, title: "", body: "")
+        sut.post = post
+
+        let request = PostDetails.GetComments.Request()
+
+        // When
+        sut.getComments(request: request)
+
+        // Then
+        XCTAssertTrue(workerSpy.fetchCommentsCalled, "getComments() should ask worker to fetch comments")
+        XCTAssertTrue(presentationLogicSpy.presentCommentsCalled, "getComments() should call preset comments on presenter")
     }
 }

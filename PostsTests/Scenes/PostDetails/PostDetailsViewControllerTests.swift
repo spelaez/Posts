@@ -86,7 +86,20 @@ class PostDetailsViewControllerTests: XCTestCase {
         sut.viewWillAppear(false)
         
         // Then
-        XCTAssertTrue(spy.getPostCalled, "viewDidLoad() should ask the interactor to get post")
+        XCTAssertTrue(spy.getPostCalled, "viewWillAppear() should ask the interactor to get post")
+    }
+
+    func testShouldGetCommentsWhenViewWillAppear() {
+        // Given
+        let spy = PostDetailsBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        loadView()
+        sut.viewWillAppear(false)
+
+        // Then
+        XCTAssertTrue(spy.getCommentsCalled, "viewWillAppear() should ask the interactor to get comments")
     }
     
     func testDisplayPost() {
