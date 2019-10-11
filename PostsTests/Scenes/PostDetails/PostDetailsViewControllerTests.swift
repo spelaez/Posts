@@ -60,6 +60,15 @@ class PostDetailsViewControllerTests: XCTestCase {
             updatePostsListCalled = true
         }
     }
+
+    class PostDetailRoutingLogicSpy: NSObject, PostDetailsRoutingLogic, PostDetailsDataPassing {
+        var dataStore: PostDetailsDataStore?
+        var routeToPostsListCalled = false
+
+        func routeToPostsList() {
+            routeToPostsListCalled = true
+        }
+    }
     
     // MARK: Tests
     func testShouldGetPostWhenViewWillAppear() {
@@ -96,5 +105,64 @@ class PostDetailsViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.emailLabel.text, user.email, "displayPost(viewModel:) should update the email label")
         XCTAssertEqual(sut.phoneLabel.text, user.phone, "displayPost(viewModel:) should update the phone label")
         XCTAssertEqual(sut.websiteLabel.text, user.website, "displayPost(viewModel:) should update the website label")
+    }
+
+    func testDisplayUpdatePostsListShouldAskRouterToRouteToPostsList() {
+        // Given
+        let routingSpy = PostDetailRoutingLogicSpy()
+        sut.router = routingSpy
+
+        let viewModel = PostDetails.UpdatePostsList.ViewModel()
+
+        // When
+        sut.displayUpdatePostsList(viewModel: viewModel)
+
+        // Then
+        XCTAssertTrue(routingSpy.routeToPostsListCalled, "displayUpdatePostsList(viewModel:) should ask router to route to PostsList")
+    }
+
+    func testDisplayToggleFavorite() {
+        // Given
+        let body = "post body"
+        let displayable = PostDetails.GetPost.ViewModel.DisplayedPost(body: body, isFavorite: true)
+        let user = User(name: "Jhon Doe", email: "jd@mail.com", phone: "123", website: "jd.com")
+
+        let viewModel = PostDetails.ToggleFavorite.ViewModel(displayedPost: displayable, user: user)
+
+        let spy = PostDetailsBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        loadView()
+        sut.displayToggleFavorite(viewModel: viewModel)
+
+        // Then
+        XCTAssertEqual(sut.favoriteButton.image, UIImage(systemName: "star.fill"), "The favorites button should have a star.fill image")
+    }
+
+    func testControllerShouldAskInteractorToToggleFavorite() {
+        // Given
+        let spy = PostDetailsBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        loadView()
+        sut.toggleFavorite(self)
+
+        // Then
+        XCTAssertTrue(spy.toggleFavoriteCalled, "toggleFavorite(sender:) should call toggleFavorite on interactor")
+    }
+
+    func testControllerShouldAskInteratorToUpdatePostsList() {
+        // Given
+        let spy = PostDetailsBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        loadView()
+        sut.updatePostList(sender: UIBarButtonItem())
+
+        // Then
+        XCTAssertTrue(spy.updatePostsListCalled, "updatePostList(sender:) should call updatePostList on interactor")
     }
 }
