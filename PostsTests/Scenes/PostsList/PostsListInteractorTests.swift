@@ -34,7 +34,7 @@ class PostsListInteractorTests: XCTestCase {
         var presentPostsCalled = false
 
         var fetchResponse: PostsList.FetchPosts.Response!
-        var deleteResponse: PostsList.DeletePosts.Response!
+        var deleteResponse: PostsList.DeletePost.Response!
         var filterResponse: PostsList.FilterPosts.Response!
 
         func presentPosts(response: PostsList.FetchPosts.Response) {
@@ -42,9 +42,13 @@ class PostsListInteractorTests: XCTestCase {
             self.fetchResponse = response
         }
 
-        func presentPosts(response: PostsList.DeletePosts.Response) {
+        func presentPosts(response: PostsList.DeletePost.Response) {
             presentPostsCalled = true
             self.deleteResponse = response
+        }
+
+        func presentPosts(response: PostsList.DeleteAllPosts.Response) {
+            presentPostsCalled = true
         }
 
         func presentFilteredPosts(response: PostsList.FilterPosts.Response) {
@@ -117,7 +121,7 @@ class PostsListInteractorTests: XCTestCase {
         sut.presenter = postsListPresentationLogicSpy
 
         // When
-        let request = PostsList.DeletePosts.Request(post: Post(userId: 1, id: 1, title: "", body: ""))
+        let request = PostsList.DeletePost.Request(post: Post(userId: 1, id: 1, title: "", body: ""))
         sut.delete(request: request)
 
         // Then
@@ -151,7 +155,7 @@ class PostsListInteractorTests: XCTestCase {
         sut.worker = workerSpy
 
         // When
-        sut.deleteAll(request: PostsList.DeletePosts.Request())
+        sut.deleteAll(request: PostsList.DeleteAllPosts.Request())
 
         // Then
         XCTAssertTrue(workerSpy.deleteAllPostsCalled, "interactor should call deleteAllPosts on worker")

@@ -34,16 +34,20 @@ class PostsListPresenterTests: XCTestCase {
         var displayFilteredPostsCalled = false
 
         var viewModelFetch: PostsList.FetchPosts.ViewModel!
-        var viewModelDelete: PostsList.DeletePosts.ViewModel!
+        var viewModelDelete: PostsList.DeletePost.ViewModel!
 
         func displayPosts(viewModel: PostsList.FetchPosts.ViewModel) {
             displayPostsCalled = true
             self.viewModelFetch = viewModel
         }
 
-        func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
+        func displayPosts(viewModel: PostsList.DeletePost.ViewModel) {
             displayPostsCalled = true
             self.viewModelDelete = viewModel
+        }
+
+        func displayPosts(viewModel: PostsList.DeleteAllPosts.ViewModel) {
+            displayPostsCalled = true
         }
 
         func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel) {
@@ -78,7 +82,7 @@ class PostsListPresenterTests: XCTestCase {
         let displayLogicSpy = PostsListDisplayLogicSpy()
         sut.viewController = displayLogicSpy
 
-        let response = PostsList.DeletePosts.Response(posts: [])
+        let response = PostsList.DeletePost.Response(posts: [])
 
         //When
         sut.presentPosts(response: response)

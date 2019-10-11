@@ -65,12 +65,12 @@ class PostsListViewControllerTests: XCTestCase {
             fetchCalled = true
         }
 
-        func delete(request: PostsList.DeletePosts.Request) {
+        func delete(request: PostsList.DeletePost.Request) {
             deleteCalled = true
             sut.posts = []
         }
 
-        func deleteAll(request: PostsList.DeletePosts.Request) {
+        func deleteAll(request: PostsList.DeleteAllPosts.Request) {
             deleteAllCalled = true
         }
 
@@ -217,13 +217,14 @@ class PostsListViewControllerTests: XCTestCase {
                         isFavorite: false,
                         isUnread: true)
 
-        let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
+        let viewModel = PostsList.DeletePost.ViewModel(posts: [post])
 
         // When
         sut.posts = [post, post]
         loadView()
 
         sut.displayPosts(viewModel: viewModel)
+        sut.postsTableView.reloadData()
 
         // Then
         XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
@@ -248,7 +249,7 @@ class PostsListViewControllerTests: XCTestCase {
                         isFavorite: false,
                         isUnread: true)
 
-        let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
+        let viewModel = PostsList.DeleteAllPosts.ViewModel()
 
         // When
         sut.posts = [post, post]
@@ -256,7 +257,7 @@ class PostsListViewControllerTests: XCTestCase {
         sut.displayPosts(viewModel: viewModel)
 
         // Then
-        XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
+        XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), 0, "number of posts should be 0")
     }
 
     func testShouldAskInteractorToFilterFavoritePosts() {
