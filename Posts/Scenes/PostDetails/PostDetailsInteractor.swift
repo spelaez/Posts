@@ -30,7 +30,7 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
     var worker: PostDetailsWorker?
     var post: Post! {
         didSet {
-            post.isUnread = false
+            worker?.markReadPost(post: post)
         }
     }
     var user: User!
@@ -59,7 +59,7 @@ class PostDetailsInteractor: PostDetailsBusinessLogic, PostDetailsDataStore {
 
     // MARK: Toggle favorite
     func toggleFavorite(request: PostDetails.ToggleFavorite.Request) {
-        post.isFavorite = !post.isFavorite
+        worker?.toggleFavoritePost(post: post)
         let response = PostDetails.ToggleFavorite.Response(post: post, user: user)
 
         self.presenter?.presentToggleFavorite(response: response)

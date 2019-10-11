@@ -35,12 +35,12 @@ enum PostsList {
         }
 
         struct Response {
-            var id: Int?
+            var index: Int?
             let posts: [Post]
         }
 
         struct ViewModel {
-            var id: Int?
+            var index: Int?
             var posts: [Post]
         }
     }

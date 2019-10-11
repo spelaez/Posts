@@ -12,6 +12,7 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
 class PostDetailsWorker {
     private let userUrl = "https://jsonplaceholder.typicode.com/users/"
@@ -49,6 +50,28 @@ class PostDetailsWorker {
                     completionHandler([])
                 }
             }
+        }
+    }
+
+    func markReadPost(post: Post) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                post.isUnread = false
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    func toggleFavoritePost(post: Post) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                post.isFavorite = !post.isFavorite
+            }
+        } catch {
+            print(error)
         }
     }
 
