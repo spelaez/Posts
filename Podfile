@@ -6,7 +6,8 @@ target 'Posts' do
   use_frameworks!
 
   # Pods for Posts
-  pod 'Alamofire'
+  pod 'Alamofire', '4.9.0'
+  pod 'RealmSwift', '3.19.0'
 
   target 'PostsTests' do
     inherit! :search_paths
