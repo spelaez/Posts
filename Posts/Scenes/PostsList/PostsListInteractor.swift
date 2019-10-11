@@ -38,6 +38,7 @@ protocol PostsListBusinessLogic {
 
 protocol PostsListDataStore {
     var posts: [Post] { get }
+    func getPostFor(index: Int) -> Post
 }
 
 class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
@@ -96,5 +97,9 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
 
         return postsForResponse
+    }
+
+    func getPostFor(index: Int) -> Post {
+        return getPosts()[index]
     }
 }

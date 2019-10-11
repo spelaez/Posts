@@ -37,7 +37,7 @@ class PostsListRouter: NSObject, PostsListRoutingLogic, PostsListDataPassing {
     // MARK: Passing data
     func passDataToPostDetails(source: PostsListDataStore, destination: inout PostDetailsDataStore) {
         if let selectedPost = viewController?.postsTableView.indexPathForSelectedRow?.row {
-            destination.post = source.posts[selectedPost]
+            destination.post = source.getPostFor(index: selectedPost)
         }
     }
 }
