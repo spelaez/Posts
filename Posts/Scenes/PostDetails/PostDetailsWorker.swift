@@ -15,6 +15,7 @@ import Alamofire
 
 class PostDetailsWorker {
     private let userUrl = "https://jsonplaceholder.typicode.com/users/"
+    private let commentsUrl = "https://jsonplaceholder.typicode.com/posts/%@/comments"
 
     func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
         Alamofire.request("\(userUrl)\(id)").responseJSON { (dataResponse) in
@@ -31,4 +32,25 @@ class PostDetailsWorker {
             }
         }
     }
+
+    func fetchComments(postId: Int, completionHandler: @escaping (([Comment]) -> ())) {
+        let url = String(format: commentsUrl, postId)
+
+        Alamofire.request(url).responseJSON { (dataResponse) in
+            if let data = dataResponse.data {
+                let decoder = JSONDecoder()
+
+                do {
+                    let comments = try decoder.decode([Comment].self, from: data)
+                    completionHandler(comments)
+                } catch {
+                    print("error decoding user")
+                    print(error)
+                    completionHandler([])
+                }
+            }
+        }
+    }
+
+
 }

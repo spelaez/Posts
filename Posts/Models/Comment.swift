@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  Comment.swift
 //  Posts
 //
 //  Created by Santiago Pelaez Rua on 10/10/19.
@@ -8,11 +8,10 @@
 
 import Foundation
 
-struct User {
-    var name: String
-    var email: String
-    var phone: String
-    var website: String
+struct Comment {
+    var id: Int
+    var postId: Int
+    var body: String
 }
 
-extension User: Codable {}
+extension Comment: Decodable {}
