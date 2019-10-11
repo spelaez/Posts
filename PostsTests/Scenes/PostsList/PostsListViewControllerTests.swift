@@ -181,6 +181,28 @@ class PostsListViewControllerTests: XCTestCase {
         XCTAssertTrue(businessLogicSpy.deleteAllCalled, "viewController should ask interactor to delete the post")
     }
 
+    func testShouldDisplayPostsAfterFilter() {
+        // Given
+        let post = Post(userId: 1,
+                        id: 1,
+                        title: "post title",
+                        body: "post body",
+                        isFavorite: false,
+                        isUnread: true)
+
+        let viewModel = PostsList.FilterPosts.ViewModel(posts: [post])
+
+        // When
+        sut.posts = [post]
+        loadView()
+
+        sut.displayFilteredPosts(viewModel: viewModel)
+
+        // Then
+        XCTAssertEqual(sut.postsTableView.numberOfRows(inSection: 0), viewModel.posts.count, "number of posts should match viewModel posts")
+
+    }
+
     func testShouldDisplayPostsAfterDelete() {
         // Given
         let post = Post(userId: 1,
@@ -241,6 +263,17 @@ class PostsListViewControllerTests: XCTestCase {
         //Then
         XCTAssertTrue(businessLogicSpy.filterCalled, "viewcontroller should ask interactor to filter posts")
         XCTAssertEqual(businessLogicSpy.filter, PostsList.FilterPosts.Filter.favorites, "filter should be favorites")
+    }
+
+    func testShouldAskInteractorToFilterAllPosts() {
+        //When
+        loadView()
+        sut.postsSegmentedControl.selectedSegmentIndex = 0
+        sut.postsSegmentedControlDidChange(sut.postsSegmentedControl)
+
+        //Then
+        XCTAssertTrue(businessLogicSpy.filterCalled, "viewcontroller should ask interactor to filter posts")
+        XCTAssertEqual(businessLogicSpy.filter, PostsList.FilterPosts.Filter.all, "filter should be all")
     }
 
     // MARK: Cell Tests

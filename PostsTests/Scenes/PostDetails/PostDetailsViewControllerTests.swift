@@ -158,6 +158,23 @@ class PostDetailsViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.favoriteButton.image, UIImage(systemName: "star.fill"), "The favorites button should have a star.fill image")
     }
 
+    func testDisplayComments() {
+        // Given
+        let comment = PostDetails.GetComments.ViewModel.DisplayedComment(body: "test")
+        let viewModel = PostDetails.GetComments.ViewModel(displayedComments: [comment])
+
+        let spy = PostDetailsBusinessLogicSpy()
+        sut.interactor = spy
+
+        // When
+        loadView()
+        sut.displayComments(viewModel: viewModel)
+        let cell = sut.tableView(sut.commentsTableView, cellForRowAt: IndexPath(row: 0, section: 0))
+
+        // Then
+        XCTAssertEqual(cell.textLabel?.text, comment.body, "displayed comment should be the same sent on view model")
+    }
+
     func testControllerShouldAskInteractorToToggleFavorite() {
         // Given
         let spy = PostDetailsBusinessLogicSpy()

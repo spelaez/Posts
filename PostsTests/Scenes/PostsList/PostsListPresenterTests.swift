@@ -86,4 +86,18 @@ class PostsListPresenterTests: XCTestCase {
         //Then
         XCTAssertTrue(displayLogicSpy.displayPostsCalled, "presenter should ask view controller to display posts")
     }
+
+    func testPresenterShouldAskViewControllerToDiplayPostsAfterFilter() {
+        // Given
+        let displayLogicSpy = PostsListDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        let response = PostsList.FilterPosts.Response(posts: [])
+
+        // When
+        sut.presentFilteredPosts(response: response)
+
+        // Then
+        XCTAssertTrue(displayLogicSpy.displayFilteredPostsCalled, "presenter should ask view controller to display filtered posts")
+    }
 }
