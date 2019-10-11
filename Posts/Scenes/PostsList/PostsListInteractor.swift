@@ -34,12 +34,6 @@ protocol PostsListBusinessLogic {
      - parameter request: a Request object containing the index of the post to be deleted
      */
     func delete(request: PostsList.DeletePosts.Request)
-
-    /**
-     marks a post as read
-     - parameter id: Id for the post to be marked as read
-     */
-    func markPostAsRead(id: Int)
 }
 
 protocol PostsListDataStore {
@@ -113,24 +107,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
             presenter?.presentPosts(response: response)
         }
-    }
-
-    // MARK: Mark post read
-    func markPostAsRead(id: Int) {
-        var response: PostsList.FetchPosts.Response
-
-        if let index = posts.firstIndex(where: { $0.id == id }) {
-            posts[index].isUnread = false
-        }
-
-        if currentFilter == .favorites {
-            let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
-            response = PostsList.FetchPosts.Response(posts: filteredPosts)
-        } else {
-            response = PostsList.FetchPosts.Response(posts: posts)
-        }
-
-        presenter?.presentPosts(response: response)
     }
 
     // MARK: Delete all posts
