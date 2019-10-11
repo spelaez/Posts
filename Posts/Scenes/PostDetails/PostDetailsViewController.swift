@@ -13,16 +13,19 @@
 import UIKit
 
 protocol PostDetailsDisplayLogic: class {
-    func displayPost(viewModel: PostDetails.GetPost.ViewModel)
-    func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel)
-    func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel)
     func displayComments(viewModel: PostDetails.GetComments.ViewModel)
+    func displayPost(viewModel: PostDetails.GetPost.ViewModel)
+    func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel)
+    func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel)
 }
 
 class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     var interactor: PostDetailsBusinessLogic?
     var router: (NSObjectProtocol & PostDetailsRoutingLogic & PostDetailsDataPassing)?
     var comments: [PostDetails.GetComments.ViewModel.DisplayedComment] = []
+
+    private static var starFillImageName = "star.fill"
+    private static var starImageName = "star"
 
     // MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -71,12 +74,19 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
     @IBOutlet weak var commentsHeaderView: UIView!
-    
+
+    // MARK: Display comments
+    func displayComments(viewModel: PostDetails.GetComments.ViewModel) {
+        comments = viewModel.displayedComments
+        commentsTableView.reloadData()
+    }
+
     // MARK: Display post
     func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
         updateUI(displayedPost: viewModel.displayedPost, user: viewModel.user)
     }
 
+    // MARK: Display toggle favorite
     func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel) {
         updateUI(displayedPost: viewModel.displayedPost, user: viewModel.user)
     }
@@ -84,12 +94,6 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
     // MARK: Update Posts List
     func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel) {
         router?.routeToPostsList()
-    }
-
-    // MARK: Display comments
-    func displayComments(viewModel: PostDetails.GetComments.ViewModel) {
-        comments = viewModel.displayedComments
-        commentsTableView.reloadData()
     }
 
     @objc func updatePostList(sender: UIBarButtonItem) {
@@ -113,7 +117,6 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
 
     private func configureTableView() {
         commentsTableView.dataSource = self
-
     }
 
     private func updateUI(displayedPost: PostDetails.GetPost.ViewModel.DisplayedPost, user: User) {
@@ -124,10 +127,11 @@ class PostDetailsViewController: UIViewController, PostDetailsDisplayLogic {
         self.phoneLabel.text = user.phone
         self.websiteLabel.text = user.website
 
+        favoriteButton.isEnabled = true
         if displayedPost.isFavorite {
-            self.favoriteButton.image = UIImage(systemName: "star.fill")
+            self.favoriteButton.image = UIImage(systemName: PostDetailsViewController.starFillImageName)
         } else {
-            self.favoriteButton.image = UIImage(systemName: "star")
+            self.favoriteButton.image = UIImage(systemName: PostDetailsViewController.starImageName)
         }
     }
 }
@@ -143,7 +147,4 @@ extension PostDetailsViewController: UITableViewDataSource {
 
         return cell
     }
-}
-
-extension PostDetailsViewController: UITableViewDelegate {
 }
