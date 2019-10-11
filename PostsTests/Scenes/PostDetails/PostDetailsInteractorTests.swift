@@ -59,6 +59,7 @@ class PostDetailsInteractorTests: XCTestCase {
     class PostDetailsWorkerSpy: PostDetailsWorker {
         var fetchUserCalled = false
         var fetchCommentsCalled = false
+        var toggleFavoriteCalled = false
 
         override func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
             fetchUserCalled = true
@@ -72,6 +73,10 @@ class PostDetailsInteractorTests: XCTestCase {
 
             let comment = Comment(id: 1, postId: 1, body: "")
             completionHandler([comment])
+        }
+
+        override func toggleFavoritePost(post: Post) {
+            toggleFavoriteCalled = true
         }
     }
     
@@ -116,5 +121,42 @@ class PostDetailsInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(workerSpy.fetchCommentsCalled, "getComments() should ask worker to fetch comments")
         XCTAssertTrue(presentationLogicSpy.presentCommentsCalled, "getComments() should call preset comments on presenter")
+    }
+
+    func testInteractorShouldAskWorkerToToggleFavoriteAndPresenterToPresentIt() {
+        // Given
+        let presentationLogicSpy = PostDetailsPresentationLogicSpy()
+        sut.presenter = presentationLogicSpy
+
+        let workerSpy = PostDetailsWorkerSpy()
+        sut.worker = workerSpy
+
+        let post = Post(userId: 1, id: 1, title: "", body: "")
+        let user = User(name: "", email: "", phone: "", website: "")
+        sut.post = post
+        sut.user = user
+
+        let request = PostDetails.ToggleFavorite.Request()
+
+        // When
+        sut.toggleFavorite(request: request)
+
+        // Then
+        XCTAssertTrue(workerSpy.toggleFavoriteCalled, "toggleFavorite() should ask worker to toggle favorite")
+        XCTAssertTrue(presentationLogicSpy.presentToggleFavoriteCalled, "toggleFavorite() should call present toggle favorite on presenter")
+    }
+
+    func testInteractorShouldAskPresenterToPresentUpdatePostsList() {
+        // Given
+        let presentationLogicSpy = PostDetailsPresentationLogicSpy()
+        sut.presenter = presentationLogicSpy
+
+        let request = PostDetails.UpdatePostsList.Request()
+
+        // When
+        sut.updatePostsList(request: request)
+
+        // Then
+        XCTAssertTrue(presentationLogicSpy.presentUpdatePostsListCalled, "updatePostList() should call present update post list on presenter")
     }
 }

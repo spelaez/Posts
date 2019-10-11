@@ -32,8 +32,8 @@ class PostDetailsPresenterTests: XCTestCase {
     class PostDetailsDisplayLogicSpy: PostDetailsDisplayLogic {
         // MARK: method call expectations
         var displayPostCalled = false
-        var displayUpdatePostsList = false
-        var displayToggleFavorite = false
+        var displayUpdatePostsListCalled = false
+        var displayToggleFavoriteCalled = false
         var displayCommentsCalled = false
 
         // MARK: argument expectations
@@ -46,11 +46,11 @@ class PostDetailsPresenterTests: XCTestCase {
         }
 
         func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel) {
-            displayUpdatePostsList = true
+            displayUpdatePostsListCalled = true
         }
 
         func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel) {
-            displayToggleFavorite = true
+            displayToggleFavoriteCalled = true
         }
 
         func displayComments(viewModel: PostDetails.GetComments.ViewModel) {
@@ -96,4 +96,34 @@ class PostDetailsPresenterTests: XCTestCase {
         XCTAssertTrue(displayLogicSpy.displayCommentsCalled, "presenter should call display comments on viewController")
         XCTAssertEqual(displayLogicSpy.getCommentsViewModel.displayedComments.first?.body, comment.body, "presenter should send the same comment to viewController in response")
     }
+
+    func testPresenterShouldAskViewControllerToDisplayUpdatePostsList() {
+        // Given
+        let displayLogicSpy = PostDetailsDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        // When
+        let response = PostDetails.UpdatePostsList.Response()
+        sut.presentUpdatePostsList(response: response)
+
+        // Then
+        XCTAssertTrue(displayLogicSpy.displayUpdatePostsListCalled, "presenter should call display update posts list on viewController")
+    }
+
+    func testPresenterShouldAskViewControllerToDisplayToggleFavorite() {
+        // Given
+        let displayLogicSpy = PostDetailsDisplayLogicSpy()
+        sut.viewController = displayLogicSpy
+
+        let post = Post(userId: 1, id: 1, title: "", body: "post body")
+        let user = User(name: "Jhon Doe", email: "jd@mail.com", phone: "123", website: "jd.com")
+
+        // When
+        let response = PostDetails.ToggleFavorite.Response(post: post, user: user)
+        sut.presentToggleFavorite(response: response)
+
+        // Then
+        XCTAssertTrue(displayLogicSpy.displayToggleFavoriteCalled, "presenter should call display toggle favorite on viewController")
+    }
+
 }
