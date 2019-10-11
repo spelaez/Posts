@@ -54,32 +54,18 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
-        var response: PostsList.FetchPosts.Response
-
         if posts.count > 0 {
-            if currentFilter == .favorites {
-                let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
-                response = PostsList.FetchPosts.Response(posts: filteredPosts)
-            } else {
-                response = PostsList.FetchPosts.Response(posts: posts)
-            }
 
+            let response = PostsList.FetchPosts.Response(posts: getPostsForResponse())
             self.presenter?.presentPosts(response: response)
         } else {
             worker?.fetchPosts(completionHandler: { [weak self] posts in
                 guard let self = self else { return }
 
-                var response: PostsList.FetchPosts.Response
                 self.posts = posts
                 self.markUnreadPosts()
 
-                if self.currentFilter == .favorites {
-                    let filteredPosts = self.worker?.filter(posts: posts, by: self.currentFilter) ?? []
-                    response = PostsList.FetchPosts.Response(posts: filteredPosts)
-                } else {
-                    response = PostsList.FetchPosts.Response(posts: self.posts)
-                }
-
+                let response = PostsList.FetchPosts.Response(posts: self.getPostsForResponse())
                 self.presenter?.presentPosts(response: response)
             })
         }
@@ -88,32 +74,18 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Filter
     func filter(request: PostsList.FilterPosts.Request) {
         currentFilter = request.filter
-        var response: PostsList.FilterPosts.Response
 
-        if currentFilter == .favorites {
-            let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
-            response = PostsList.FilterPosts.Response(posts: filteredPosts)
-        } else {
-            response = PostsList.FilterPosts.Response(posts: posts)
-        }
-
+        let response = PostsList.FilterPosts.Response(posts: getPostsForResponse())
         presenter?.presentFilteredPosts(response: response)
     }
 
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
-        var response: PostsList.DeletePosts.Response
 
         if let id = request.id {
             worker?.deletePost(id: id, on: &posts)
 
-            if currentFilter == .favorites {
-                let filteredPosts = worker?.filter(posts: posts, by: currentFilter) ?? []
-                response = PostsList.DeletePosts.Response(id: id, posts: filteredPosts)
-            } else {
-                response = PostsList.DeletePosts.Response(id: id, posts: posts)
-            }
-
+            let response = PostsList.DeletePosts.Response(id: id, posts: getPostsForResponse())
             presenter?.presentPosts(response: response)
         }
     }
@@ -121,7 +93,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Delete all posts
     func deleteAll(request: PostsList.DeletePosts.Request) {
         self.posts = []
-
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
     }
 
@@ -132,6 +103,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         }
     }
 
+    // MARK: Helpers
     /**
      marks the first 20 posts as unread
      */
@@ -144,5 +116,14 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
             counter += 1
         }
+    }
+
+    private func getPostsForResponse() -> [Post] {
+        var postsForResponse = posts
+        if currentFilter == .favorites {
+            postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
+        }
+
+        return postsForResponse
     }
 }
