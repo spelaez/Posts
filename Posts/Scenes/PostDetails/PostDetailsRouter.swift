@@ -9,7 +9,6 @@
 //  you can apply clean architecture to your iOS and Mac projects,
 //  see http://clean-swift.com
 //
-
 import UIKit
 
 @objc protocol PostDetailsRoutingLogic {

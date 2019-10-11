@@ -15,6 +15,23 @@ import UIKit
 enum PostDetails {
     
     // MARK: Use cases
+    enum GetComments {
+        struct Request {
+        }
+
+        struct Response {
+            var comments: [Comment]
+        }
+
+        struct ViewModel {
+            struct DisplayedComment {
+                var body: String
+            }
+
+            var displayedComments: [DisplayedComment]
+        }
+    }
+
     enum GetPost {
         struct Request {
         }
@@ -35,17 +52,6 @@ enum PostDetails {
         }
     }
 
-    enum UpdatePostsList {
-        struct Request {
-        }
-
-        struct Response {
-        }
-
-        struct ViewModel {
-        }
-    }
-
     enum ToggleFavorite {
         struct Request {
         }
@@ -61,20 +67,14 @@ enum PostDetails {
         }
     }
 
-    enum GetComments {
+    enum UpdatePostsList {
         struct Request {
         }
 
         struct Response {
-            var comments: [Comment]
         }
 
         struct ViewModel {
-            struct DisplayedComment {
-                var body: String
-            }
-
-            var displayedComments: [DisplayedComment]
         }
     }
 }
