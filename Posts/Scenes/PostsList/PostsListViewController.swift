@@ -118,12 +118,8 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         posts = viewModel.posts
 
         var indexPaths: [IndexPath] = []
-        if let id = viewModel.id {
-            if let postIndex = oldPosts.firstIndex(where: { $0.id == id }) {
-                indexPaths = [IndexPath(row: postIndex, section: 0)]
-            } else {
-                return
-            }
+        if let index = viewModel.index {
+            indexPaths = [IndexPath(row: index, section: 0)]
         } else {
             for i in 0..<oldPosts.count {
                 let indexPath = IndexPath(row: i, section: 0)
