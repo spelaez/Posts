@@ -70,7 +70,12 @@ class PostsListWorker {
      - returns: array of posts from local persistence
      */
     func fetchPostsFromCache() -> [Post] {
-        return Array(realm!.objects(Post.self))
+        let objects = realm!.objects(Post.self)
+        let sortedObjects = objects.sorted(by: { (lhs, _) in
+            return lhs.isUnread
+        })
+
+        return sortedObjects
     }
 
     /**
