@@ -80,7 +80,7 @@ class PostsListInteractorTests: XCTestCase {
             posts = []
         }
 
-        override func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter? = nil) -> [Post] {
+        override func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter) -> [Post] {
             postsFilteredByCalled = true
             return super.filter(posts: posts, by: filter)
         }
