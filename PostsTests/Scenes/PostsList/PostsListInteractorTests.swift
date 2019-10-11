@@ -153,23 +153,6 @@ class PostsListInteractorTests: XCTestCase {
         XCTAssertTrue(sut.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
     }
 
-    func testInteractorShouldMarkFirstTwentyPostAsUnread() {
-        // Given
-        let workerSpy = PostsListWorkerSpy()
-        sut.worker = workerSpy
-
-        // When
-        sut.fetch(request: PostsList.FetchPosts.Request())
-
-        // Then
-        for i in 0..<20 {
-            XCTAssertTrue(sut.posts[i].isUnread, "Post \(i) should be mark as unread")
-        }
-        for i in 20..<sut.posts.count {
-            XCTAssertFalse(sut.posts[i].isUnread, "Post \(i) should be read")
-        }
-    }
-
     func testInteractorShouldAskWorkerToDeleteAllPosts() {
         // Given
         let workerSpy = PostsListWorkerSpy()
