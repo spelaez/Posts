@@ -35,9 +35,19 @@ class PostDetailsInteractorTests: XCTestCase {
     // MARK: Test doubles
     class PostDetailsPresentationLogicSpy: PostDetailsPresentationLogic {
         var presentPostCalled = false
+        var presentToggleFavoriteCalled = false
+        var presentUpdatePostsListCalled = false
 
         func presentPost(response: PostDetails.GetPost.Response) {
             presentPostCalled = true
+        }
+
+        func presentToggleFavorite(response: PostDetails.ToggleFavorite.Response) {
+            presentToggleFavoriteCalled = true
+        }
+
+        func presentUpdatePostsList(response: PostDetails.UpdatePostsList.Response) {
+            presentUpdatePostsListCalled = true
         }
     }
 

@@ -30,6 +30,7 @@ class PostsListInteractorTests: XCTestCase {
     
     // MARK: Test doubles
     class PostsListPresentationLogicSpy: PostsListPresentationLogic {
+        var presentFilteredPostsCalled = false
         var presentPostsCalled = false
 
         var fetchResponse: PostsList.FetchPosts.Response!
@@ -43,6 +44,10 @@ class PostsListInteractorTests: XCTestCase {
         func presentPosts(response: PostsList.DeletePosts.Response) {
             presentPostsCalled = true
             self.deleteResponse = response
+        }
+
+        func presentFilteredPosts(response: PostsList.FilterPosts.Response) {
+            presentFilteredPostsCalled = true
         }
     }
 

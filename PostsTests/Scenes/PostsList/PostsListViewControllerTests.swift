@@ -74,6 +74,8 @@ class PostsListViewControllerTests: XCTestCase {
             filterCalled = true
             filter = request.filter
         }
+
+
     }
     
     // MARK: Tests

@@ -45,9 +45,19 @@ class PostDetailsViewControllerTests: XCTestCase {
     // MARK: Test doubles
     class PostDetailsBusinessLogicSpy: PostDetailsBusinessLogic {
         var getPostCalled = false
+        var toggleFavoriteCalled = false
+        var updatePostsListCalled = false
 
         func getPost(request: PostDetails.GetPost.Request) {
             getPostCalled = true
+        }
+
+        func toggleFavorite(request: PostDetails.ToggleFavorite.Request) {
+            toggleFavoriteCalled = true
+        }
+
+        func updatePostsList(request: PostDetails.UpdatePostsList.Request) {
+            updatePostsListCalled = true
         }
     }
     
@@ -68,7 +78,7 @@ class PostDetailsViewControllerTests: XCTestCase {
     func testDisplayPost() {
         // Given
         let body = "post body"
-        let displayable = PostDetails.GetPost.ViewModel.DisplayedPost(body: body)
+        let displayable = PostDetails.GetPost.ViewModel.DisplayedPost(body: body, isFavorite: false)
         let user = User(name: "Jhon Doe", email: "jd@mail.com", phone: "123", website: "jd.com")
 
         let viewModel = PostDetails.GetPost.ViewModel(displayedPost: displayable, user: user)

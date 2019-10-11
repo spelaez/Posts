@@ -32,6 +32,8 @@ class PostDetailsPresenterTests: XCTestCase {
     class PostDetailsDisplayLogicSpy: PostDetailsDisplayLogic {
         // MARK: method call expectations
         var displayPostCalled = false
+        var displayUpdatePostsList = true
+        var displayToggleFavorite = true
 
         // MARK: argument expectations
         var getPostViewModel: PostDetails.GetPost.ViewModel!
@@ -39,6 +41,14 @@ class PostDetailsPresenterTests: XCTestCase {
         func displayPost(viewModel: PostDetails.GetPost.ViewModel) {
             displayPostCalled = true
             getPostViewModel = viewModel
+        }
+
+        func displayUpdatePostsList(viewModel: PostDetails.UpdatePostsList.ViewModel) {
+            displayUpdatePostsList = true
+        }
+
+        func displayToggleFavorite(viewModel: PostDetails.ToggleFavorite.ViewModel) {
+            displayToggleFavorite = true
         }
     }
     

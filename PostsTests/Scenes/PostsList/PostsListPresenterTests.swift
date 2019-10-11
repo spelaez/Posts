@@ -31,6 +31,7 @@ class PostsListPresenterTests: XCTestCase {
     // MARK: Test doubles
     class PostsListDisplayLogicSpy: PostsListDisplayLogic {
         var displayPostsCalled = false
+        var displayFilteredPostsCalled = false
 
         var viewModelFetch: PostsList.FetchPosts.ViewModel!
         var viewModelDelete: PostsList.DeletePosts.ViewModel!
@@ -43,6 +44,10 @@ class PostsListPresenterTests: XCTestCase {
         func displayPosts(viewModel: PostsList.DeletePosts.ViewModel) {
             displayPostsCalled = true
             self.viewModelDelete = viewModel
+        }
+
+        func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel) {
+            displayFilteredPostsCalled = true
         }
     }
     
