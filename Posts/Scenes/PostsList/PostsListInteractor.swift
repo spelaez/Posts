@@ -38,7 +38,6 @@ protocol PostsListBusinessLogic {
 
 protocol PostsListDataStore {
     var posts: [Post] { get }
-    func updatePost(post: Post)
 }
 
 class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
@@ -89,15 +88,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         worker?.deleteAllPosts()
         self.posts = []
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
-    }
-
-    // MARK: Update Post
-    func updatePost(post: Post) {
-        worker?.updatePost(post: post)
-
-        if let indexOfPost = posts.firstIndex(where: { $0.id == post.id }) {
-            posts[indexOfPost] = post
-        }
     }
 
     // MARK: Helpers

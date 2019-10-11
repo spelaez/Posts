@@ -25,12 +25,9 @@ class PostDetailsRouter: NSObject, PostDetailsRoutingLogic, PostDetailsDataPassi
     
     // MARK: Routing
     func routeToPostsList() {
-        if let dataStore = dataStore,
-            let viewController = viewController,
-            let destinationVC = viewController.navigationController?.viewControllers.first as? PostsListViewController,
-            var destinationDS = destinationVC.router?.dataStore {
+        if let viewController = viewController,
+            let destinationVC = viewController.navigationController?.viewControllers.first as? PostsListViewController {
 
-            passDataToPostsList(source: dataStore, destination: &destinationDS)
             navigateToPostsList(source: viewController, destination: destinationVC)
         }
     }
@@ -38,10 +35,5 @@ class PostDetailsRouter: NSObject, PostDetailsRoutingLogic, PostDetailsDataPassi
     // MARK: Navigation
     func navigateToPostsList(source: PostDetailsViewController, destination: PostsListViewController) {
         source.navigationController?.popViewController(animated: true)
-    }
-    
-    // MARK: Passing data
-    func passDataToPostsList(source: PostDetailsDataStore, destination: inout PostsListDataStore) {
-        destination.updatePost(post: source.post)
     }
 }

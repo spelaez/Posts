@@ -65,6 +65,9 @@ class PostsListWorker {
         }
     }
 
+    /**
+     get posts from realm
+     */
     func fetchPostsFromCache() -> [Post] {
         return Array(realm!.objects(Post.self))
     }
@@ -116,18 +119,7 @@ class PostsListWorker {
         }
     }
 
-    func updatePost(post: Post) {
-        do {
-            try realm?.write {
-                realm?.add(post, update: .modified)
-            }
-        } catch {
-            print("couldn't update post")
-            print(error)
-        }
-    }
-
-    func markUnreadPost(post: Post) {
+    private func markUnreadPost(post: Post) {
         post.isUnread = true
     }
 }

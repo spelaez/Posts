@@ -13,10 +13,6 @@
 import UIKit
 
 protocol PostsListPresentationLogic {
-    /**
-     formats and asks viewController to display posts from a given response
-     - parameter response: Response object containing posts data
-     */
     func presentPosts(response: PostsList.FetchPosts.Response)
     func presentPosts(response: PostsList.DeletePosts.Response)
     func presentFilteredPosts(response: PostsList.FilterPosts.Response)
@@ -35,6 +31,7 @@ class PostsListPresenter: PostsListPresentationLogic {
         viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: response.posts))
     }
 
+    // MARK: Presnet filtered posts
     func presentFilteredPosts(response: PostsList.FilterPosts.Response) {
         viewController?.displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel(posts: response.posts))
     }

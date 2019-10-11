@@ -130,7 +130,7 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.77173913043478"/>
         </scene>
-        <!--Post Details View Controller-->
+        <!--Post-->
         <scene sceneID="gMq-rZ-71d">
             <objects>
                 <viewController storyboardIdentifier="PostDetailsViewController" id="FOU-bd-ysI" customClass="PostDetailsViewController" customModule="Posts" customModuleProvider="target" sceneMemberID="viewController">
@@ -272,7 +272,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="D2W-V8-dBL"/>
                     </view>
-                    <navigationItem key="navigationItem" id="EPD-na-Oom">
+                    <navigationItem key="navigationItem" title="Post" id="EPD-na-Oom">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="star" catalog="system" id="qnD-ig-JgO" userLabel="Favorite Button">
                             <color key="tintColor" red="0.98431372549999996" green="0.89019607840000003" blue="0.058823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
