@@ -9,7 +9,6 @@
 //  you can apply clean architecture to your iOS and Mac projects,
 //  see http://clean-swift.com
 //
-
 import UIKit
 import Alamofire
 import RealmSwift
@@ -18,22 +17,11 @@ class PostDetailsWorker {
     private let userUrl = "https://jsonplaceholder.typicode.com/users/"
     private let commentsUrl = "https://jsonplaceholder.typicode.com/posts/%@/comments"
 
-    func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
-        Alamofire.request("\(userUrl)\(id)").responseJSON { (dataResponse) in
-            if let data = dataResponse.data {
-                let decoder = JSONDecoder()
-
-                do {
-                    let user = try decoder.decode(User.self, from: data)
-                    completionHandler(user)
-                } catch {
-                    print("error decoding user")
-                    print(error)
-                }
-            }
-        }
-    }
-
+    /**
+     fetch comments from service
+     - parameter postId: id of the post you want comments from
+     - parameter completionHandler: block were an array of comments is sent
+     */
     func fetchComments(postId: Int, completionHandler: @escaping (([Comment]) -> ())) {
         let url = String(format: commentsUrl, "\(postId)")
 
@@ -48,6 +36,27 @@ class PostDetailsWorker {
                     print("error decoding user")
                     print(error)
                     completionHandler([])
+                }
+            }
+        }
+    }
+
+    /**
+     fetch User from service
+     - parameter id: id of the user
+     - parameter completionHandler: block were the user is sent
+     */
+    func fetchUser(id: Int, completionHandler: @escaping ((User) -> ())) {
+        Alamofire.request("\(userUrl)\(id)").responseJSON { (dataResponse) in
+            if let data = dataResponse.data {
+                let decoder = JSONDecoder()
+
+                do {
+                    let user = try decoder.decode(User.self, from: data)
+                    completionHandler(user)
+                } catch {
+                    print("error decoding user")
+                    print(error)
                 }
             }
         }
