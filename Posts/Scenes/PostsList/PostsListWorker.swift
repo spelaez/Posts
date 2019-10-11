@@ -41,8 +41,14 @@ class PostsListWorker {
 
                     do {
                         let posts = try decoder.decode([Post].self, from: data)
+                        var counter = 0
+
                         for post in posts {
                             try self.realm?.write {
+                                if counter < 20 {
+                                    self.markUnreadPost(post: post)
+                                    counter += 1
+                                }
                                 self.realm?.add(post)
                             }
                         }

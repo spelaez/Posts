@@ -58,7 +58,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
             guard let self = self else { return }
 
             self.posts = posts
-            self.markUnreadPosts()
 
             let response = PostsList.FetchPosts.Response(posts: self.getPostsForResponse())
             self.presenter?.presentPosts(response: response)
@@ -101,19 +100,6 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     }
 
     // MARK: Helpers
-    /**
-     marks the first 20 posts as unread
-     */
-    private func markUnreadPosts() {
-        var counter = 0
-        for i in 0..<posts.count {
-            if counter < 20 {
-                worker?.markUnreadPost(post: posts[i])
-            }
-
-            counter += 1
-        }
-    }
 
     private func getPostsForResponse() -> [Post] {
         var postsForResponse = posts
