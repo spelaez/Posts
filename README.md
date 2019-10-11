@@ -8,7 +8,7 @@ You can see a list of Posts, with a list comments in the detail and the user tha
 ### System requirements
 Xcode 11.x, cocoapods 1.7.5 or higher and the minimum macOS version required by your Xcode version.
 
-### Building 
+### Steps to run 
 
 1. Clone the repository 
 2. Open a terminal and navigate to project's folder `Posts/`
