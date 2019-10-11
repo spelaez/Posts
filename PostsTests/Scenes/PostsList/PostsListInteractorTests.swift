@@ -75,10 +75,9 @@ class PostsListInteractorTests: XCTestCase {
             completionHandler(mockPosts)
         }
 
-        override func deletePost(id: Int, on posts: inout [Post]) -> Int? {
+
+        override func deletePost(post: Post) {
             deletePostCalled = true
-            posts = []
-            return nil
         }
 
         override func deleteAllPosts() {
@@ -118,7 +117,7 @@ class PostsListInteractorTests: XCTestCase {
         sut.presenter = postsListPresentationLogicSpy
 
         // When
-        let request = PostsList.DeletePosts.Request(id: 0)
+        let request = PostsList.DeletePosts.Request(post: Post(userId: 1, id: 1, title: "", body: ""))
         sut.delete(request: request)
 
         // Then
@@ -144,7 +143,6 @@ class PostsListInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(postsListWorkerSpy.postsFilteredByCalled, "filter() should ask worker to filter posts")
         XCTAssertTrue(postsListPresentationLogicSpy.presentFilteredPostsCalled, "filter() should ask presenter to format response")
-        XCTAssertTrue(sut.posts.first?.isFavorite ?? false, "filtered post should be a favorite")
     }
 
     func testInteractorShouldAskWorkerToDeleteAllPosts() {

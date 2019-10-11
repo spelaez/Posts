@@ -38,6 +38,7 @@ class PostsListViewControllerTests: XCTestCase {
         let storyboard = UIStoryboard(name: "Main", bundle: bundle)
         sut = (storyboard.instantiateViewController(withIdentifier: "PostsListViewController") as! PostsListViewController)
         businessLogicSpy = PostsListBusinessLogicSpy()
+        businessLogicSpy.sut = sut
         sut.interactor = businessLogicSpy
     }
     
@@ -54,6 +55,8 @@ class PostsListViewControllerTests: XCTestCase {
         var deleteAllCalled = false
         var filterCalled = false
 
+        weak var sut: PostsListViewController!
+
         // MARK: Argument expectations
         var filter: PostsList.FilterPosts.Filter = .all
 
@@ -64,6 +67,7 @@ class PostsListViewControllerTests: XCTestCase {
 
         func delete(request: PostsList.DeletePosts.Request) {
             deleteCalled = true
+            sut.posts = []
         }
 
         func deleteAll(request: PostsList.DeletePosts.Request) {
@@ -154,6 +158,7 @@ class PostsListViewControllerTests: XCTestCase {
 
         sut.posts = [post]
 
+
         // When
         loadView()
 
@@ -212,7 +217,7 @@ class PostsListViewControllerTests: XCTestCase {
                         isFavorite: false,
                         isUnread: true)
 
-        let viewModel = PostsList.DeletePosts.ViewModel(index: 0, posts: [post])
+        let viewModel = PostsList.DeletePosts.ViewModel(posts: [])
 
         // When
         sut.posts = [post, post]
