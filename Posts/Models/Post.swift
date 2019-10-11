@@ -7,16 +7,24 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Post {
-    let userId: Int
-    let id: Int
-    let title: String
-    let body: String
-    var isFavorite: Bool = false
-    var isUnread: Bool = false
+@objcMembers class Post: Object, Decodable {
+    // MARK: Persisted properties
+    dynamic var userId = 0
+    dynamic var id = 0
+    dynamic var title = ""
+    dynamic var body = ""
+    dynamic var isFavorite: Bool = false
+    dynamic var isUnread: Bool = false
 
-    init(userId: Int, id: Int, title: String, body: String, isFavorite: Bool = false, isUnread: Bool = false) {
+    enum CodingKeys: String, CodingKey {
+        case userId, id, title, body
+    }
+
+    convenience init(userId: Int, id: Int, title: String, body: String, isFavorite: Bool = false, isUnread: Bool = false) {
+        self.init()
+
         self.userId = userId
         self.id = id
         self.title = title
@@ -24,21 +32,19 @@ struct Post {
         self.isFavorite = isFavorite
         self.isUnread = isUnread
     }
-}
 
-extension Post: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case userId, id, title, body, isFavorite, isUnread
-    }
-
-    init(from decoder: Decoder) throws {
+    convenience required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        userId = try container.decode(Int.self, forKey: .userId)
-        id = try container.decode(Int.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
-        body = try container.decode(String.self, forKey: .body)
-        isFavorite = false
-        isUnread = false
+        let userId = try container.decode(Int.self, forKey: .userId)
+        let id = try container.decode(Int.self, forKey: .id)
+        let title = try container.decode(String.self, forKey: .title)
+        let body = try container.decode(String.self, forKey: .body)
+
+        self.init(userId: userId, id: id, title: title, body: body)
+    }
+
+    override class func primaryKey() -> String? {
+        "id"
     }
 }
