@@ -44,3 +44,14 @@ To completely decouple the VIP components we define data models to pass through 
 - Extract business logic from view controllers into interactors.
 - Find and fix bugs faster and easier.
 - Prevent massive view controllers.
+
+## 3rd Parties
+
+### Alamofire
+
+One of the most pupular Swift framworks available. it is a well maintained framework that makes easier implementing networking on apps.
+Nowadays the URLSession APIs are easier to use than some time ago, but I choose Alamofire for time saving and simplicity.
+
+### Realm
+
+3rd Party framework for handling persistency, it is faster to adopt and easy to understand. As Alamofire over URLSession I choosed this over Core Data for time saving and simplicity. Core Data requires more configuration and with Realm I only have to inherit from `Object` and change my model changes to use `realm.write`.
