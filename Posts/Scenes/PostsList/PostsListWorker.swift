@@ -9,7 +9,6 @@
 //  you can apply clean architecture to your iOS and Mac projects,
 //  see http://clean-swift.com
 //
-
 import UIKit
 import Alamofire
 import RealmSwift
@@ -29,6 +28,7 @@ class PostsListWorker {
 
     /**
      fetch posts from network or cache when available
+     - parameter completionHandler: block were an array of post will be sent once the fetch is completed.
      - returns: An array of posts
      */
     func fetchPosts(completionHandler: @escaping (([Post]) -> ())){
@@ -67,11 +67,18 @@ class PostsListWorker {
 
     /**
      get posts from realm
+     - returns: array of posts from local persistence
      */
     func fetchPostsFromCache() -> [Post] {
         return Array(realm!.objects(Post.self))
     }
 
+    /**
+     filter posts
+     - parameter posts: array of posts to be filtered
+     - parameter filter: type of filter to apply
+     - returns: array of posts filtered
+     */
     func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter) -> [Post] {
         switch filter {
         case .all:
@@ -86,7 +93,8 @@ class PostsListWorker {
     /**
      delete a single post from realm
      - parameter id: id for the post to be deleted as Int
-     - returns: An array of posts without the deleted post
+     - parameter posts: array of posts where the post will be deleted
+     - returns: index of the deleted post
      */
     func deletePost(id: Int, on posts: inout [Post]) -> Int? {
         if let index = posts.firstIndex(where: { $0.id == id }) {
