@@ -21,10 +21,14 @@ protocol PostsListDisplayLogic: class {
 
     /**
      display posts on a table view after a deletion
-     - parameter viewModel: a Viewmodel object containing an array of posts to display
+     - parameter viewModel: a ViewModel object containing an array of posts to display
      */
     func displayPosts(viewModel: PostsList.DeletePosts.ViewModel)
 
+    /**
+     display posts on a table view after a filtering
+     - parameter viewModel: a ViewModel object containing an array of posts to display
+     */
     func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel)
 }
 
@@ -68,7 +72,7 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
             }
         }
     }
-
+    // MARK: Outlets
     @IBOutlet weak var postsTableView: UITableView!
     @IBOutlet weak var postsSegmentedControl: UISegmentedControl!
 
