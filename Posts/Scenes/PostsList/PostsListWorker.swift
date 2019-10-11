@@ -15,7 +15,6 @@ import Alamofire
 
 class PostsListWorker {
     private var postsUrl = "https://jsonplaceholder.typicode.com/posts"
-    private var currentFilter: PostsList.FilterPosts.Filter = .all
 
     /**
      fetch posts from network or cache when available
@@ -27,9 +26,7 @@ class PostsListWorker {
                     let decoder = JSONDecoder()
 
                     do {
-                        var posts = try decoder.decode([Post].self, from: data)
-                        posts = self.filter(posts: posts, by: self.currentFilter)
-                        
+                        let posts = try decoder.decode([Post].self, from: data)
                         completionHandler(posts)
                     } catch {
                         print("error trying to decode response")
@@ -39,10 +36,8 @@ class PostsListWorker {
             }
         }
 
-    func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter? = nil) -> [Post] {
-        currentFilter = filter ?? currentFilter
-
-        switch currentFilter {
+    func filter(posts: [Post], by filter: PostsList.FilterPosts.Filter) -> [Post] {
+        switch filter {
         case .all:
             return posts
         case .favorites:

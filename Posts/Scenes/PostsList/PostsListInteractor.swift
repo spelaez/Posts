@@ -67,11 +67,20 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
             self.presenter?.presentPosts(response: response)
         } else {
             worker?.fetchPosts(completionHandler: { [weak self] posts in
-                self?.posts = posts
-                self?.markUnreadPosts()
+                guard let self = self else { return }
 
-                let response = PostsList.FetchPosts.Response(posts: self?.posts ?? [])
-                self?.presenter?.presentPosts(response: response)
+                var response: PostsList.FetchPosts.Response
+                self.posts = posts
+                self.markUnreadPosts()
+
+                if self.currentFilter == .favorites {
+                    let filteredPosts = self.worker?.filter(posts: posts, by: self.currentFilter) ?? []
+                    response = PostsList.FetchPosts.Response(posts: filteredPosts)
+                } else {
+                    response = PostsList.FetchPosts.Response(posts: self.posts)
+                }
+
+                self.presenter?.presentPosts(response: response)
             })
         }
     }
