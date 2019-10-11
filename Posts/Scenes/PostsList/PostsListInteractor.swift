@@ -54,21 +54,15 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
 
     // MARK: Fetch
     func fetch(request: PostsList.FetchPosts.Request) {
-        if posts.count > 0 {
+        worker?.fetchPosts(completionHandler: { [weak self] posts in
+            guard let self = self else { return }
 
-            let response = PostsList.FetchPosts.Response(posts: getPostsForResponse())
+            self.posts = posts
+            self.markUnreadPosts()
+
+            let response = PostsList.FetchPosts.Response(posts: self.getPostsForResponse())
             self.presenter?.presentPosts(response: response)
-        } else {
-            worker?.fetchPosts(completionHandler: { [weak self] posts in
-                guard let self = self else { return }
-
-                self.posts = posts
-                self.markUnreadPosts()
-
-                let response = PostsList.FetchPosts.Response(posts: self.getPostsForResponse())
-                self.presenter?.presentPosts(response: response)
-            })
-        }
+        })
     }
 
     // MARK: Filter
@@ -83,21 +77,24 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     func delete(request: PostsList.DeletePosts.Request) {
 
         if let id = request.id {
-            worker?.deletePost(id: id, on: &posts)
+            let index = worker?.deletePost(id: id, on: &posts)
 
-            let response = PostsList.DeletePosts.Response(id: id, posts: getPostsForResponse())
+            let response = PostsList.DeletePosts.Response(index: index, posts: getPostsForResponse())
             presenter?.presentPosts(response: response)
         }
     }
 
     // MARK: Delete all posts
     func deleteAll(request: PostsList.DeletePosts.Request) {
+        worker?.deleteAllPosts(posts: posts)
         self.posts = []
         presenter?.presentPosts(response: PostsList.DeletePosts.Response(posts: []))
     }
 
     // MARK: Update Post
     func updatePost(post: Post) {
+        worker?.updatePost(post: post)
+
         if let indexOfPost = posts.firstIndex(where: { $0.id == post.id }) {
             posts[indexOfPost] = post
         }
@@ -111,7 +108,7 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
         var counter = 0
         for i in 0..<posts.count {
             if counter < 20 {
-                posts[i].isUnread = true
+                worker?.markUnreadPost(post: posts[i])
             }
 
             counter += 1
