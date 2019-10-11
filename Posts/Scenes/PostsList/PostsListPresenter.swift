@@ -28,7 +28,7 @@ class PostsListPresenter: PostsListPresentationLogic {
     }
 
     func presentPosts(response: PostsList.DeletePosts.Response) {
-        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(index: response.index, posts: response.posts))
+        viewController?.displayPosts(viewModel: PostsList.DeletePosts.ViewModel(posts: response.posts))
     }
 
     // MARK: Presnet filtered posts

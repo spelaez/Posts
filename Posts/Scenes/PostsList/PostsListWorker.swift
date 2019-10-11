@@ -96,22 +96,15 @@ class PostsListWorker {
      - parameter posts: array of posts where the post will be deleted
      - returns: index of the deleted post
      */
-    func deletePost(id: Int, on posts: inout [Post]) -> Int? {
-        if let index = posts.firstIndex(where: { $0.id == id }) {
-            let removedPost = posts.remove(at: index)
-
-            do {
-                try realm?.write {
-                    realm?.delete(removedPost)
-                }
-
-                return index
-            } catch {
-                print(error)
+    func deletePost(post: Post) {
+        do {
+            try realm?.write {
+                realm?.delete(post)
             }
-        }
 
-        return nil
+        } catch {
+            print(error)
+        }
     }
 
     /**

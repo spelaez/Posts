@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 protocol PostsListDisplayLogic: class {
     /**
@@ -121,17 +122,9 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         let oldPosts = posts
         posts = viewModel.posts
 
-        var indexPaths: [IndexPath] = []
-        if let index = viewModel.index {
-            indexPaths = [IndexPath(row: index, section: 0)]
-        } else {
-            for i in 0..<oldPosts.count {
-                let indexPath = IndexPath(row: i, section: 0)
-                indexPaths.append(indexPath)
-            }
+        if (oldPosts.count - posts.count) > 1 {
+            animateReloadData()
         }
-
-        postsTableView.deleteRows(at: indexPaths, with: .fade)
     }
 
     func displayFilteredPosts(viewModel: PostsList.FilterPosts.ViewModel) {
@@ -153,6 +146,18 @@ class PostsListViewController: UIViewController, PostsListDisplayLogic {
         postsTableView.delegate = self
 
         postsTableView.tableFooterView = UIView()
+    }
+
+    private func animateReloadData() {
+        let transition = CATransition()
+        transition.type = CATransitionType.push
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.fillMode = CAMediaTimingFillMode.forwards
+        transition.duration = 0.5
+        transition.subtype = CATransitionSubtype.fromTop
+        self.postsTableView.layer.add(transition, forKey: "UITableViewReloadDataAnimationKey")
+        
+        self.postsTableView.reloadData()
     }
 
 }
@@ -180,9 +185,10 @@ extension PostsListViewController: UITableViewDataSource {
 extension PostsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .destructive, title: nil) { (action, view, completionHandler) in
-            let request = PostsList.DeletePosts.Request(id: self.posts[indexPath.row].id)
+            let request = PostsList.DeletePosts.Request(post: self.posts[indexPath.row])
 
             self.interactor?.delete(request: request)
+            self.postsTableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         }
 

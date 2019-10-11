@@ -31,16 +31,14 @@ enum PostsList {
 
     enum DeletePosts {
         struct Request {
-            var id: Int?
+            var post: Post?
         }
 
         struct Response {
-            var index: Int?
             let posts: [Post]
         }
 
         struct ViewModel {
-            var index: Int?
             var posts: [Post]
         }
     }

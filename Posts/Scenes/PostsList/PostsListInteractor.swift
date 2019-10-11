@@ -74,11 +74,10 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     // MARK: Delete
     func delete(request: PostsList.DeletePosts.Request) {
 
-        if let id = request.id {
-            var postsToDelete = getPosts()
-            let index = worker?.deletePost(id: id, on: &postsToDelete)
+        if let post = request.post {
+            worker?.deletePost(post: post)
 
-            let response = PostsList.DeletePosts.Response(index: index, posts: postsToDelete)
+            let response = PostsList.DeletePosts.Response(posts: getPosts())
             presenter?.presentPosts(response: response)
         }
     }
