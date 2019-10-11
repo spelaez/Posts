@@ -101,13 +101,10 @@ class PostsListInteractor: PostsListBusinessLogic, PostsListDataStore {
     }
 
     // MARK: Helpers
-
     private func getPosts() -> [Post] {
-        var postsForResponse = posts
-        if currentFilter == .favorites {
-            postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
-            self.favoritePosts = postsForResponse
-        }
+        var postsForResponse = worker?.fetchPostsFromCache() ?? []
+        postsForResponse = worker?.filter(posts: postsForResponse, by: currentFilter) ?? []
+        self.favoritePosts = postsForResponse
 
         return postsForResponse
     }

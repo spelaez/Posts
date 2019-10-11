@@ -65,7 +65,7 @@ class PostsListWorker {
         }
     }
 
-    private func fetchPostsFromCache() -> [Post] {
+    func fetchPostsFromCache() -> [Post] {
         return Array(realm!.objects(Post.self))
     }
 
